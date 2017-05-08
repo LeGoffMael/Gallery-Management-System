@@ -1,0 +1,39 @@
+﻿/*Importation configuration*/
+@import "config.less";
+
+#settings-content .nav-tabs > li > a {
+    color: @side_bar_link_color;
+
+    &:hover {
+        color: @main_dark_font;
+    }
+}
+
+#settings-content .nav-tabs>li.active>a, #settings-content .nav-tabs>li.active>a:focus, #settings-content .nav-tabs>li.active>a:hover {
+     background-color: #f5f5f5;
+     color: @main_dark_font;
+}
+
+#settings-content .tab-content {
+    color: @main_dark_font;
+    background-color: #f5f5f5;
+    padding : 5px 15px;
+}
+
+#settings .dropdown-menu {
+    margin: 0;
+    padding : 0;
+    height: 100%;
+
+    a .glyphicon {
+        display: none;
+    }
+}
+
+#settings #add-admin {
+    margin-bottom : 50px;
+}
+
+#appareance-settings .themes label {
+    font-weight: lighter;
+}

@@ -1,0 +1,89 @@
+<?php
+require_once('config.php');
+require_once('Database.php');
+
+class Settings
+{
+    private static $_instance; // L'attribut qui stockera l'instance unique
+	private $_database;
+	private $_siteTitle;
+	private $_limitGallery;
+	private $_language;
+	private $_themes;
+	private $_theme;
+
+    public static function getInstance() {
+        if (is_null(self::$_instance)) {
+            self::$_instance = new Settings();
+        }
+        return self::$_instance;
+    }
+
+    private function __construct() {
+		$this->_database = new Database(DB_HOST, DB_NAME, DB_CHARSET, DB_USER, DB_PASSWORD);
+
+		$settings = $this->_database->select(array('*'), array('settings'), null, null, null, 1);
+		while ($data = $settings->fetch())
+		{
+			$this->_siteTitle = $data['title'];
+			$this->_limitGallery = $data['limitGallery'];
+			$this->_language = $data['language'];
+		}
+    }
+
+	//Assesseurs
+    public function getDatabase() {
+        return $this->_database;
+    }
+	public function setTitle($t) {
+        $this->_siteTitle = $t;
+		$this->_database->update('settings', array('title = \''.$this->_siteTitle.'\''), null);
+    }
+	public function getTitle() {
+        return $this->_siteTitle;
+    }
+	public function setLimit($l) {
+		if($l < 20)
+			$l = 20;
+		else if ($l > 80)
+			$l = 80;
+        $this->_limitGallery = $l;
+		$this->_database->update('settings', array('limitGallery = '.$this->_limitGallery), null);
+    }
+	public function getLimit() {
+        return $this->_limitGallery;
+    }
+	public function setLanguage($lang) {
+        $this->_language = $lang;
+		$this->_database->update('settings', array('language = \''.$this->_language.'\''), null);
+    }
+	public function getLanguage() {
+        return $this->_language;
+    }
+
+	//Gestion themes
+	public function addTheme($theme) {
+        array_push($this->_themes, $theme);
+    }
+	public function getThemes() {
+        return $this->_themes;
+    }
+	public function setTheme($index) {
+		$this->_theme = $this->_themes[$index];
+    }
+	public function getTheme() {
+        return $this->_theme;
+    }
+}
+
+$title = filter_input(INPUT_GET, 'title');
+if ($title != "") {
+    Settings::getInstance()->setTitle($title);
+}
+$limit = filter_input(INPUT_GET, 'limit');
+if ($limit != "")
+    Settings::getInstance()->setLimit($limit);
+$language = filter_input(INPUT_GET, 'language');
+if ($language != "")
+    Settings::getInstance()->setLanguage($language);
+

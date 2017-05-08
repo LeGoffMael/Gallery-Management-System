@@ -1,0 +1,45 @@
+﻿/*Importation configuration*/
+@import "config.less";
+/* Importation PhotoSwipe */
+@import "libs/photoSwipe/photoswipe.css";
+@import "libs/photoSwipe/default-skin.css";
+
+/*CSS mdbootstrap*/
+
+.gallery .img-fluid {
+    display: inline-block;
+}
+
+/*Custom*/
+.gallery {
+	margin : 0;
+}
+		
+.gallery .col-md-12 {
+	padding: 0;
+}
+
+.gallery .gallery-container {
+    text-align: center;
+}
+		
+.gallery .gallery-container .col-md-4 figure {
+    display:none;
+}
+		
+.gallery a.col-md-4 {
+	padding: 0;
+    width:auto;
+}
+		
+.gallery .gallery-container a .img-fluid {
+    margin-left: auto;
+	margin-right: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.gallery .gallery-container a .img-fluid:hover {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}

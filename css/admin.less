@@ -1,0 +1,61 @@
+﻿/*Importation configuration*/
+@import "config.less";
+
+#admin .form-inline .form-group {
+    margin-right:10px;
+}
+#admin .panel-group {
+    color: @main_dark_font;
+    border-color: rgb(53, 126, 189);
+}
+#admin .fa {
+    margin-right:5px;
+}
+
+#admin .panel-group .panel .col-md-12 {
+    padding: 0;
+}
+
+#admin label {
+    margin-top: 10px;
+}
+
+#admin .panel-body a {
+    color : white;
+    &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus, &:hover {
+        color : white;
+        text-decoration: none;
+    }
+}
+
+@media screen and (max-width: 992px) {
+
+    #admin label {
+        margin: 0;
+    }
+}
+
+#admin #edit-image-option,
+#admin #edit-categorie-option {
+    display: none;
+}
+
+/*Modal de confirmation*/
+#admin #confirm-delete.modal {
+    color: @main_dark_font;
+    text-align: center;
+    padding: 0!important;
+}
+#admin #confirm-delete.modal.modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+}
+#admin #confirm-delete.modal .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    height: auto;
+}

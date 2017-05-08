@@ -1,0 +1,122 @@
+﻿/**
+* http://bootsnipp.com/snippets/featured/modal-login-with-jquery-effects
+*/
+
+/*Importation configuration*/
+@import "config.less";
+
+#login-modal.modal {
+  text-align: center;
+  padding: 0!important;
+}
+#login-modal.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+#login-modal .modal-dialog {
+    width: 350px;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    height: auto;
+}
+
+#login-modal input[type=text], input[type=password] {
+	margin-top: 10px;
+}
+
+#login-modal #img_logo {
+    max-height: 100px;
+    max-width: 100px;
+}
+
+#login-modal #div-forms {
+    height : auto;
+}
+
+/* #########################################
+   #    override the bootstrap configs     #
+   ######################################### */
+
+#login-modal .modal-backdrop.in {
+    filter: alpha(opacity=50);
+    opacity: .8;
+}
+
+#login-modal .modal-content {
+    background-color: @side_bar_color;
+    border: 1px solid @side_bar_color;
+    border-radius: 0px;
+    outline: 0;
+    height: auto;
+}
+
+#login-modal .modal-header {
+    min-height: 16.43px;
+    padding: 15px 15px 15px 15px;
+    border-bottom: 0px;
+    button i {
+        color: @side_bar_link_hover_color;
+    }
+}
+
+#login-modal .modal-body {
+    position: relative;
+    padding: 5px 15px 5px 15px;
+}
+
+#login-modal #msg-success {
+    padding: 3px;
+    display: none;
+}
+
+#login-modal #msg-error {
+    padding: 3px;
+    display : none;
+}
+
+#login-modal .modal-footer {
+    padding: 15px 15px 15px 15px;
+    text-align: left;
+    border-top: 0px;
+}
+
+#login-modal .checkbox {
+    margin-bottom: 0px;
+}
+
+#login-modal .btn {
+    border-radius: 0px;
+
+    &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus {
+        outline: none;
+    }
+}
+
+#login-modal .btn-lg, .btn-group-lg>.btn {
+    border-radius: 0px;
+    color : @side_bar_link_hover_color;
+    border-color: @main_color;
+    background-color : @main_color;
+
+    &:hover, &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus {
+        background-color : @main_color;
+    }
+}
+
+#login-modal .btn-link {
+    padding: 5px 10px 0px 0px;
+    color: @side_bar_link_color;
+
+    &:hover, &:focus {
+        color: @side_bar_link_hover_color;
+        text-decoration: none;
+    }
+}
+
+#login-modal .form-control {
+  border-radius: 0px;
+}

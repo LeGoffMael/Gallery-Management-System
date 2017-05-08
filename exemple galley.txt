@@ -1,0 +1,66 @@
+<div class="row gallery">
+                        <div class="col-md-12">
+                            <div id="demo-test-gallery" class="demo-gallery">
+                                <div class="gallery-container">
+
+                                    <a class="col-md-4" href="http://www.africatopsports.com/wp-content/uploads/2013/10/nba.jpeg" data-size="1366x768" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="http://www.africatopsports.com/wp-content/uploads/2013/10/nba.jpeg" class="img-fluid" alt="" />
+                                        <figure>This is dummy caption.</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="https://upload.wikimedia.org/wikipedia/fr/thumb/8/87/NBA_Logo.svg/1200px-NBA_Logo.svg.png" data-size="1200x2575" data-med="https://upload.wikimedia.org/wikipedia/fr/thumb/8/87/NBA_Logo.svg/1200px-NBA_Logo.svg.png" data-med-size="1200x2575" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/8/87/NBA_Logo.svg/1200px-NBA_Logo.svg.png" class="img-fluid" alt="" />
+                                        <figure>This is dummy caption. It has been placed here solely to demonstrate the look and feel of finished, typeset text.</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(66).jpg" data-size="1600x1067" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(66).jpg" data-med-size="1024x683" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(66).jpg" class="img-fluid" alt="" />
+                                        <figure>This is dummy caption. It is not meant to be read.</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(5).jpg" data-size="1600x1067" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(5).jpg" data-med-size="1024x683" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(5).jpg" class="img-fluid" alt="" />
+                                        <figure>Dummy caption. It's Greek to you. Unless, of course, you're Greek, in which case, it really makes no sense.</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(9).jpg" data-size="1600x1067" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(9).jpg" data-med-size="1024x683" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(9).jpg" class="img-fluid" alt="" />
+                                        <figure>It's a dummy caption. He who searches for meaning here will be sorely disappointed.</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="http://images.meteoconsult.fr/images/meteoconsult2014/decoupes_marine/00-Common/02-Menu/img-menu-large_Grndlarge.jpg" data-size="1000x200" data-med="http://images.meteoconsult.fr/images/meteoconsult2014/decoupes_marine/00-Common/02-Menu/img-menu-large_Grndlarge.jpg" data-med-size="1000x200" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="http://images.meteoconsult.fr/images/meteoconsult2014/decoupes_marine/00-Common/02-Menu/img-menu-large_Grndlarge.jpg" class="img-fluid" alt="" />
+                                        <figure>Description</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(112).jpg" data-size="1600x1600" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(112).jpg" data-med-size="1024x1024" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(112).jpg" class="img-fluid" alt="" />
+                                        <figure>This is dummy caption.</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(46).jpg" data-size="1600x1068" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(46).jpg" data-med-size="1024x683" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(46).jpg" class="img-fluid" alt="" />
+                                        <figure>This is dummy caption. It has been placed here solely to demonstrate the look and feel of finished, typeset text.</figure>
+                                    </a>
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(66).jpg" data-size="1600x1067" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(66).jpg" data-med-size="1024x683" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(66).jpg" class="img-fluid" alt="" />
+                                        <figure>This is dummy caption. It is not meant to be read.</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(5).jpg" data-size="1600x1067" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(5).jpg" data-med-size="1024x683" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(5).jpg" class="img-fluid" alt="" />
+                                        <figure>Dummy caption. It's Greek to you. Unless, of course, you're Greek, in which case, it really makes no sense.</figure>
+                                    </a>
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(9).jpg" data-size="1600x1067" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(9).jpg" data-med-size="1024x683" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/12-col/img%20(9).jpg" class="img-fluid" alt="" />
+                                        <figure>It's a dummy caption. He who searches for meaning here will be sorely disappointed.</figure>
+                                    </a>
+
+                                    <a class="col-md-4" href="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(111).jpg" data-size="1600x1067" data-med="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(111).jpg" data-med-size="1024x683" data-categories="Exemple catégorie" data-keywords="Exemple keywords">
+                                        <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(111).jpg" class="img-fluid" alt="" />
+                                        <figure>Description</figure>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
