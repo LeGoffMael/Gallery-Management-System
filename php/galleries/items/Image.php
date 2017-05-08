@@ -49,7 +49,7 @@ class Image
         $res = "";
         for ($i = 0; $i < count($this->_categories); $i++) {
             if ($res != "") {
-                $res .= " ; ";
+                $res .= ' ; ';
             }
             $res .= $this->_categories[$i]->linkString();
         }
@@ -79,7 +79,8 @@ class Image
      */
     public function toString() {
         $res = "";
-        $res .= "<a class='col-md-4' href='".$this->_url."' data-size='".$this->sizeToString()."' data-categories='".$this->categoriesToString()."' data-tags='".$this->tagsToString()."'><img src='".$this->_url."' class='img-fluid' alt=''/><figure>".$this->_description."</figure></a>";
+        $res .= '<a class="col-md-4" href="'.$this->_url.'" data-size="'.$this->sizeToString().'" data-categories="'.$this->categoriesToString().'" data-tags="'.$this->tagsToString().'">';
+		$res .= '<img src="'.$this->_url.'" class="img-fluid" alt="'.$this->_url.'"/><figure>'.$this->_description.'</figure></a>';
         return $res;
     }
 }

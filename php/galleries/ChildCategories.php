@@ -17,6 +17,7 @@ class ChildCategories extends CategoriesManager
 
 	public function __construct($name) {
 		$this->_nameParent = $name;
+		$this->_nameParent = $name;
 		$this->setCategories();
     }
 
@@ -29,7 +30,7 @@ class ChildCategories extends CategoriesManager
 		//Si il n'a pas d'enfant on affiche les images
 		if($categoriesChild->rowCount() == 0)
 		{
-			$categoryGallery = new CategoryGallery($this->_nameParent);
+			$categoryGallery = new CategoryGallery($this->_nameParent, $this->getCategoryParent($this->_nameParent));
 			echo $categoryGallery->getGallery()->toString();
 		}
 		//Sinon les enfants
@@ -84,7 +85,7 @@ class ChildCategories extends CategoriesManager
 			}
 		}
 		$categoriesChild->closeCursor();
-		$this->categories = new Categories($list);
+		$this->categories = new Categories($list,$this->_nameParent, $this->getCategoryParent($this->_nameParent));
 	}
 }
 

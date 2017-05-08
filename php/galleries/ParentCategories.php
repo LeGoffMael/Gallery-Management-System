@@ -73,7 +73,7 @@ class ParentCategories extends CategoriesManager
 				array_push($list, $categ);
 			}
 			$categoriesParent->closeCursor();
-			$this->categories = new Categories($list);
+			$this->categories = new Categories($list,null,null);
 		}
 	}
 }

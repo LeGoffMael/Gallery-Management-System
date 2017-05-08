@@ -347,10 +347,12 @@ class Vue
             };
 
             // find nearest parent element
+            //Appelée lors de l'ouverture
             var closest = function closest(el, fn) {
                 return el && (fn(el) ? el : closest(el.parentNode, fn));
             };
 
+            //Appelée lors de l'ouverture
             var onThumbnailsClick = function (e) {
                 e = e || window.event;
                 e.preventDefault ? e.preventDefault() : e.returnValue = false;
@@ -445,8 +447,8 @@ class Vue
                             captionEl.children[0].innerText = '';
                             return false;
                         }
-                        captionEl.children[0].innerHTML = item.title + '<br/><small>Categorie(s): ' + item.categs + '</small>';
-                        captionEl.children[0].innerHTML += '<br/><small>Tag(s): ' + item.tags + '</small>';
+                        captionEl.children[0].innerHTML = item.title + "<br/><small>Categorie(s): " + item.categs + "</small>";
+                        captionEl.children[0].innerHTML += "<br/><small>Tag(s): " + item.tags + "</small>";                       
                         return true;
                     }
 
@@ -549,7 +551,7 @@ class Vue
                         item.h = item.m.h;
                     }
                 });
-
+                
                 gallery.init();
             };
 
@@ -559,7 +561,7 @@ class Vue
                 galleryElements[i].setAttribute('data-pswp-uid', i + 1);
                 galleryElements[i].onclick = onThumbnailsClick;
             }
-
+            
             // Parse URL and open gallery if it contains #&pid=3&gid=1
             var hashData = photoswipeParseHash();
             if (hashData.pid && hashData.gid) {
@@ -568,5 +570,10 @@ class Vue
         };
 
         initPhotoSwipeFromDOM('.demo-gallery');
+
+        $('.pswp__caption__center').on('click', 'a', function (e) {
+            console.log('test');
+            e.stopPropagation();
+        });
     }
 }

@@ -313,9 +313,11 @@ var Vue = (function () {
                 return items;
             };
             // find nearest parent element
+            //Appelée lors de l'ouverture
             var closest = function closest(el, fn) {
                 return el && (fn(el) ? el : closest(el.parentNode, fn));
             };
+            //Appelée lors de l'ouverture
             var onThumbnailsClick = function (e) {
                 e = e || window.event;
                 e.preventDefault ? e.preventDefault() : e.returnValue = false;
@@ -381,8 +383,8 @@ var Vue = (function () {
                             captionEl.children[0].innerText = '';
                             return false;
                         }
-                        captionEl.children[0].innerHTML = item.title + '<br/><small>Categorie(s): ' + item.categs + '</small>';
-                        captionEl.children[0].innerHTML += '<br/><small>Tag(s): ' + item.tags + '</small>';
+                        captionEl.children[0].innerHTML = item.title + "<br/><small>Categorie(s): " + item.categs + "</small>";
+                        captionEl.children[0].innerHTML += "<br/><small>Tag(s): " + item.tags + "</small>";
                         return true;
                     }
                 };
@@ -484,6 +486,10 @@ var Vue = (function () {
             }
         };
         initPhotoSwipeFromDOM('.demo-gallery');
+        $('.pswp__caption__center').on('click', 'a', function (e) {
+            console.log('test');
+            e.stopPropagation();
+        });
     };
     return Vue;
 }());

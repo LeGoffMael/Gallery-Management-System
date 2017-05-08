@@ -23,6 +23,28 @@ abstract class CategoriesManager
 	 */
 	abstract public function setCategories();
 
+	public function getCategoryParent($child) {
+		$res = null;
+		$categoriesParent = Settings::getInstance()->getDatabase()->select(array('*'), array('categories'), array('idCategory IN (SELECT idParent FROM categories,parent_child WHERE nameCategory = "'.$child.'" AND parent_child.idChild = categories.idCategory)'), null, 'nameCategory ASC', null);
+		//Si il n'a pas d'enfant on affiche les images
+		if($categoriesParent->rowCount() == 0)
+		{
+			$res = null;
+		}
+		//Sinon les enfants
+		else{
+			$tab = array();
+			while ($dataCP = $categoriesParent->fetch())
+			{
+				array_push($tab,$dataCP['nameCategory']);
+			}
+			$categoriesParent->closeCursor();
+
+			$res = $tab[0];
+		}
+		return $res;
+	}
+
 	/**
 	 * Retourne la gallery de categories
 	 * @return mixed

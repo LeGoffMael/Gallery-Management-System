@@ -13,9 +13,11 @@ require_once('GalleryManager.php');
 class CategoryGallery extends GalleryManager
 {
 	private $_nameCategory;
+	private $_parent;
 
-	public function __construct($nameCategory) {
+	public function __construct($nameCategory, $parent) {
 		$this->_nameCategory = $nameCategory;
+		$this->_parent = $parent;
 		$this->setGallery();
     }
 
@@ -44,13 +46,8 @@ class CategoryGallery extends GalleryManager
 				array_push($listImages, $img);
 			}
 			$categoryImages->closeCursor();
-			$this->gallerie = new Gallery($listImages);
+			$this->gallerie = new Gallery($listImages,$this->_nameCategory, $this->_parent);
 		}
 
 	}
 }
-/*
-$nameCategory = filter_input(INPUT_GET, 'nameCategory');
-
-$categoryGallery = new CategoryGallery($nameCategory);
-echo $categoryGallery->getGallery()->toString();*/

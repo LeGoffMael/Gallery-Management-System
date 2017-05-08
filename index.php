@@ -85,17 +85,14 @@
             <div class="tab-content">
                 <!--Accueil-->
                 <section class="tab-pane active" id="home">
-					<h1>Latest</h1>
                     <div class="galleryLatest"></div>
                 </section>
                 <!--Top-->
                 <section class="tab-pane fade" id="top">
-                    <h1>Top</h1>
                     <div class="galleryTop"></div>
                 </section>
                 <!--Categories-->
                 <section class="tab-pane fade" id="categories">
-                    <h1>Categories</h1>
                     <div class="galleryCategories"></div>
                 </section>
                 <!--Settings-->
@@ -745,6 +742,9 @@
     </div>
 
     <!-- SCRIPTS -->
+	<script>
+    	less = { env: 'production' }; //hide less message
+	</script>
     <script src="js/libs/less/less.min.js"></script>
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/libs/bootstrap/js/bootstrap.min.js"></script>
@@ -761,7 +761,7 @@
 
     <script>
         //Lors de chaque changement de taille de l'écrans
-        $(window).resize(function() {
+    	$(window).resize(function () {
             Vue.initialiserSideBarWidth();
             Vue.initialiserGallery();
         });
@@ -773,7 +773,7 @@
         	if (hash.includes('categoryName')) {
         		var newHash = hash.split("?");
         		hash && $('.sidebar-nav li a[href="' + newHash[0] + '"]').tab('show');
-        		Controleur.setCategoriesChild(getUrlVars().categoryName);
+        		Controleur.setCategoriesChild(Controleur.getUrlVars().categoryName);
         	}
         	else {
         		hash && $('.sidebar-nav li a[href="' + hash + '"]').tab('show');
@@ -790,26 +790,6 @@
                 $('html,body').scrollTop(scrollmem);
             });
         });
-
-        /**
-		 * Retourne si le param est dans l'url
-		 */
-        function urlContain(param) {
-        	var string = window.location.href,
-			substring = param;
-        	return string.includes(substring);
-        }
-
-        /**
-		 * Retourne toutes les vars de l'url
-		 */
-        function getUrlVars() {
-        	var vars = {};
-        	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
-        		vars[key] = value;
-        	});
-        	return vars;
-        }
     </script>
 </body>
 </html>

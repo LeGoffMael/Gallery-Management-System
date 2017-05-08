@@ -127,24 +127,49 @@ class Controleur {
     }
 
     static setCategoriesChild(name) {
-        var controleur = this;
-        $(".galleryCategories").each(function () {
-            var that = this;
-            $.ajax({
-                url: './php/galleries/ChildCategories.php',
-                type: 'GET',
-                async: false,
-                data: 'nameParent=' + name,
-                dataType: 'html',
-                success: function (code_html) {
-                    $(that).html(code_html);
-                    Vue.initialiserGallery();
-                    Vue.initialiserLightBox();
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('erreur categorie '+name+' (' + erreur + ')');
-                }
+        if (name != 'null') {
+            var controleur = this;
+            $(".galleryCategories").each(function () {
+                var that = this;
+                $.ajax({
+                    url: './php/galleries/ChildCategories.php',
+                    type: 'GET',
+                    async: false,
+                    data: 'nameParent=' + name,
+                    dataType: 'html',
+                    success: function (code_html) {
+                        $(that).html(code_html);
+                        Vue.initialiserGallery();
+                        Vue.initialiserLightBox();
+                    },
+                    error: function (resultat, statut, erreur) {
+                        console.log('erreur categorie ' + name + ' (' + erreur + ')');
+                    }
+                });
             });
+        }
+        else {
+            this.setCategories();
+        }
+    }
+
+    /**
+     * Retourne si le param est dans l'url
+     */
+    static urlContain(param) {
+        var string = window.location.href,
+            substring = param;
+        return string.includes(substring);
+    }
+
+    /**
+     * Retourne toutes les vars de l'url
+     */
+    static getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+            vars[key] = value;
         });
+        return vars;
     }
 }
