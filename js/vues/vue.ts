@@ -304,13 +304,14 @@ class Vue
 
                     size = el.getAttribute('data-size').split('x');
 
-                    // create slide object
+                    //Définition des variables
                     item = {
                         src: el.getAttribute('href'),
                         w: parseInt(size[0], 10),
                         h: parseInt(size[1], 10),
                         categs: el.getAttribute('data-categories'),
-                        tags: el.getAttribute('data-tags')
+                        tags: el.getAttribute('data-tags'),
+                        score: el.getAttribute('data-score')
                     };
 
                     item.el = el; // save link to element for getThumbBoundsFn
@@ -449,6 +450,7 @@ class Vue
                         }
                         captionEl.children[0].innerHTML = item.title + "<br/><small>Categorie(s): " + item.categs + "</small>";
                         captionEl.children[0].innerHTML += "<br/><small>Tag(s): " + item.tags + "</small>";                       
+                        captionEl.children[0].innerHTML += "<div class='score'>" + item.score + "</a></div>";                       
                         return true;
                     }
 
@@ -470,6 +472,8 @@ class Vue
                 } else {
                     options.index = parseInt(index, 10);
                 }
+
+                options.history = false;
 
                 // exit if index not found
                 if (isNaN(options.index)) {
@@ -553,6 +557,12 @@ class Vue
                 });
                 
                 gallery.init();
+
+                //Lorsque l'on clique sur un lien dans la lightbox
+                $('.pswp__caption__center small').on('click', 'a', function (e) {
+                    //gallery.close();
+                    location.reload();
+                });
             };
 
             // select all gallery elements
@@ -570,10 +580,5 @@ class Vue
         };
 
         initPhotoSwipeFromDOM('.demo-gallery');
-
-        $('.pswp__caption__center').on('click', 'a', function (e) {
-            console.log('test');
-            e.stopPropagation();
-        });
     }
 }

@@ -346,10 +346,7 @@
                                     <div id="collapseOne" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <div class="col-md-12">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">http://</span>
-                                                    <input type="text" class="form-control" placeholder="The address of the image" required />
-                                                </div>
+                                                <input type="text" class="form-control" placeholder="The address of the picture" required />
                                                 <br />
                                                 <textarea class="form-control" placeholder="Description" rows="3"></textarea>
                                             </div>
@@ -367,7 +364,7 @@
                                                 </div>
                                                 <div class="col-md-6" id="tagsSelection">
                                                     <div class="form-group">
-                                                        <label for="tags"> Tags</label>
+                                                        <label for="tags"> Tags (separated by ;)</label>
                                                         <input type="text" class="form-control" id="tags" placeholder="Tags"/>
                                                     </div>
                                                 </div>
@@ -417,7 +414,7 @@
                                                     </div>
                                                     <div class="col-md-6" id="tagsSelection">
                                                         <div class="form-group">
-                                                            <label for="tags"> Tags</label>
+                                                            <label for="tags"> Tags (separated by ;)</label>
                                                             <input type="text" class="form-control" id="tags" placeholder="Tags" required />
                                                         </div>
                                                     </div>
@@ -572,14 +569,14 @@
                                         <div class="panel-body">
                                             <div class="col-md-12" id="manage-tag">
                                                 <div class="input-group" id="add-tag">
-                                                    <input type="text" class="form-control" placeholder="Tag name to add"/>
+                                                    <input type="text" class="form-control" placeholder="Tag name to add (separated by ;)"/>
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-success" type="button"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
                                                     </span>
                                                 </div>
                                                 <br/>
                                                 <div class="input-group" id="delete-tag">
-                                                    <input type="text" class="form-control" placeholder="Tag name to delete"/>
+                                                    <input type="text" class="form-control" placeholder="Tag name to delete (separated by ;)"/>
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-danger" data-record-title="" data-toggle="modal" data-target="#confirm-delete">
                                                             <i class="fa fa-trash" aria-hidden="true"></i>
@@ -758,7 +755,6 @@
     <script src="js/application/applications.js"></script>
     <script src="js/controleurs/controleur.js"></script>
     <script src="js/vues/vue.js"></script>
-
     <script>
         //Lors de chaque changement de taille de l'écrans
     	$(window).resize(function () {

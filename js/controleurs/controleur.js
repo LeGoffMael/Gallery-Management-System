@@ -68,13 +68,15 @@ var Controleur = (function () {
             $.ajax({
                 url: './php/galleries/LastGallery.php',
                 type: 'GET',
-                async: false,
+                //async: false,
                 dataType: 'html',
                 success: function (code_html) {
                     $(that).html(code_html);
+                    Vue.initialiserGallery();
+                    Vue.initialiserLightBox();
                 },
                 error: function (resultat, statut, erreur) {
-                    console.log('erreur gallery latest (' + erreur + ')');
+                    alert('erreur gallery latest (' + erreur + ')');
                 }
             });
         });
@@ -83,16 +85,37 @@ var Controleur = (function () {
             $.ajax({
                 url: './php/galleries/TopGallery.php',
                 type: 'GET',
-                async: false,
+                //async: false,
                 dataType: 'html',
                 success: function (code_html) {
                     $(that).html(code_html);
+                    Vue.initialiserGallery();
+                    Vue.initialiserLightBox();
                 },
                 error: function (resultat, statut, erreur) {
-                    console.log('erreur gallery top (' + erreur + ')');
+                    alert('erreur gallery top (' + erreur + ')');
                 }
             });
         });
+    };
+    /**
+     * Fait un vote
+     * @param urlImage
+     */
+    Controleur.setVote = function (currentVote, urlImage) {
+        var that = this;
+        $.ajax({
+            url: './php/Score.php',
+            type: 'GET',
+            data: 'currentVote=' + currentVote + '&urlImage=' + urlImage,
+            dataType: 'html',
+            success: function (code_html) {
+            },
+            error: function (resultat, statut, erreur) {
+                alert('erreur vote (' + urlImage + ': ' + currentVote + ')');
+            }
+        });
+        location.reload();
     };
     /**
      * Crée la gallery des categories parent
@@ -103,13 +126,13 @@ var Controleur = (function () {
             $.ajax({
                 url: './php/galleries/ParentCategories.php',
                 type: 'GET',
-                async: false,
+                //async: false,
                 dataType: 'html',
                 success: function (code_html) {
                     $(that).html(code_html);
                 },
                 error: function (resultat, statut, erreur) {
-                    console.log('erreur parent categories (' + erreur + ')');
+                    alert('erreur parent categories (' + erreur + ')');
                 }
             });
         });
@@ -122,7 +145,7 @@ var Controleur = (function () {
                 $.ajax({
                     url: './php/galleries/ChildCategories.php',
                     type: 'GET',
-                    async: false,
+                    //async: false,
                     data: 'nameParent=' + name,
                     dataType: 'html',
                     success: function (code_html) {
@@ -131,7 +154,7 @@ var Controleur = (function () {
                         Vue.initialiserLightBox();
                     },
                     error: function (resultat, statut, erreur) {
-                        console.log('erreur categorie ' + name + ' (' + erreur + ')');
+                        alert('erreur categorie ' + name + ' (' + erreur + ')');
                     }
                 });
             });

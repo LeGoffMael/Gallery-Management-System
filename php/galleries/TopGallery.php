@@ -37,7 +37,24 @@ class TopGallery extends GalleryManager
 				$categories = $this->getCategoriesImage($idImage);
 				$tags = $this->getTagsImage($idImage);
 
-				$img = new Image($urlImage,$descritionImage,$categories,$tags,$scoreImage);
+				//Gestion des votes
+				$up = null;
+				$down = null;
+				$vote = $this->getVote($idImage);
+				if($vote == 0) {
+					$up = false;
+					$down = false;
+				}
+				else if($vote == 1) {
+					$up = false;
+					$down = true;
+				}
+				else if($vote == 2) {
+					$up = true;
+					$down = false;
+				}
+
+				$img = new Image($urlImage,$descritionImage,$categories,$tags,$scoreImage,$up,$down);
 				array_push($listImagesTop, $img);
 			}
 			$top_images->closeCursor();

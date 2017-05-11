@@ -54,7 +54,6 @@ abstract class GalleryManager
 		$categories->closeCursor();
 		return $listCategories;
 	}
-
 	/**
 	 * Retourne un tableau des tags liées à l'index de l'image passé en paramètre
 	 * @param mixed $idImage
@@ -73,6 +72,40 @@ abstract class GalleryManager
 		}
 		$tags->closeCursor();
 		return $listTags;
+	}
+	/**
+	 * Retourne un tableau contenant : si pas de vote (0), si vote négatif (1), si vote positif (2)
+	 * @param mixed $idImage
+	 */
+	public function getVote($idImage) {
+		$res = null;
+		$ip = $_SERVER['REMOTE_ADDR'];
+
+		$ip_score = Settings::getInstance()->getDatabase()->select(array('*'), array('ip_score'), array('ip= "'.$ip.'"','idImage= '.$idImage), null, null, null);
+		if ($ip_score->rowCount() == 0) //si l'IP n'a jamais voté
+		{
+			$res = 0;
+		}
+		else //si l'IP à déjà voté
+		{
+			$last_score = null;
+			while ($dataIPS = $ip_score->fetch())
+			{
+				$last_score = $dataIPS['scoreImage'];
+			}
+			$ip_score->closeCursor();
+
+			if ($last_score == 0) //si vote negatif
+			{
+				$res = 1;
+			}
+			else if ($last_score == 1) //si vote positif
+			{
+				$res = 2;
+			}
+		}
+
+		return $res;
 	}
 
 	/**

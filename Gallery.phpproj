@@ -593,6 +593,7 @@
     <Compile Include="php\galleries\GalleryManager.php" />
     <Compile Include="php\galleries\items\Image.php" />
     <Compile Include="php\galleries\LastGallery.php" />
+    <Compile Include="php\Score.php" />
     <Compile Include="php\Settings.php" />
     <Compile Include="php\galleries\items\Tag.php" />
     <Compile Include="php\galleries\TopGallery.php" />
