@@ -17,13 +17,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include=".vs\config\applicationhost.config" />
+    <Compile Include="php\functions\resetPassword.php" />
+    <Compile Include="resetPassword.php" />
     <Compile Include="php\galleries\CategoriesManager.php" />
     <Compile Include="php\galleries\CategoryGallery.php" />
     <Compile Include="php\galleries\ChildCategories.php" />
     <Compile Include="php\galleries\ParentCategories.php" />
     <Compile Include="php\galleries\items\Categories.php" />
     <Compile Include="php\galleries\items\Category.php" />
-    <Compile Include="php\config.php" />
+    <Compile Include="php\functions\config.php" />
     <Compile Include="css\libs\bootstrap\css\bootstrap-theme.css" />
     <Compile Include="css\libs\bootstrap\css\bootstrap-theme.css.map" />
     <Compile Include="css\libs\bootstrap\css\bootstrap-theme.min.css" />
@@ -584,19 +586,22 @@
     <Compile Include="packages\bootstrap.TypeScript.DefinitelyTyped.0.9.8\bootstrap.TypeScript.DefinitelyTyped.0.9.8.nupkg" />
     <Compile Include="packages\jquery.TypeScript.DefinitelyTyped.0.0.1\Content\Scripts\typings\jquery\jquery.d.ts" />
     <Compile Include="packages\jquery.TypeScript.DefinitelyTyped.0.0.1\jquery.TypeScript.DefinitelyTyped.0.0.1.nupkg" />
-    <Compile Include="exemple galley.txt" />
     <Compile Include="index.php" />
     <Compile Include="packages.config" />
     <Compile Include="php\Database.php" />
-    <Compile Include="php\Fastimage.php" />
     <Compile Include="php\galleries\items\Gallery.php" />
     <Compile Include="php\galleries\GalleryManager.php" />
     <Compile Include="php\galleries\items\Image.php" />
     <Compile Include="php\galleries\LastGallery.php" />
+    <Compile Include="php\functions\login.php" />
+    <Compile Include="php\functions\logout.php" />
+    <Compile Include="php\functions\lostPassword.php" />
     <Compile Include="php\Score.php" />
     <Compile Include="php\Settings.php" />
     <Compile Include="php\galleries\items\Tag.php" />
     <Compile Include="php\galleries\TopGallery.php" />
+    <Compile Include="php\functions\settings_admin_zones.php" />
+    <Compile Include="php\functions\signin.php" />
     <Compile Include="site.sln" />
     <Compile Include="Web.config" />
   </ItemGroup>
@@ -646,8 +651,10 @@
     <Folder Include="php" />
     <Folder Include="php\galleries\items\" />
     <Folder Include="php\galleries\" />
+    <Folder Include="php\functions\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\secondaryPage.less" />
     <Content Include="images\defaultCategory.png" />
   </ItemGroup>
 </Project>

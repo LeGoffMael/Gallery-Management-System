@@ -8,7 +8,6 @@ var Controleur = (function () {
      * Constructeur
      */
     function Controleur() {
-        this.login = false;
         this.setGallery();
     }
     /**
@@ -17,30 +16,67 @@ var Controleur = (function () {
     Controleur.prototype.initialiser = function () {
         this.vue = new Vue(this);
     };
-    Object.defineProperty(Controleur.prototype, "Login", {
-        //Getter et Setter de l'état de connexion
-        get: function () {
-            return this.login;
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
-     * Initialise la navigation en fonction de l'état de connexion
-     * @param l
+     * Change l'interface en fonction des paramètres en entrées
+     * @param form
+     * @param type
+     * @param msg
      */
-    Controleur.prototype.setLogin = function (l) {
-        this.login = l;
-        if (this.Login == false) {
-            $("#nav-logout").css("display", "none");
-            $("#nav-login").css("display", "block");
-            $(".nav-log").css("display", "none");
+    Controleur.formMsg = function (form, type, msg) {
+        if (type == 'success') {
+            $("#" + form + "-form .msg-error").css('display', 'none');
+            $("#" + form + "-form .msg-success span").html(msg);
+            $("#" + form + "-form .msg-success").css('display', 'block');
+            $("#div-forms").css("height", $("#" + form + "-form").height());
         }
-        else {
-            $("#nav-logout").css("display", "block");
-            $("#nav-login").css("display", "none");
-            $(".nav-log").css("display", "block");
+        else if (type == 'error') {
+            $("#" + form + "-form .msg-success").css('display', 'none');
+            $("#" + form + "-form .msg-error span").html("  " + msg);
+            $("#" + form + "-form .msg-error").css('display', 'block');
+            $("#div-forms").css("height", $("#" + form + "-form").height());
         }
+    };
+    /**
+     * Appel le script gérant la connexion
+     */
+    Controleur.login = function () {
+        $.ajax({
+            url: './php/functions/login.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'login_username_mail=' + $('input[name=login_username_mail]').val() + '&login_password=' + $('input[name=login_password]').val(),
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("login", "success", "Connexion réussie");
+                    document.location.reload(true);
+                }
+                else {
+                    Controleur.formMsg("login", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("login", "error", "Internal error.");
+            }
+        });
+    };
+    Controleur.lostPassword = function () {
+        $.ajax({
+            url: './php/functions/lostPassword.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'lost_mail=' + $('input[name=lost_mail]').val(),
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("lost", "success", "E-mail sent, please go to your inbox.");
+                }
+                else {
+                    Controleur.formMsg("lost", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("lost", "error", "Internal error (Check if your server can send mails).");
+            }
+        });
     };
     /**
      * Formulaire des paramètres
@@ -68,7 +104,6 @@ var Controleur = (function () {
             $.ajax({
                 url: './php/galleries/LastGallery.php',
                 type: 'GET',
-                //async: false,
                 dataType: 'html',
                 success: function (code_html) {
                     $(that).html(code_html);
@@ -85,7 +120,6 @@ var Controleur = (function () {
             $.ajax({
                 url: './php/galleries/TopGallery.php',
                 type: 'GET',
-                //async: false,
                 dataType: 'html',
                 success: function (code_html) {
                     $(that).html(code_html);

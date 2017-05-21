@@ -17,7 +17,6 @@ var Vue = (function () {
         this.controleur = null;
         this.controleur = controleur;
         this.initialiserSideBarButton();
-        this.initialiserLog();
         Vue.initialiserSideBarWidth();
         Vue.initialiserGallery();
         this.initialiserSettingsZone();
@@ -82,27 +81,6 @@ var Vue = (function () {
             $("#search-form").css("display", "block");
             $("#contact").css("margin-left", "5px");
             $("#contact").css("font-size", "100%");
-        }
-    };
-    /**
-     * Appel le controleur pour gérer la nav
-     */
-    Vue.prototype.initialiserLog = function () {
-        var that = this;
-        that.controleur.setLogin(false);
-        $('#login-form button[type="submit"]').click(function () {
-            that.controleur.setLogin(true);
-            $("#firstDivider").css("display", "block");
-        });
-        $("#nav-logout").click(function () {
-            that.controleur.setLogin(false);
-            $("#firstDivider").css("display", "none");
-        });
-        if (that.controleur.Login == false) {
-            $("#firstDivider").css("display", "none");
-        }
-        else {
-            $("#firstDivider").css("display", "block");
         }
     };
     /**
@@ -184,44 +162,8 @@ var Vue = (function () {
      */
     Vue.prototype.initialiserLoginModal = function () {
         var that = this;
-        var $formLogin = $('#login-form');
-        var $formLost = $('#lost-form');
-        var $divForms = $('#div-forms');
-        $("#login-modal form").submit(function () {
-            switch (this.id) {
-                case "login-form":
-                    var $lg_username = $('#login_username').val();
-                    var $lg_password = $('#login_password').val();
-                    if ($lg_username == "ERROR") {
-                        that.msgChange("login-form", "error");
-                        $divForms.css("height", $formLogin.height());
-                    }
-                    else {
-                        that.msgChange("login-form", "success");
-                        $('#login-modal').modal('hide');
-                        that.msgChange('', 'init');
-                    }
-                    return false;
-                    break;
-                case "lost-form":
-                    var $ls_email = $('#lost_email').val();
-                    if ($ls_email == "error@error.fr") {
-                        that.msgChange("lost-form", "error");
-                        $divForms.css("height", $formLost.height());
-                    }
-                    else {
-                        that.msgChange("lost-form", "success");
-                        $divForms.css("height", $formLost.height());
-                    }
-                    return false;
-                    break;
-                default:
-                    return false;
-            }
-            return false;
-        });
-        $('#login_lost_btn').click(function () { that.modalAnimate($formLogin, $formLost); });
-        $('#lost_login_btn').click(function () { that.modalAnimate($formLost, $formLogin); });
+        $('#login_lost_btn').click(function () { that.modalAnimate($('#login-form'), $('#lost-form')); });
+        $('#lost_login_btn').click(function () { that.modalAnimate($('#lost-form'), $('#login-form')); });
     };
     /**
      * Effectue l'animation entre les changements de formulaires

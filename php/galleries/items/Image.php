@@ -1,7 +1,6 @@
 <?php
 require_once('Category.php');
 require_once('Tag.php');
-require_once('../FastImage.php');
 
 /**
  * Image short summary.
@@ -41,8 +40,7 @@ class Image
      * Génére les variables de dimension de l'image
      */
     private function setSize() {
-		$image = new FastImage($this->_url);
-		list($width, $height) = $image->getSize();
+		list($width, $height) = getimagesize($this->_url);
 		$this->_width = $width;
 		$this->_height = $height;
     }

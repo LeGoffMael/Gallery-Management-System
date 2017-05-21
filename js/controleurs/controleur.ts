@@ -10,8 +10,6 @@ class Controleur {
      */
     private vue: Vue;
 
-    private login: boolean = false;
-
     /**
      * Constructeur
      */
@@ -26,28 +24,67 @@ class Controleur {
         this.vue = new Vue(this);
     }
 
-    //Getter et Setter de l'état de connexion
-    public get Login(): boolean {
-        return this.login;
+    /**
+     * Change l'interface en fonction des paramètres en entrées
+     * @param form
+     * @param type
+     * @param msg
+     */
+    static formMsg(form, type, msg) {
+        if (type == 'success') {
+            $("#" + form + "-form .msg-error").css('display', 'none');
+            $("#" + form +"-form .msg-success span").html(msg);
+            $("#" + form +"-form .msg-success").css('display', 'block');
+            $("#div-forms").css("height", $("#" + form +"-form").height());
+        }
+        else if (type == 'error') {
+            $("#" + form + "-form .msg-success").css('display', 'none');
+            $("#" + form +"-form .msg-error span").html("  " +msg);
+            $("#" + form +"-form .msg-error").css('display','block');
+            $("#div-forms").css("height", $("#" + form +"-form").height());
+        }
     }
 
     /**
-     * Initialise la navigation en fonction de l'état de connexion
-     * @param l
+     * Appel le script gérant la connexion
      */
-    public setLogin(l: boolean) {
-        this.login = l;
+    static login() {
+        $.ajax({
+            url: './php/functions/login.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'login_username_mail=' + $('input[name=login_username_mail]').val() +'&login_password=' + $('input[name=login_password]').val(),
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("login", "success", "Connexion réussie");
+                    document.location.reload(true);
+                } else {
+                    Controleur.formMsg("login", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("login", "error", "Internal error.");
+            }
+        });
+    }
 
-        if (this.Login == false) {
-            $("#nav-logout").css("display", "none");
-            $("#nav-login").css("display", "block");
-            $(".nav-log").css("display", "none");
-        }
-        else {
-            $("#nav-logout").css("display", "block");
-            $("#nav-login").css("display", "none");
-            $(".nav-log").css("display", "block");
-        }
+    static lostPassword() {
+        $.ajax({
+            url: './php/functions/lostPassword.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'lost_mail=' + $('input[name=lost_mail]').val(),
+            success: function (data) {
+        	    if (data[0] === "success") {
+                    Controleur.formMsg("lost", "success", "E-mail sent, please go to your inbox.");
+        	    } else {
+                    Controleur.formMsg("lost", "error", data[1]);
+        	    }
+            },
+            error: function () {
+        		Controleur.formMsg("lost", "error", "Internal error (Check if your server can send mails).");
+            }
+        });
     }
 
     /**
@@ -78,7 +115,6 @@ class Controleur {
             $.ajax({
                 url: './php/galleries/LastGallery.php',
                 type: 'GET',
-                //async: false,
                 dataType: 'html',
                 success: function (code_html) {
                     $(that).html(code_html);
@@ -96,7 +132,6 @@ class Controleur {
             $.ajax({
                 url: './php/galleries/TopGallery.php',
                 type: 'GET',
-                //async: false,
                 dataType: 'html',
                 success: function (code_html) {
                     $(that).html(code_html);

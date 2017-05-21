@@ -1,0 +1,41 @@
+﻿/*Importation configuration*/
+@import "config.less";
+
+body {
+    height: 100vh;
+}
+
+.form {
+    background-color: @side_bar_color;
+    border: 1px solid @side_bar_color;
+    border-radius: 2px;
+}
+
+.panel-title {
+     font-size: 1.4em;
+}
+
+input[type="submit"],input[type="button"],input[type="text"],input[type="password"] {
+    font-size: 1.2em;
+}
+
+input[type="submit"], input[type="button"] {
+    border-radius: 4px;
+    color : @side_bar_link_hover_color;
+    border-color: @main_color;
+    background-color : @main_color;
+
+    &:hover, &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus {
+        background-color : @main_color;
+    }
+}
+
+.btn-link {
+    padding: 5px 10px 0px 0px;
+    color: @side_bar_link_color;
+
+    &:hover, &:focus {
+        color: @side_bar_link_hover_color;
+        text-decoration: none;
+    }
+}
