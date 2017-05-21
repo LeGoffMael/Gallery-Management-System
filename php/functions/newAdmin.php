@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-if (isset($_POST['hash']) AND isset($_POST['newPassword']) AND isset($_POST['confirmPassword']))
+if (isset($_POST['hash']) AND isset($_POST['username']) AND isset($_POST['newPassword']) AND isset($_POST['confirmPassword']))
 {
 	if (($_POST['hash']) != '')
 	{
@@ -13,7 +13,7 @@ if (isset($_POST['hash']) AND isset($_POST['newPassword']) AND isset($_POST['con
 
 			function hash_valide($hash) {
 
-				$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT idAccount FROM accounts WHERE forgetPassAccount = :hash");
+				$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT idAccount FROM accounts WHERE hashValidationAccount = :hash");
 
 				$requete->bindValue(':hash', $hash);
 				$requete->execute();
@@ -42,13 +42,17 @@ if (isset($_POST['hash']) AND isset($_POST['newPassword']) AND isset($_POST['con
 				return false;
 			}
 
-			function updateAccount($id, $password) {
+			function updateAccount($id, $user, $password) {
 				$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("UPDATE accounts SET
+				usernameAccount = :user,
 				passwordAccount = :password,
 				forgetPassAccount = NULL,
+				hashValidationAccount = NULL,
+				dateAccount = NOW(),
 				dateLastModificationAccount = NOW()
 				WHERE idAccount = :id");
 
+				$requete->bindValue(':user', $user);
 				$requete->bindValue(':password', $password);
 				$requete->bindValue(':id', $id);
 				$requete->execute();
@@ -56,20 +60,17 @@ if (isset($_POST['hash']) AND isset($_POST['newPassword']) AND isset($_POST['con
 
 			$id = hash_valide($hash);
 
-			// Si le hash est valide
 			if (false !== $id) {
-				$newpassword = sha1($password);
-
-				//On met a jour le compte
-				updateAccount($id, $newpassword);
+				$newpassword = sha1($_POST['newPassword']);
 
 				$infos_utilisateur = lire_infos_utilisateur($id);
 				$mail = $infos_utilisateur['mailAccount'];
 
-				// Preparation du mail
+				updateAccount($id, $_POST['username'], $newpassword);
+
 				$message_mail = '<html><head></head><body>
-				<p>Hello again '.$infos_utilisateur['usernameAccount'].',<br/>
-				Your password has been reset successfully.</p>
+				<p>Hello again '.$_POST['username'].',<br/>
+				Your account is ready.</p>
 
 				</body>
 				<footer style="font-size : 1em;">
@@ -80,16 +81,11 @@ if (isset($_POST['hash']) AND isset($_POST['newPassword']) AND isset($_POST['con
 				$headers_mail .= 'Content-type: text/html; charset=utf-8'					 	    ."\r\n";
 				$headers_mail .= 'From: "Gallery Management System" <'.$_SERVER['PHP_SELF'].'>'     ."\r\n";
 
-				// Envoi du mail
-				mail($mail, 'Password reset confirmation', $message_mail, $headers_mail);
-
-				session_start();
-				// Suppression de toutes les variables et destruction de la session
-				$_SESSION = array();
-				session_destroy();
+				mail($mail, 'Account confirmation', $message_mail, $headers_mail);
 
 				$success = array("success");
 				echo json_encode($success, JSON_PRETTY_PRINT);
+				exit();
 			}
 			else {
 				$error = array("error", "Hash does not exist.");
@@ -110,7 +106,7 @@ if (isset($_POST['hash']) AND isset($_POST['newPassword']) AND isset($_POST['con
 	}
 }
 else {
-	$error = array("error", "No datas.");
+	$error = array("error", "Fields are missing.");
 	echo json_encode($error, JSON_PRETTY_PRINT);
 	exit();
 }

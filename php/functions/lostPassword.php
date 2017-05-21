@@ -73,7 +73,7 @@ if (isset($_POST['lost_mail']))
 
 		$headers_mail  = 'MIME-Version: 1.0'											    ."\r\n";
 		$headers_mail .= 'Content-type: text/html; charset=utf-8'					 	    ."\r\n";
-		$headers_mail .= 'From: "Gallery-Management-System" <'.$_SERVER['PHP_SELF'].'>'     ."\r\n";
+		$headers_mail .= 'From: "Gallery Management System" <'.$_SERVER['PHP_SELF'].'>'     ."\r\n";
 
 		// Envoi du mail
 		mail($mail, 'Reset password', $message_mail, $headers_mail);

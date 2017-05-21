@@ -131,31 +131,51 @@
             </div>
             <!--Account-->
             <div class="tab-pane" id="account-settings">
-                <form class="form-horizontal">
+                <form id="account-settings-form" class="form-horizontal">
                     <fieldset>
                         <legend>Account Settings</legend>
+						 <div id="div-account-msg">
+                            <div class="alert alert-danger msg-error">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                <span></span>
+                            </div>
+                            <div class="alert alert-success msg-success">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                <span></span>
+                            </div>
+                        </div>
                         <!-- Username -->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="username-settings">Username</label>
                             <div class="col-md-4">
-                                <input id="username-settings" placeholder="Enter to change the username" name="username-settings" type="text" class="form-control input-md">
+                                <input value="<?php echo $_SESSION['user'];?>" id="username-settings" placeholder="Enter to change the username" name="username-settings" type="text" class="form-control input-md">
                             </div>
                         </div>
                         <!-- Mail -->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="mail-settings">Adress mail</label>
                             <div class="col-md-4">
-                                <input id="mail-settings" placeholder="Enter to change the mail" name="mail-settings" type="email" class="form-control input-md">
+                                <input value="<?php echo $_SESSION['mail'];?>" id="mail-settings" placeholder="Enter to change the mail" name="mail-settings" type="email" class="form-control input-md">
                             </div>
                         </div>
                         <!-- Password -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="password-settings">Password</label>
-                            <div class="col-md-4">
-                                <input id="password-settings" name="password-settings" placeholder="Enter to change the password" type="password" class="form-control input-md">
+                            <label class="col-md-4 control-label" for="passwordSettings">Password</label>
 
-                                <input id="password2-settings" name="password2-settings" placeholder="Confirm password" type="password" class="form-control input-md">
-                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group required has-feedback">
+                                    <div class="">
+                                        <input id="passwordSettings" name="passwordSettings" placeholder="Enter to change the password" type="password" class="form-control input-md">
+                                        <span class="glyphicon form-control-feedback" id="passwordSettingsIcon"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group required has-feedback">
+                                    <div class="">
+                                        <input id="password2Settings" name="password2Settings" placeholder="Confirm password" type="password" class="form-control input-md">
+                                        <span class="glyphicon form-control-feedback" id="password2SettingsIcon"></span>
+                                    </div>
+                                </div>
+							</div>
                         </div>
                         <!--Submit-->
                         <div class="form-group">
@@ -166,7 +186,7 @@
                         </div>
                     </fieldset>
                 </form>
-                <form class="form-horizontal">
+                <form id="addAdmin-form" class="form-horizontal">
                     <fieldset>
                         <legend>Add an administrator</legend>
                         <div class="row">
@@ -174,10 +194,20 @@
                                 <div class="alert alert-danger">
                                     <strong>Be careful!</strong> All the administrators can modify the content of the application.
                                 </div>
+                                <div id="div-account-msg">
+                                    <div class="alert alert-danger msg-error">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                        <span></span>
+                                    </div>
+                                    <div class="alert alert-success msg-success">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <span></span>
+                                    </div>
+                                </div>
                                 <div class="input-group">
                                     <input id="mail-add-admin" placeholder="The email adress to the future administrator" name="mail-add-admin" type="email" class="form-control input-md">
                                     <span class="input-group-btn">
-                                        <button class="btn btn-success" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                        <button  id="submit-addAdmin-settings" name="submit-addAdmin-settings" class="btn btn-success" type="button"><i class="fa fa-check" aria-hidden="true"></i></button>
                                     </span>
                                 </div>
                             </div>

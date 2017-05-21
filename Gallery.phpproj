@@ -17,7 +17,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include=".vs\config\applicationhost.config" />
+    <Compile Include="newAdmin.php" />
+    <Compile Include="php\functions\addAdmin.php" />
+    <Compile Include="php\functions\newAdmin.php" />
     <Compile Include="php\functions\resetPassword.php" />
+    <Compile Include="php\functions\updateAccount.php" />
     <Compile Include="resetPassword.php" />
     <Compile Include="php\galleries\CategoriesManager.php" />
     <Compile Include="php\galleries\CategoryGallery.php" />

@@ -79,7 +79,7 @@ var Controleur = (function () {
         });
     };
     /**
-     * Formulaire des paramètres
+     * Formulaire des paramètres généraux
      */
     Controleur.prototype.submitGeneralSettings = function () {
         var title = $('#site-title').val();
@@ -92,6 +92,55 @@ var Controleur = (function () {
             dataType: 'html',
             error: function (resultat, statut, erreur) {
                 alert('erreur');
+            }
+        });
+    };
+    /**
+    * Formulaire des paramètres de compte
+    */
+    Controleur.prototype.submitAccountSettings = function () {
+        var username = $('input[name=username-settings]').val();
+        var mail = $('input[name=mail-settings]').val();
+        var newPassword = $('input[name=passwordSettings]').val();
+        var confirmPassword = $('input[name=password2Settings]').val();
+        $.ajax({
+            url: './php/functions/updateAccount.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'username=' + username + '&mail=' + mail + '&newPassword=' + newPassword + '&confirmPassword=' + confirmPassword,
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("account-settings", "success", "Updated account");
+                }
+                else {
+                    Controleur.formMsg("account-settings", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("account-settings", "error", "Internal error.");
+            }
+        });
+    };
+    /**
+    * Formulaire d'ajout d'un admin
+    */
+    Controleur.prototype.addAdmin = function () {
+        var mail = $('input[name=mail-add-admin]').val();
+        $.ajax({
+            url: './php/functions/addAdmin.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'mail=' + mail,
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("addAdmin", "success", "E-mail sent.");
+                }
+                else {
+                    Controleur.formMsg("addAdmin", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("addAdmin", "error", "Internal error.");
             }
         });
     };

@@ -113,6 +113,14 @@ class Vue
             e.preventDefault();
             that.controleur.submitGeneralSettings();
         });
+        $('body').on('click', '#submit-account-settings', function (e) {
+            e.preventDefault();
+            that.controleur.submitAccountSettings();
+        });
+        $('body').on('click', '#submit-addAdmin-settings', function (e) {
+            e.preventDefault();
+            that.controleur.addAdmin();
+        });
     }
 
     /**

@@ -5,6 +5,16 @@ body {
     height: 100vh;
 }
 
+
+#img_logo {
+    max-height: 100px;
+    max-width: 100px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .form {
     background-color: @side_bar_color;
     border: 1px solid @side_bar_color;
@@ -15,7 +25,7 @@ body {
      font-size: 1.4em;
 }
 
-input[type="submit"],input[type="button"],input[type="text"],input[type="password"] {
+input[type="submit"],input[type="button"],input[type="text"],input[type="email"],input[type="password"] {
     font-size: 1.2em;
 }
 

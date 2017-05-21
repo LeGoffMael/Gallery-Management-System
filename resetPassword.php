@@ -24,7 +24,7 @@ if (isset($_GET['hash']))
 					<div class="panel-title">Reset password</div>
 				</div>
                 <div class="panel-body">
-                    <form method="post" action="php/functions/resetPassword.php" id="reset-form" class="form-horizontal">
+                    <form method="post" id="reset-form" class="form-horizontal">
                         <div id="div-reset-msg">
                             <div class="alert alert-danger msg-error">
                                 <i class="fa fa-times" aria-hidden="true"></i>

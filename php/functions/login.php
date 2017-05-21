@@ -14,7 +14,7 @@ if (isset($_POST['login_username_mail']) AND isset($_POST['login_password']))
 				(usernameAccount = :username OR
 				mailAccount = :mail) AND
 				passwordAccount = :password AND
-				hashValidationAccount = ''");
+				hashValidationAccount IS NULL");
 
 		$requete->bindValue(':username', $username_mail);
 		$requete->bindValue(':mail', $username_mail);

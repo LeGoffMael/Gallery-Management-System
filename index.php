@@ -300,5 +300,47 @@
             });
         });
     </script>
+<?php
+if (!empty($_SESSION['id']))
+{
+?>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+	<script>
+			$( document ).ready(function() {
+				$('#account-settings-form').validate({
+        			rules: {
+        				passwordSettings: {
+        					required: true
+        				},
+        				password2Settings: {
+        					equalTo: "#passwordSettings",
+        					required: true
+        				}
+        			},
+        			highlight: function (element) {
+        				var id_attr = "#" + $(element).attr("id") + "Icon";
+        				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        				$(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
+        			},
+        			unhighlight: function (element) {
+        				var id_attr = "#" + $(element).attr("id") + "Icon";
+        				$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        				$(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
+        			},
+        			errorElement: 'span',
+        			errorClass: 'help-block',
+        			errorPlacement: function (error, element) {
+        				if (element.length) {
+        					error.insertAfter(element);
+        				} else {
+        					error.insertAfter(element);
+        				}
+        			}
+        		});
+        	});
+	</script>
+<?php
+}
+?>
 </body>
 </html>
