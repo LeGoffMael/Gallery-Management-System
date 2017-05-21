@@ -96,9 +96,6 @@ var Vue = (function () {
      */
     Vue.prototype.initialiserSettingsZone = function () {
         var that = this;
-        $(function () {
-            $('.selectpicker').selectpicker();
-        });
         $('body').on('click', '#submit-general-settings', function (e) {
             e.preventDefault();
             that.controleur.submitGeneralSettings();
@@ -110,6 +107,10 @@ var Vue = (function () {
         $('body').on('click', '#submit-addAdmin-settings', function (e) {
             e.preventDefault();
             that.controleur.addAdmin();
+        });
+        $('body').on('click', '#submit-database-settings', function (e) {
+            e.preventDefault();
+            that.controleur.changeConfig();
         });
     };
     /**

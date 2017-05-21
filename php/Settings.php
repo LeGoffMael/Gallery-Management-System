@@ -84,15 +84,3 @@ class Settings
         return $this->_theme;
     }
 }
-
-$title = filter_input(INPUT_GET, 'title');
-if ($title != "") {
-    Settings::getInstance()->setTitle($title);
-}
-$limit = filter_input(INPUT_GET, 'limit');
-if ($limit != "")
-    Settings::getInstance()->setLimit($limit);
-$language = filter_input(INPUT_GET, 'language');
-if ($language != "")
-    Settings::getInstance()->setLanguage($language);
-

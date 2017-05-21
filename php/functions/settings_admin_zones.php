@@ -20,9 +20,19 @@
         <div class="tab-content clearfix">
             <!--General-->
             <div class="tab-pane active" id="general-settings">
-                <form class="form-horizontal">
+                <form id="general-settings-form" class="form-horizontal">
                     <fieldset>
                         <legend>General Settings</legend>
+                        <div id="div-general-msg">
+                            <div class="alert alert-danger msg-error">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                <span></span>
+                            </div>
+                            <div class="alert alert-success msg-success">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                <span></span>
+                            </div>
+                        </div>
                         <!--Title-->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="site-title">Site title</label>
@@ -39,13 +49,11 @@
                         </div>
                         <!--Language-->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="site-language"><i class="fa fa-globe" aria-hidden="true"></i> Language</label>
+                            <label class="col-md-4 control-label" for="site-language">Language</label>
                             <div class="col-md-4">
-                                <select id="site-language" name="site-language" class="selectpicker" data-width="fit">
-                                    <option <?php if( Settings::getInstance()->getLanguage() == "English") echo 'selected';?> data-content='<span class="flag-icon flag-icon-us"></span> English'>English</option>
-                                    <option <?php if( Settings::getInstance()->getLanguage() == "French") echo 'selected';?> data-content='<span class="flag-icon flag-icon-fr"></span> French'>French</option>
-                                </select>
-                            </div>
+                                <input type="hidden" name="currentCountry" id="currentCountry" value="<?php echo htmlspecialchars(Settings::getInstance()->getLanguage());?>">
+                                <select class="form-control input-md" id="site-language" name="country"></select>
+							</div>
                         </div>
                         <!--Submit-->
                         <div class="form-group">
@@ -217,35 +225,45 @@
             </div>
             <!--Database-->
             <div class="tab-pane" id="database-settings">
-                <form class="form-horizontal">
+                <form id="database-settings-form" class="form-horizontal">
                     <fieldset>
                         <legend>Database Settings</legend>
+                        <div id="div-database-msg">
+                            <div class="alert alert-danger msg-error">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                <span></span>
+                            </div>
+                            <div class="alert alert-success msg-success">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                <span></span>
+                            </div>
+                        </div>
                         <!-- Host name -->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="database-host-settings">Database host</label>
                             <div class="col-md-4">
-                                <input id="database-host-settings" name="database-host-settings" type="text" placeholder="127.0.0.1" class="form-control input-md">
+                                <input value="<?php echo DB_HOST;?>" id="database-host-settings" name="database-host-settings" type="text" placeholder="MySQL hosting address" class="form-control input-md">
                             </div>
                         </div>
                         <!-- Database -->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="database-name-settings">Database name</label>
                             <div class="col-md-4">
-                                <input id="database-name-settings" name="database-name-settings" type="text" placeholder="gallery" class="form-control input-md">
+                                <input value="<?php echo DB_NAME;?>" id="database-name-settings" name="database-name-settings" type="text" placeholder="Name of the data base" class="form-control input-md">
                             </div>
                         </div>
                         <!-- Username -->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="database-user-settings">Username</label>
                             <div class="col-md-4">
-                                <input id="database-user-settings" name="database-user-settings" type="text" placeholder="root" class="form-control input-md">
+                                <input value="<?php echo DB_USER;?>" id="database-user-settings" name="database-user-settings" type="text" placeholder="User of the database" class="form-control input-md">
                             </div>
                         </div>
                         <!-- Password -->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="database-pwd-settings">Password</label>
                             <div class="col-md-4">
-                                <input id="database-pwd-settings" name="database-pwd-settings" type="password" placeholder="" class="form-control input-md">
+                                <input value="<?php echo DB_PASSWORD;?>" id="database-pwd-settings" name="database-pwd-settings" type="password" placeholder="Password of the database" class="form-control input-md">
                             </div>
                         </div>
                         <!--Submit & export-->

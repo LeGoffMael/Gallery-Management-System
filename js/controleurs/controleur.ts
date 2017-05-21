@@ -96,12 +96,19 @@ class Controleur {
         var language = $('#site-language').val();
         
         $.ajax({
-            url: './php/Settings.php',
-            type: 'GET',
+            url: './php/functions/changeSettings.php',
+            type: 'POST',
             data: 'title=' + title + '&limit=' + limit + '&language=' + language,
-            dataType: 'html',
-            error: function (resultat, statut, erreur) {
-                alert('erreur');
+            dataType: 'json',
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("general-settings", "success", "Updated settings.");
+                } else {
+                    Controleur.formMsg("general-settings", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("general-settings", "error", "Internal error.");
             }
         });
     }
@@ -156,6 +163,34 @@ class Controleur {
             }
         });
     }
+
+    /**
+    * Formulaire des paramètres de compte
+    */
+    public changeConfig() {
+        var name = $('input[name=database-name-settings]').val();
+        var user = $('input[name=database-user-settings]').val();
+        var password = $('input[name=database-pwd-settings]').val();
+        var host = $('input[name=database-host-settings]').val();
+
+        $.ajax({
+            url: './php/functions/changeConfig.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'DB_NAME=' + name + '&DB_USER=' + user + '&DB_PASSWORD=' + password + '&DB_HOST=' + host,
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("database-settings", "success", "Updated config.php");
+                } else {
+                    Controleur.formMsg("database-settings", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("database-settings", "error", "Internal error.");
+            }
+        });
+    }
+
 
     /**
      * Crée les gallerys latest et top

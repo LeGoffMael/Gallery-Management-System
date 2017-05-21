@@ -106,9 +106,6 @@ class Vue
      */
     private initialiserSettingsZone() {
         var that = this;
-        $(function () {
-            $('.selectpicker').selectpicker();
-        });
         $('body').on('click', '#submit-general-settings', function (e) {
             e.preventDefault();
             that.controleur.submitGeneralSettings();
@@ -120,6 +117,10 @@ class Vue
         $('body').on('click', '#submit-addAdmin-settings', function (e) {
             e.preventDefault();
             that.controleur.addAdmin();
+        });
+        $('body').on('click', '#submit-database-settings', function (e) {
+            e.preventDefault();
+            that.controleur.changeConfig();
         });
     }
 

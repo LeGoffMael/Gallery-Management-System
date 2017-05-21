@@ -11,7 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="images/logo/logo.png" />
     <link rel="stylesheet" href="css/libs/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
     <link rel="stylesheet" href="css/libs/flagIcon/flag-icon.min.css" />
   	<link rel="stylesheet/less" type="text/css" href="css/style.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/nav.less" />
@@ -258,7 +259,7 @@
     <script src="js/libs/less/less.min.js"></script>
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/libs/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
     <!--Pour la gallerie-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.3.0/js/mdb.min.js"></script>
     <!--Pour la light box-->
@@ -306,6 +307,32 @@ if (!empty($_SESSION['id']))
 ?>
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
 	<script>
+    	(function ($) {
+    		$(function () {
+    			var isoCountries = [
+					{ id: $('#currentCountry').val(), text: 'Current (' + $('#currentCountry').val()+')' },
+					{ id: 'FR', text: 'Français' },
+					{ id: 'US', text: 'English' }
+    			];
+
+    			function formatCountry(country) {
+    				if (!country.id) { return country.text; }
+    				var $country = $(
+					  '<span class="flag-icon flag-icon-' + country.id.toLowerCase() + ' flag-icon-squared"></span>' +
+					  '<span class="flag-text">' + country.text + "</span>"
+					);
+    				return $country;
+    			};
+
+    			$("[name='country']").select2({
+    				placeholder: "Select a country",
+    				templateResult: formatCountry,
+    				data: isoCountries
+    			});
+
+    		});
+    	})(jQuery);
+
 			$( document ).ready(function() {
 				$('#account-settings-form').validate({
         			rules: {

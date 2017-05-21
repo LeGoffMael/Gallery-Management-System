@@ -1,27 +1,27 @@
 <?php
 /**
- * La configuration de votre installation
+ * The configuration of your installation
  *
- * Ce fichier contient les réglages de configuration de la base données MySQL
+ * This file contains the configuration settings for the MySQL database
  *
- * /!\ Vous pouvez modifier directement ce fichier mais faites attention à ce qu'il corresponde à la réalité
+ * /! \ You can modify this file directly but be careful that it corresponds to reality
  *
  * @author Maël Le Goff <legoffmael@gmail.com>
  */
 
-// ** Réglages MySQL (nécessaire aux commande PDO)- Votre hébergeur doit vous fournir ces informations ** //
-/** Nom de la base de données */
-define( 'DB_NAME', 'galleries' );
+// ** MySQL settings (required for PDO commands) - Your host must provide you with this information ** //
+/** Name of the data base */
+define( 'DB_NAME', 'galleries');
 
-/** Utilisateur de la base de données */
-define( 'DB_USER', 'root' );
+/** User of the database */
+define( 'DB_USER', 'root');
 
-/** Mot de passe de la base de donées */
-define( 'DB_PASSWORD', '' );
+/** Password of the database */
+define( 'DB_PASSWORD', '');
 
-/** Adresse de l'hébergement MySQL */
-define( 'DB_HOST', 'localhost' );
+/** MySQL hosting address */
+define( 'DB_HOST', 'localhost');
 
-/** Jeux de caractère de la base de données */
+/** Character sets of the database */
 define( 'DB_CHARSET', 'utf8' );
 ?>
