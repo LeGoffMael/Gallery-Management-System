@@ -26,7 +26,12 @@ class CategoryGallery extends GalleryManager
 	 */
 	public function setGallery() {
 		$listImages = array();
-		$categoryImages = Settings::getInstance()->getDatabase()->select(array('*'), array('categories_images','categories','images'), array('categories.nameCategory = "'.$this->_nameCategory.'"','images.idImage = categories_images.idImage','categories.idCategory = categories_images.idCategory'), null, 'images.idImage DESC', Settings::getInstance()->getLimit());
+
+		$categoryImages = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM categories_images,categories,images WHERE categories.nameCategory = :name AND images.idImage = categories_images.idImage AND categories.idCategory = categories_images.idCategory ORDER BY images.idImage DESC LIMIT ".Settings::getInstance()->getLimit());
+
+		$categoryImages->bindValue(':name', $this->_nameCategory);
+		$categoryImages->execute();
+
 		if($categoryImages->rowCount() == 0)
 		{
 			echo "<h2>No items to display</h2>";

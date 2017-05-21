@@ -25,7 +25,11 @@ abstract class CategoriesManager
 
 	public function getCategoryParent($child) {
 		$res = null;
-		$categoriesParent = Settings::getInstance()->getDatabase()->select(array('*'), array('categories'), array('idCategory IN (SELECT idParent FROM categories,parent_child WHERE nameCategory = "'.$child.'" AND parent_child.idChild = categories.idCategory)'), null, 'nameCategory ASC', null);
+
+		$categoriesParent = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM categories WHERE idCategory IN (SELECT idParent FROM categories,parent_child WHERE nameCategory = :child AND parent_child.idChild = categories.idCategory) ORDER BY nameCategory ASC");
+		$categoriesParent->bindValue(':child', $child);
+		$categoriesParent->execute();
+
 		//Si il n'a pas d'enfant on affiche les images
 		if($categoriesParent->rowCount() == 0)
 		{

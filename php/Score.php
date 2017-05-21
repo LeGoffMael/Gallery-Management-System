@@ -26,14 +26,16 @@ class Score
 	 * @param mixed $url
 	 */
 	public function setId($url) {
-		$idImage = null;
-		$id = Settings::getInstance()->getDatabase()->select(array('*'),array('images'),array('urlImage = "'.$url.'"'),null,null,null);
-		while ($dataId = $id->fetch())
-		{
-			$idImage = $dataId['idImage'];
+		$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM images WHERE urlImage = :urlImage");
+
+		$requete->bindValue(':urlImage', $url);
+		$requete->execute();
+
+		if ($result = $requete->fetch(PDO::FETCH_ASSOC)) {
+			$requete->closeCursor();
 		}
-		$id->closeCursor();
-		$this->_idImage = $idImage;
+
+		$this->_idImage = $result['idImage'];
 	}
 
 	/**
@@ -41,11 +43,22 @@ class Score
 	 */
 	public function checkIp() {
 		$ip = $_SERVER['REMOTE_ADDR'];
-		$ip_vote = Settings::getInstance()->getDatabase()->select(array('*'), array('ip_score'), array('ip= "'.$ip.'"','idImage= '.$this->_idImage), null, null, null);
+
+		$ip_vote = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM ip_score WHERE ip = :ip AND idImage = :idImage");
+
+		$ip_vote->bindValue(':ip', $ip);
+		$ip_vote->bindValue(':idImage', $this->_idImage);
+		$ip_vote->execute();
+
 		if ($ip_vote->rowCount() == 0) //si l'IP n'a jamais voté
 		{
-			//Ajout des données
-			Settings::getInstance()->getDatabase()->insert('ip_score',array('ip','idImage','scoreImage'),array($ip,$this->_idImage,$this->_currentScore));
+			$ip_vote = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO ip_score (ip,idImage,scoreImage) VALUES (:ip, :id, :score");
+
+			$ip_vote->bindValue(':ip', $ip);
+			$ip_vote->bindValue(':id', $this->_idImage);
+			$ip_vote->bindValue(':score', $this->_currentScore);
+			$ip_vote->execute();
+
 			$this->_canVote = true;
 		}
 		else //si l'IP à déjà voté
@@ -63,7 +76,15 @@ class Score
 			}
 			else if ($vote != $this->_currentScore) //si on fait un vote différent
 			{
-				Settings::getInstance()->getDatabase()->update('ip_score',array('scoreImage = '.$this->_currentScore),array('ip= "'.$ip.'"','idImage = '.$this->_idImage));
+				$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("UPDATE ip_score SET
+				scoreImage = :scoreImage
+				WHERE ip = :ip AND idImage = :idImage");
+
+				$requete->bindValue(':scoreImage', $this->_currentScore);
+				$requete->bindValue(':ip', $ip);
+				$requete->bindValue(':idImage', $this->_idImage);
+				$requete->execute();
+
 				$this->_canVote = true;
 				$this->_alreadyVote = true;
 			}
@@ -95,5 +116,4 @@ class Score
 
 $currentScore = filter_input(INPUT_GET, 'currentVote');
 $urlImage = filter_input(INPUT_GET, 'urlImage');
-echo 'error';
 $score = new Score($currentScore,$urlImage);

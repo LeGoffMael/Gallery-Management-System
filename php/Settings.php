@@ -22,13 +22,16 @@ class Settings
     private function __construct() {
 		$this->_database = new Database(DB_HOST, DB_NAME, DB_CHARSET, DB_USER, DB_PASSWORD);
 
-		$settings = $this->_database->select(array('*'), array('settings'), null, null, null, 1);
-		while ($data = $settings->fetch())
-		{
-			$this->_siteTitle = $data['title'];
-			$this->_limitGallery = $data['limitGallery'];
-			$this->_language = $data['language'];
+		$settings = $this->_database->getDb()->prepare("SELECT * FROM settings");
+		$settings->execute();
+
+		if ($result = $settings->fetch(PDO::FETCH_ASSOC)) {
+			$settings->closeCursor();
 		}
+
+		$this->_siteTitle = $result['title'];
+		$this->_limitGallery = $result['limitGallery'];
+		$this->_language = $result['language'];
     }
 
 	//Assesseurs
@@ -37,7 +40,9 @@ class Settings
     }
 	public function setTitle($t) {
         $this->_siteTitle = $t;
-		$this->_database->update('settings', array('title = \''.$this->_siteTitle.'\''), null);
+		$requete = $this->_database->getDb()->prepare("UPDATE settings SET title = :title");
+		$requete->bindValue(':title', $t);
+		$requete->execute();
     }
 	public function getTitle() {
         return $this->_siteTitle;
@@ -48,14 +53,18 @@ class Settings
 		else if ($l > 80)
 			$l = 80;
         $this->_limitGallery = $l;
-		$this->_database->update('settings', array('limitGallery = '.$this->_limitGallery), null);
+		$requete = $this->_database->getDb()->prepare("UPDATE settings SET limitGallery = :limitGallery");
+		$requete->bindValue(':limitGallery', $l);
+		$requete->execute();
     }
 	public function getLimit() {
         return $this->_limitGallery;
     }
 	public function setLanguage($lang) {
         $this->_language = $lang;
-		$this->_database->update('settings', array('language = \''.$this->_language.'\''), null);
+		$requete = $this->_database->getDb()->prepare("UPDATE settings SET language = :language");
+		$requete->bindValue(':language', $lang);
+		$requete->execute();
     }
 	public function getLanguage() {
         return $this->_language;

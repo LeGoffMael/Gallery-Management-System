@@ -21,7 +21,10 @@ class LastGallery extends GalleryManager
 	 */
 	public function setGallery() {
 		$listImages = array();
-		$last_images = Settings::getInstance()->getDatabase()->select(array('*'), array('images'), null, null, 'idImage DESC', Settings::getInstance()->getLimit());
+
+		$last_images = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM images ORDER BY idImage DESC LIMIT ". Settings::getInstance()->getLimit());
+		$last_images->execute();
+
 		if($last_images->rowCount() == 0)
 		{
 			echo "<h2>No items to display</h2>";

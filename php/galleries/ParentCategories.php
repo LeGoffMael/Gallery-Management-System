@@ -18,7 +18,10 @@ class ParentCategories extends CategoriesManager
 
 	public function setCategories() {
 		$list = array();
-		$categoriesParent = Settings::getInstance()->getDatabase()->select(array('*'), array('categories'), array('idCategory NOT IN (SELECT idChild FROM parent_child)'), null, 'nameCategory ASC', null);
+
+		$categoriesParent = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM categories WHERE idCategory NOT IN (SELECT idChild FROM parent_child) ORDER BY nameCategory ASC");
+		$categoriesParent->execute();
+
 		if($categoriesParent->rowCount() == 0)
 		{
 			echo "<h2>No items to display</h2>";
@@ -31,7 +34,10 @@ class ParentCategories extends CategoriesManager
 
 				$urlImage = "";
 				//On récupère l'id de l'image catégorie
-				$idImg = Settings::getInstance()->getDatabase()->select(array('mainimages_categories.idMainImage'), array('mainimages_categories','categories'), array('mainimages_categories.idCategory = '.$idCategory,'categories.idCategory = mainimages_categories.idCategory'), null, null, null);
+				$idImg = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT mainimages_categories.idMainImage FROM mainimages_categories,categories WHERE mainimages_categories.idCategory = :idCategory AND categories.idCategory = mainimages_categories.idCategory");
+				$idImg->bindValue(':idCategory', $idCategory);
+				$idImg->execute();
+
 				if($idImg->rowCount() == 0)
 				{
 					$urlImage = "images/defaultCategory.png";
@@ -50,7 +56,10 @@ class ParentCategories extends CategoriesManager
 
 					//On récupère l'url de l'image catégorie
 					$urlImage = null;
-					$addresse = Settings::getInstance()->getDatabase()->select(array('*'),array('images'),array('idImage = '.$idImage),null,null,null);
+					$addresse = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM images WHERE idImage = :idImage");
+					$addresse->bindValue(':idImage', $idImage);
+					$addresse->execute();
+
 					while ($dataU = $addresse->fetch())
 					{
 						$urlImage = $dataU['urlImage']; //l'adresse de l'urlImage
@@ -61,7 +70,11 @@ class ParentCategories extends CategoriesManager
 				//On compte le nombre d'images dans la catégorie
 				$nbElements = null;
 				$tabIdImgs = array();
-				$nbImg = Settings::getInstance()->getDatabase()->select(array('categories_images.idImage'), array('categories_images','categories'), array('categories_images.idCategory = '.$idCategory,'categories.idCategory = categories_images.idCategory'), null, null, null);
+
+				$nbImg = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT categories_images.idImage FROM categories_images,categories WHERE categories_images.idCategory = :idCategory AND categories.idCategory = categories_images.idCategory");
+				$nbImg->bindValue(':idCategory', $idCategory);
+				$nbImg->execute();
+
 				while ($dataImages = $nbImg->fetch())
 				{
 					array_push($tabIdImgs, $dataImages['idImage']);

@@ -33,7 +33,11 @@ abstract class GalleryManager
 	 */
 	public function getCategoriesImage($idImage) {
 		$listCategories = array();
-		$categories = Settings::getInstance()->getDatabase()->select(array('categories.*'), array('categories_images','categories','images'), array('images.idImage = '.$idImage, 'images.idImage = categories_images.idImage', 'categories.idCategory = categories_images.idCategory'), null, null, null);
+
+		$categories = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT categories.* FROM categories_images,categories,images WHERE images.idImage = :idImage AND images.idImage = categories_images.idImage AND categories.idCategory = categories_images.idCategory");
+		$categories->bindValue(':idImage', $idImage);
+		$categories->execute();
+
 		while ($dataCategory = $categories->fetch())
 		{
 				$idCategory = $dataCategory['idCategory'];
@@ -61,7 +65,11 @@ abstract class GalleryManager
 	 */
 	public function getTagsImage($idImage) {
 		$listTags = array();
-		$tags = Settings::getInstance()->getDatabase()->select(array('tags.*'), array('tags_images','tags','images'), array('images.idImage = '.$idImage, 'images.idImage = tags_images.idImage', 'tags.idTag = tags_images.idTag'), null, null, null);
+
+		$tags = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT tags.* FROM tags_images,tags,images WHERE images.idImage = :idImage AND images.idImage = tags_images.idImage AND tags.idTag = tags_images.idTag");
+		$tags->bindValue(':idImage', $idImage);
+		$tags->execute();
+
 		while ($dataTag = $tags->fetch())
 		{
 			$idTag = $dataTag['idTag'];
@@ -81,7 +89,11 @@ abstract class GalleryManager
 		$res = null;
 		$ip = $_SERVER['REMOTE_ADDR'];
 
-		$ip_score = Settings::getInstance()->getDatabase()->select(array('*'), array('ip_score'), array('ip= "'.$ip.'"','idImage= '.$idImage), null, null, null);
+		$ip_score = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM ip_score WHERE ip = :ip AND idImage = :idImage");
+		$ip_score->bindValue(':ip', $ip);
+		$ip_score->bindValue(':idImage', $idImage);
+		$ip_score->execute();
+
 		if ($ip_score->rowCount() == 0) //si l'IP n'a jamais voté
 		{
 			$res = 0;
