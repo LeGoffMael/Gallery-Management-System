@@ -111,18 +111,33 @@
             </div>
             <!--Appareance-->
             <div class="tab-pane" id="appareance-settings">
-                <form class="form-horizontal">
+                <form id="appareance-settings-form" class="form-horizontal">
                     <fieldset>
                         <legend>Appareance Settings</legend>
+                        <div id="div-theme-msg">
+                            <div class="alert alert-danger msg-error">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                                <span></span>
+                            </div>
+                            <div class="alert alert-success msg-success">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                <span></span>
+                            </div>
+                        </div>
                         <!--theme-->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="private-theme">Theme</label>
                             <div class="col-md-4 themes">
                                 <div class="radio-inline">
-                                    <label for="private-theme-dark">
-                                        <input type="radio" name="private-theme" id="private-theme-dark" value="1" checked="checked">
-                                        Dark Theme
-                                    </label>
+                                    <?php
+                                        foreach(Settings::getInstance()->getThemes() as $index => $theme) {
+                                            if($theme == Settings::getInstance()->getTheme())
+                                                echo "<label for='private-theme-".str_replace(' ', '-', $theme[1])."'><input type='radio' name='private-theme' id='private-theme-".str_replace(' ', '-', $theme[1])."' value='".$theme[0]."' checked='checked'>".$theme[1]."</label>";
+                                            else {
+                                                echo "<label for='private-theme-".str_replace(' ', '-', $theme[1])."'><input type='radio' name='private-theme' id='private-theme-".str_replace(' ', '-', $theme[1])."' value='".$theme[0]."'>".$theme[1]."</label>";
+                                            }
+                                        }
+                                    ?>
                                 </div>
                             </div>
                         </div>

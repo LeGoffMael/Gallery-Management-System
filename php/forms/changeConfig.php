@@ -1,5 +1,5 @@
 <?php
-	require_once('config.php');
+	require_once('../includes/config.php');
 
 	$content = "<?php
 /**
@@ -52,7 +52,7 @@ define( 'DB_CHARSET', 'utf8' );
 
 	header('Content-Type: application/json');
 	try{
-		$config = fopen("config.php", "w") or die("Unable to open file!");
+		$config = fopen("../includes/config.php", "w") or die("Unable to open file!");
 		fwrite($config, utf8_encode($content));
 		fclose($config);
 	}

@@ -110,6 +110,10 @@ class Vue
             e.preventDefault();
             that.controleur.submitGeneralSettings();
         });
+        $('body').on('click', '#submit-appareance-settings', function (e) {
+            e.preventDefault();
+            that.controleur.changeTheme();
+        });
         $('body').on('click', '#submit-account-settings', function (e) {
             e.preventDefault();
             that.controleur.submitAccountSettings();

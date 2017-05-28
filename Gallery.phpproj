@@ -18,12 +18,13 @@
   <ItemGroup>
     <Compile Include=".vs\config\applicationhost.config" />
     <Compile Include="newAdmin.php" />
-    <Compile Include="php\functions\addAdmin.php" />
-    <Compile Include="php\functions\changeConfig.php" />
-    <Compile Include="php\functions\changeSettings.php" />
-    <Compile Include="php\functions\newAdmin.php" />
-    <Compile Include="php\functions\resetPassword.php" />
-    <Compile Include="php\functions\updateAccount.php" />
+    <Compile Include="php\account\addAdmin.php" />
+    <Compile Include="php\forms\changeConfig.php" />
+    <Compile Include="php\forms\changeSettings.php" />
+    <Compile Include="php\forms\changeTheme.php" />
+    <Compile Include="php\forms\newAdmin.php" />
+    <Compile Include="php\account\resetPassword.php" />
+    <Compile Include="php\forms\updateAccount.php" />
     <Compile Include="resetPassword.php" />
     <Compile Include="php\galleries\CategoriesManager.php" />
     <Compile Include="php\galleries\CategoryGallery.php" />
@@ -31,7 +32,7 @@
     <Compile Include="php\galleries\ParentCategories.php" />
     <Compile Include="php\galleries\items\Categories.php" />
     <Compile Include="php\galleries\items\Category.php" />
-    <Compile Include="php\functions\config.php" />
+    <Compile Include="php\includes\config.php" />
     <Compile Include="css\libs\bootstrap\css\bootstrap-theme.css" />
     <Compile Include="css\libs\bootstrap\css\bootstrap-theme.css.map" />
     <Compile Include="css\libs\bootstrap\css\bootstrap-theme.min.css" />
@@ -599,15 +600,15 @@
     <Compile Include="php\galleries\GalleryManager.php" />
     <Compile Include="php\galleries\items\Image.php" />
     <Compile Include="php\galleries\LastGallery.php" />
-    <Compile Include="php\functions\login.php" />
-    <Compile Include="php\functions\logout.php" />
-    <Compile Include="php\functions\lostPassword.php" />
+    <Compile Include="php\account\login.php" />
+    <Compile Include="php\account\logout.php" />
+    <Compile Include="php\account\lostPassword.php" />
     <Compile Include="php\Score.php" />
     <Compile Include="php\Settings.php" />
     <Compile Include="php\galleries\items\Tag.php" />
     <Compile Include="php\galleries\TopGallery.php" />
-    <Compile Include="php\functions\settings_admin_zones.php" />
-    <Compile Include="php\functions\signin.php" />
+    <Compile Include="php\includes\settings_admin_zones.php" />
+    <Compile Include="php\account\signin.php" />
     <Compile Include="site.sln" />
     <Compile Include="Web.config" />
   </ItemGroup>
@@ -634,7 +635,6 @@
     <Folder Include="js\libs\less" />
     <Folder Include="js\libs\photoSwipe" />
     <Folder Include="js\libs" />
-    <Folder Include="js\modeles" />
     <Folder Include="js\vues" />
     <Folder Include="js" />
     <Folder Include="packages\bootstrap-select" />
@@ -657,7 +657,9 @@
     <Folder Include="php" />
     <Folder Include="php\galleries\items\" />
     <Folder Include="php\galleries\" />
-    <Folder Include="php\functions\" />
+    <Folder Include="php\account\" />
+    <Folder Include="php\forms\" />
+    <Folder Include="php\includes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\secondaryPage.less" />

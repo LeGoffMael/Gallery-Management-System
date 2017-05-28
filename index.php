@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Site gallery</title>
+    <title>Gallery-Management-System</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="images/logo/logo.png" />
@@ -31,7 +31,7 @@
                 <div class="button sidebar-toggle text-right"><a><i class="fa fa-caret-left fa-2x"></i></a></div>
 
                 <div id="logo" class="text-center">
-                    <p id="home-link"><img class="logo" onclick="location.href='index.php';" src="images/logo/logo.png" alt="Name Website" /></p>
+                    <p id="home-link"><img class="logo" onclick="location.href='index.php';" src="images/logo/logo.png" alt="Logo" /></p>
                 </div>
 
                 <!--Recherche-->
@@ -77,7 +77,7 @@
 
 							  <!--Connexion/Deconnexion-->
 
-						      <li data-toggle="tooltip" id="nav-logout" data-placement="right" title="Logout"><a href="php/functions/logout.php"><i class="fa fa-sign-out"></i> <strong><span>Logout</span></strong></a></li>';
+						      <li data-toggle="tooltip" id="nav-logout" data-placement="right" title="Logout"><a href="php/account/logout.php"><i class="fa fa-sign-out"></i> <strong><span>Logout</span></strong></a></li>';
                     } else {
 						// Utilisateur non connecté
 						echo '<li data-toggle="tooltip" id="nav-login" data-placement="right" title="Login"><a href="#" data-target="#login-modal" data-toggle="modal"><i class="fa fa-sign-in"></i> <strong><span>Login</span></strong></a></li>';
@@ -107,7 +107,7 @@
 				<?php
 				//Si on est connecté on affiche ces sections
 				if (!empty($_SESSION['id'])) {
-					include_once('php/functions/settings_admin_zones.php');
+					include_once('php/includes/settings_admin_zones.php');
 				}
                 ?>
             </div>
@@ -253,7 +253,7 @@
     <!-- SCRIPTS -->
 	<script>
     	less = {
-    		env: 'production', //hide less message
+    		//env: 'production', //hide less message
     	}; 
 	</script>
     <script src="js/libs/less/less.min.js"></script>

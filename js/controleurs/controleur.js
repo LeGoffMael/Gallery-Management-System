@@ -41,7 +41,7 @@ var Controleur = (function () {
      */
     Controleur.login = function () {
         $.ajax({
-            url: './php/functions/login.php',
+            url: './php/account/login.php',
             type: 'post',
             dataType: 'json',
             data: 'login_username_mail=' + $('input[name=login_username_mail]').val() + '&login_password=' + $('input[name=login_password]').val(),
@@ -61,7 +61,7 @@ var Controleur = (function () {
     };
     Controleur.lostPassword = function () {
         $.ajax({
-            url: './php/functions/lostPassword.php',
+            url: './php/account/lostPassword.php',
             type: 'post',
             dataType: 'json',
             data: 'lost_mail=' + $('input[name=lost_mail]').val(),
@@ -86,7 +86,7 @@ var Controleur = (function () {
         var limit = $('#site-limits').val();
         var language = $('#site-language').val();
         $.ajax({
-            url: './php/functions/changeSettings.php',
+            url: './php/forms/changeSettings.php',
             type: 'POST',
             data: 'title=' + title + '&limit=' + limit + '&language=' + language,
             dataType: 'json',
@@ -112,7 +112,7 @@ var Controleur = (function () {
         var newPassword = $('input[name=passwordSettings]').val();
         var confirmPassword = $('input[name=password2Settings]').val();
         $.ajax({
-            url: './php/functions/updateAccount.php',
+            url: './php/forms/updateAccount.php',
             type: 'post',
             dataType: 'json',
             data: 'username=' + username + '&mail=' + mail + '&newPassword=' + newPassword + '&confirmPassword=' + confirmPassword,
@@ -130,12 +130,36 @@ var Controleur = (function () {
         });
     };
     /**
+     * Formulaire de changement de theme
+     */
+    Controleur.prototype.changeTheme = function () {
+        var theme = $('appareance-settings input[type="radio"]:checked').val();
+        $.ajax({
+            url: './php/forms/changeTheme.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'idTheme=' + theme,
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("appareance-settings", "success", "Updated theme.");
+                    location.reload();
+                }
+                else {
+                    Controleur.formMsg("appareance-settings", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("appareance-settings", "error", "Internal error.");
+            }
+        });
+    };
+    /**
     * Formulaire d'ajout d'un admin
     */
     Controleur.prototype.addAdmin = function () {
         var mail = $('input[name=mail-add-admin]').val();
         $.ajax({
-            url: './php/functions/addAdmin.php',
+            url: './php/forms/addAdmin.php',
             type: 'post',
             dataType: 'json',
             data: 'mail=' + mail,
@@ -153,7 +177,7 @@ var Controleur = (function () {
         });
     };
     /**
-    * Formulaire des paramètres de compte
+    * Formulaire des paramètres de la base de données
     */
     Controleur.prototype.changeConfig = function () {
         var name = $('input[name=database-name-settings]').val();
@@ -161,7 +185,7 @@ var Controleur = (function () {
         var password = $('input[name=database-pwd-settings]').val();
         var host = $('input[name=database-host-settings]').val();
         $.ajax({
-            url: './php/functions/changeConfig.php',
+            url: './php/forms/changeConfig.php',
             type: 'post',
             dataType: 'json',
             data: 'DB_NAME=' + name + '&DB_USER=' + user + '&DB_PASSWORD=' + password + '&DB_HOST=' + host,
