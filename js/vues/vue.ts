@@ -245,7 +245,6 @@ class Vue
                     el,
                     childElements,
                     thumbnailEl,
-                    size,
                     item;
 
                 for (var i = 0; i < numNodes; i++) {
@@ -258,13 +257,21 @@ class Vue
 
                     childElements = el.children;
 
-                    size = el.getAttribute('data-size').split('x');
+                    var href = el.getAttribute('href');
+
+                    //On définis les dimensions
+                    var img = new Image();
+                    img.onload = function () {
+                        width = this.width;
+                        height = this.height;
+                    };
+                    img.src = href;
 
                     //Définition des variables
                     item = {
-                        src: el.getAttribute('href'),
-                        w: parseInt(size[0], 10),
-                        h: parseInt(size[1], 10),
+                        src: href,
+                        w: img.width,
+                        h: img.height,
                         categs: el.getAttribute('data-categories'),
                         tags: el.getAttribute('data-tags'),
                         score: el.getAttribute('data-score')
@@ -279,17 +286,6 @@ class Vue
                         }
                     }
 
-
-                    var mediumSrc = el.getAttribute('data-med');
-                    if (mediumSrc) {
-                        size = el.getAttribute('data-med-size').split('x');
-                        // "medium-sized" image
-                        item.m = {
-                            src: mediumSrc,
-                            w: parseInt(size[0], 10),
-                            h: parseInt(size[1], 10)
-                        };
-                    }
                     // original image
                     item.o = {
                         src: item.src,

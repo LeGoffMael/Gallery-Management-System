@@ -207,6 +207,7 @@ var Controleur = (function () {
      */
     Controleur.prototype.setGallery = function () {
         $(".galleryLatest").each(function () {
+            var ajaxTime = new Date().getTime();
             var that = this;
             $.ajax({
                 url: './php/galleries/LastGallery.php',
@@ -216,6 +217,8 @@ var Controleur = (function () {
                     $(that).html(code_html);
                     Vue.initialiserGallery();
                     Vue.initialiserLightBox();
+                    var totalTime = new Date().getTime() - ajaxTime;
+                    console.log('last => ' + totalTime);
                 },
                 error: function (resultat, statut, erreur) {
                     alert('erreur gallery latest (' + erreur + ')');
@@ -223,6 +226,7 @@ var Controleur = (function () {
             });
         });
         $(".galleryTop").each(function () {
+            var ajaxTime = new Date().getTime();
             var that = this;
             $.ajax({
                 url: './php/galleries/TopGallery.php',
@@ -232,6 +236,8 @@ var Controleur = (function () {
                     $(that).html(code_html);
                     Vue.initialiserGallery();
                     Vue.initialiserLightBox();
+                    var totalTime = new Date().getTime() - ajaxTime;
+                    console.log('top => ' + totalTime);
                 },
                 error: function (resultat, statut, erreur) {
                     alert('erreur gallery top (' + erreur + ')');

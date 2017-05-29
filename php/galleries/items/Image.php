@@ -17,8 +17,6 @@ class Image
     private $_categories;
     private $_tags;
     private $_score;
-    private $_height;
-    private $_width;
 	private $_upActive;
 	private $_downActive;
 
@@ -33,17 +31,8 @@ class Image
 		$this->_score = $score;
 		$this->_upActive = $up;
 		$this->_downActive = $down;
-		$this->setSize();
     }
 
-	/**
-     * Génére les variables de dimension de l'image
-     */
-    private function setSize() {
-		list($width, $height) = getimagesize($this->_url);
-		$this->_width = $width;
-		$this->_height = $height;
-    }
 	/**
 	 * Retourne une chaine contenant l'affichage du score
 	 * @return string
@@ -90,18 +79,13 @@ class Image
         }
         return $res;
     }
-    /**
-     * Retourne une chaine contenant les dimension de l'image au format largeur x hauteur
-     */
-    public function sizeToString() {
-        return $this->_width."x".$this->_height;
-    }
+
 	/**
      * Retourne la chaine à afficher dans la gallery
      */
     public function toString() {
         $res = "";
-        $res .= '<a class="col-md-4" href="'.$this->_url.'" data-size="'.$this->sizeToString().'" data-categories="'.$this->categoriesToString().'" data-tags="'.$this->tagsToString().'" data-score="'.$this->scoreToString().'">';
+        $res .= '<a class="col-md-4" href="'.$this->_url.'" data-categories="'.$this->categoriesToString().'" data-tags="'.$this->tagsToString().'" data-score="'.$this->scoreToString().'">';
 		$res .= '<img src="'.$this->_url.'" class="img-fluid" alt="'.$this->_url.'"/><figure>'.$this->_description.'</figure></a>';
 		return $res;
     }

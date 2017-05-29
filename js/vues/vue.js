@@ -223,7 +223,7 @@ var Vue = (function () {
     Vue.initialiserLightBox = function () {
         var initPhotoSwipeFromDOM = function (gallerySelector) {
             var parseThumbnailElements = function (el) {
-                var thumbElements = el.childNodes, numNodes = thumbElements.length, items = [], el, childElements, thumbnailEl, size, item;
+                var thumbElements = el.childNodes, numNodes = thumbElements.length, items = [], el, childElements, thumbnailEl, item;
                 for (var i = 0; i < numNodes; i++) {
                     el = thumbElements[i];
                     // include only element nodes 
@@ -231,12 +231,19 @@ var Vue = (function () {
                         continue;
                     }
                     childElements = el.children;
-                    size = el.getAttribute('data-size').split('x');
+                    var href = el.getAttribute('href');
+                    //On définis les dimensions
+                    var img = new Image();
+                    img.onload = function () {
+                        width = this.width;
+                        height = this.height;
+                    };
+                    img.src = href;
                     //Définition des variables
                     item = {
-                        src: el.getAttribute('href'),
-                        w: parseInt(size[0], 10),
-                        h: parseInt(size[1], 10),
+                        src: href,
+                        w: img.width,
+                        h: img.height,
                         categs: el.getAttribute('data-categories'),
                         tags: el.getAttribute('data-tags'),
                         score: el.getAttribute('data-score')
@@ -247,16 +254,6 @@ var Vue = (function () {
                         if (childElements.length > 1) {
                             item.title = childElements[1].innerHTML; // caption (contents of figure)
                         }
-                    }
-                    var mediumSrc = el.getAttribute('data-med');
-                    if (mediumSrc) {
-                        size = el.getAttribute('data-med-size').split('x');
-                        // "medium-sized" image
-                        item.m = {
-                            src: mediumSrc,
-                            w: parseInt(size[0], 10),
-                            h: parseInt(size[1], 10)
-                        };
                     }
                     // original image
                     item.o = {
