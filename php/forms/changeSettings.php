@@ -1,4 +1,5 @@
 <?php
+//Modifie les paramètres inscrits dans la base de données
 header('Content-Type: application/json');
 require_once('../Settings.php');
 

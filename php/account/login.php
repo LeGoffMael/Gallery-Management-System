@@ -1,4 +1,5 @@
 <?php
+//Connecte le compte
 header('Content-Type: application/json');
 if (isset($_POST['login_username_mail']) AND isset($_POST['login_password']))
 {

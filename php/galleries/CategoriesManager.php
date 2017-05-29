@@ -26,7 +26,13 @@ abstract class CategoriesManager
 	public function getCategoryParent($child) {
 		$res = null;
 
-		$categoriesParent = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM categories WHERE idCategory IN (SELECT idParent FROM categories,parent_child WHERE nameCategory = :child AND parent_child.idChild = categories.idCategory) ORDER BY nameCategory ASC");
+		$categoriesParent = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT nameCategory
+		FROM categories c1
+		WHERE c1.idCategory IN
+			(SELECT idParent FROM categories c2
+			JOIN parent_child pc ON pc.idChild=c2.idCategory
+			WHERE c2.nameCategory = :child)
+		ORDER BY c1.nameCategory ASC");
 		$categoriesParent->bindValue(':child', $child);
 		$categoriesParent->execute();
 

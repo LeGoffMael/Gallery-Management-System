@@ -1,4 +1,5 @@
 <?php
+//Deconnecte le compte
 session_start();
 // Suppression de toutes les variables et destruction de la session
 $_SESSION = array();

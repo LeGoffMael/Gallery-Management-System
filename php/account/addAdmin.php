@@ -1,4 +1,5 @@
 <?php
+//Envoie mail pour invitation d'admin
 header('Content-Type: application/json');
 if (isset($_POST['mail']))
 {

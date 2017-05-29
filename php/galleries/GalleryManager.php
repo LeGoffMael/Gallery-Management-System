@@ -66,13 +66,15 @@ abstract class GalleryManager
 	public function getTagsImage($idImage) {
 		$listTags = array();
 
-		$tags = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT tags.* FROM tags_images,tags,images WHERE images.idImage = :idImage AND images.idImage = tags_images.idImage AND tags.idTag = tags_images.idTag");
+		$tags = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT nameTag FROM images i
+		LEFT JOIN tags_images ti ON ti.idImage=i.idImage
+		LEFT JOIN tags t ON t.idTag=ti.idTag
+		WHERE i.idImage = :idImage");
 		$tags->bindValue(':idImage', $idImage);
 		$tags->execute();
 
 		while ($dataTag = $tags->fetch())
 		{
-			$idTag = $dataTag['idTag'];
 			$name = $dataTag['nameTag'];
 
 			$tag = new Tag($name);
@@ -89,7 +91,7 @@ abstract class GalleryManager
 		$res = null;
 		$ip = $_SERVER['REMOTE_ADDR'];
 
-		$ip_score = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM ip_score WHERE ip = :ip AND idImage = :idImage");
+		$ip_score = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT scoreImage FROM ip_score WHERE ip = :ip AND idImage = :idImage");
 		$ip_score->bindValue(':ip', $ip);
 		$ip_score->bindValue(':idImage', $idImage);
 		$ip_score->execute();

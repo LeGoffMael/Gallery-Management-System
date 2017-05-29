@@ -1,4 +1,5 @@
 <?php
+//Ajout de mot de passe pour confirmer compte admin envoyé par mail
 header('Content-Type: application/json');
 if (isset($_POST['hash']) AND isset($_POST['username']) AND isset($_POST['newPassword']) AND isset($_POST['confirmPassword']))
 {

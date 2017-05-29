@@ -22,7 +22,11 @@ class TopGallery extends GalleryManager
 	public function setGallery() {
 		$listImagesTop = array();
 
-		$top_images = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM images WHERE scoreImage > 0 ORDER BY scoreImage DESC LIMIT ". Settings::getInstance()->getLimit());
+		$top_images = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT *
+		FROM images
+		WHERE scoreImage > 0
+		ORDER BY scoreImage
+		DESC LIMIT ". Settings::getInstance()->getLimit());
 		$top_images->execute();
 
 		if($top_images->rowCount() == 0)

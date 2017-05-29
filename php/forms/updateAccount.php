@@ -1,4 +1,5 @@
 <?php
+//Modification des paramètres du compte
 session_start();
 header('Content-Type: application/json');
 if (isset($_POST['username']) AND isset($_POST['mail']))

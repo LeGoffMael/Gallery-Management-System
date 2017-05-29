@@ -27,7 +27,12 @@ class CategoryGallery extends GalleryManager
 	public function setGallery() {
 		$listImages = array();
 
-		$categoryImages = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM categories_images,categories,images WHERE categories.nameCategory = :name AND images.idImage = categories_images.idImage AND categories.idCategory = categories_images.idCategory ORDER BY images.idImage DESC LIMIT ".Settings::getInstance()->getLimit());
+		$categoryImages = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT *
+		FROM images i
+		JOIN categories_images ci ON ci.idImage=i.idImage
+		JOIN categories c ON c.idCategory=ci.idCategory
+		WHERE c.nameCategory = :name
+		ORDER BY i.idImage DESC LIMIT ".Settings::getInstance()->getLimit());
 
 		$categoryImages->bindValue(':name', $this->_nameCategory);
 		$categoryImages->execute();

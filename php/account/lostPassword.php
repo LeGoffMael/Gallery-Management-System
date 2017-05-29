@@ -1,4 +1,5 @@
 <?php
+//Envoie un mail pour modifier mot de passe du compte
 header('Content-Type: application/json');
 if (isset($_POST['lost_mail']))
 {

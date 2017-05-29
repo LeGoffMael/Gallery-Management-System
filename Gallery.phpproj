@@ -608,7 +608,6 @@
     <Compile Include="php\galleries\items\Tag.php" />
     <Compile Include="php\galleries\TopGallery.php" />
     <Compile Include="php\includes\settings_admin_zones.php" />
-    <Compile Include="php\account\signin.php" />
     <Compile Include="site.sln" />
     <Compile Include="Web.config" />
   </ItemGroup>

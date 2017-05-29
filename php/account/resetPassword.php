@@ -1,4 +1,5 @@
 <?php
+//Change le mot de passe du compte
 header('Content-Type: application/json');
 if (isset($_POST['hash']) AND isset($_POST['newPassword']) AND isset($_POST['confirmPassword']))
 {

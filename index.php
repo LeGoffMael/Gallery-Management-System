@@ -253,7 +253,7 @@
     <!-- SCRIPTS -->
 	<script>
     	less = {
-    		//env: 'production', //hide less message
+    		env: 'production', //hide less message
     	}; 
 	</script>
     <script src="js/libs/less/less.min.js"></script>

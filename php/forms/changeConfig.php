@@ -1,4 +1,5 @@
 <?php
+//Modifie fichier de confiuration de base de données
 	require_once('../includes/config.php');
 
 	$content = "<?php
