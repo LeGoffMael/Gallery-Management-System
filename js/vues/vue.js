@@ -104,6 +104,9 @@ var Vue = (function () {
             e.preventDefault();
             that.controleur.changeTheme();
         });
+        $('body').on('click', '#newTheme-button', function (e) {
+            that.controleur.addTheme();
+        });
         $('body').on('click', '#submit-account-settings', function (e) {
             e.preventDefault();
             that.controleur.submitAccountSettings();
@@ -116,6 +119,28 @@ var Vue = (function () {
             e.preventDefault();
             that.controleur.changeConfig();
         });
+        that.initialiserThemesRadio(null);
+        $(".colored-radio").click(function () {
+            that.initialiserThemesRadio($(this));
+        });
+    };
+    Vue.prototype.initialiserThemesRadio = function (click) {
+        if (click == null) {
+            $(".colored-radio").each(function () {
+                $('.colored-radio').each(function () {
+                    $(this).css('background', 'transparent');
+                });
+                $(".colored-radio:checked").css('background', $(".colored-radio:checked").attr('data-color'));
+            });
+        }
+        else {
+            $('.colored-radio').each(function () {
+                $(this).css('background', 'transparent');
+                $(this).prop('checked', false);
+            });
+            click.css('background', click.attr('data-color'));
+            click.prop('checked', true);
+        }
     };
     /**
      * Initialise la zone d'administration

@@ -16,8 +16,8 @@ body {
 }
 
 .form {
-    background-color: @side_bar_color;
-    border: 1px solid @side_bar_color;
+    background-color: @sideBarColor;
+    border: 1px solid @sideBarColor;
     border-radius: 2px;
 }
 
@@ -31,21 +31,21 @@ input[type="submit"],input[type="button"],input[type="text"],input[type="email"]
 
 input[type="submit"], input[type="button"] {
     border-radius: 4px;
-    color : @side_bar_link_hover_color;
-    border-color: @main_color;
-    background-color : @main_color;
+    color : @linkHoverColor;
+    border-color: @mainColor;
+    background-color : @mainColor;
 
     &:hover, &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus {
-        background-color : @main_color;
+        background-color : @mainColor;
     }
 }
 
 .btn-link {
     padding: 5px 10px 0px 0px;
-    color: @side_bar_link_color;
+    color: @linkColor;
 
     &:hover, &:focus {
-        color: @side_bar_link_hover_color;
+        color: @linkHoverColor;
         text-decoration: none;
     }
 }

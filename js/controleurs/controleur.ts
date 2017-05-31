@@ -144,13 +144,12 @@ class Controleur {
      * Formulaire de changement de theme
      */
     public changeTheme() {
-        var theme = $('appareance-settings input[type="radio"]:checked').val();
-
+        var themeId = $('#appareance-settings input[type="radio"]:checked').val();
         $.ajax({
             url: './php/forms/changeTheme.php',
             type: 'post',
             dataType: 'json',
-            data: 'idTheme=' + theme,
+            data: 'idTheme=' + themeId,
             success: function (data) {
                 if (data[0] === "success") {
                     Controleur.formMsg("appareance-settings", "success", "Updated theme.");
@@ -161,6 +160,39 @@ class Controleur {
             },
             error: function () {
                 Controleur.formMsg("appareance-settings", "error", "Internal error.");
+            }
+        });
+    }
+
+    /**
+     * Add a new theme in the database
+     */
+    public addTheme() {
+        var name = $('#newTheme input[id="name-newTheme"]').val();
+        var mainColor = $('#newTheme input[id="mainColor-newTheme"]').val();
+        var mainDarkFontColor = $('#newTheme input[id="mainDarkFontColor-newTheme"]').val();
+        var bodyColor = $('#newTheme input[id="bodyColor-newTheme"]').val();
+        var bodyFontColor = $('#newTheme input[id="bodyFontColor-newTheme"]').val();
+        var sideBarColor = $('#newTheme input[id="sideBarColor-newTheme"]').val();
+        var sideBarFontColor = $('#newTheme input[id="sideBarFontColor-newTheme"]').val();
+        var linkColor = $('#newTheme input[id="linkColor-newTheme"]').val();
+        var linkHoverColor = $('#newTheme input[id="linkHoverColor-newTheme"]').val();
+
+        $.ajax({
+            url: './php/forms/addTheme.php',
+            type: 'post',
+            dataType: 'json',
+            data: 'nameTheme=' + name + '&mainColor=' + mainColor + '&mainDarkFontColor=' + mainDarkFontColor + '&bodyColor=' + bodyColor + '&bodyFontColor=' + bodyFontColor + '&sideBarColor=' + sideBarColor + '&sideBarFontColor=' + sideBarFontColor + '&linkColor=' + linkColor + '&linkHoverColor=' + linkHoverColor,
+            success: function (data) {
+                if (data[0] === "success") {
+                    Controleur.formMsg("newTheme", "success", "Theme added.");
+                    location.reload();
+                } else {
+                    Controleur.formMsg("newTheme", "error", data[1]);
+                }
+            },
+            error: function () {
+                Controleur.formMsg("newTheme", "error", "Internal error.");
             }
         });
     }
@@ -223,7 +255,6 @@ class Controleur {
     public setGallery() {
         
         $(".galleryLatest").each(function () {
-            var ajaxTime = new Date().getTime();
             var that = this;
             $.ajax({
                 url: './php/galleries/LastGallery.php',
@@ -233,18 +264,14 @@ class Controleur {
                     $(that).html(code_html);
                     Vue.initialiserGallery();
                     Vue.initialiserLightBox();
-
-                    var totalTime = new Date().getTime() - ajaxTime;
-                    console.log('last => ' + totalTime);
                 },
                 error: function (resultat, statut, erreur) {
-                    alert('erreur gallery latest (' + erreur + ')');
+                    console.log('erreur gallery latest (' + erreur + ')');
                 }
             });
         });
 
         $(".galleryTop").each(function () {
-            var ajaxTime = new Date().getTime();
             var that = this;
             $.ajax({
                 url: './php/galleries/TopGallery.php',
@@ -254,12 +281,9 @@ class Controleur {
                     $(that).html(code_html);
                     Vue.initialiserGallery();
                     Vue.initialiserLightBox();
-
-                    var totalTime = new Date().getTime() - ajaxTime;
-                    console.log('top => ' + totalTime);
                 },
                 error: function (resultat, statut, erreur) {
-                    alert('erreur gallery top ('+erreur+')');
+                    console.log('erreur gallery top ('+erreur+')');
                 }
             });
         });
@@ -279,7 +303,7 @@ class Controleur {
             success: function (code_html) {
             },
             error: function (resultat, statut, erreur) {
-                alert('erreur vote (' + urlImage + ': ' + currentVote + ')');
+                console.log('erreur vote (' + urlImage + ': ' + currentVote + ')');
             }
         });
         location.reload();
@@ -300,7 +324,7 @@ class Controleur {
                     $(that).html(code_html);
                 },
                 error: function (resultat, statut, erreur) {
-                    alert('erreur parent categories (' + erreur + ')');
+                    console.log('erreur parent categories (' + erreur + ')');
                 }
             });
         });
@@ -314,7 +338,6 @@ class Controleur {
                 $.ajax({
                     url: './php/galleries/ChildCategories.php',
                     type: 'GET',
-                    //async: false,
                     data: 'nameParent=' + name,
                     dataType: 'html',
                     success: function (code_html) {
@@ -323,7 +346,7 @@ class Controleur {
                         Vue.initialiserLightBox();
                     },
                     error: function (resultat, statut, erreur) {
-                        alert('erreur categorie ' + name + ' (' + erreur + ')');
+                        console.log('erreur categorie ' + name + ' (' + erreur + ')');
                     }
                 });
             });

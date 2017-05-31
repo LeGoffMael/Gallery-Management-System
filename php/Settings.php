@@ -44,7 +44,7 @@ class Settings
 		else{
             while ($data = $themes->fetch())
 			{
-                $this->addTheme(array($data['idTheme'],$data['nameTheme'],$data['main_color'],$data['body_color'],$data['body_font_color'],$data['main_dark_font'],$data['side_bar_color'],$data['side_bar_link_color'],$data['side_bar_link_hover_color'],$data['side_bar_font_color']));
+                $this->addTheme(array($data['idTheme'],$data['nameTheme'],$data['mainColor'],$data['mainDarkFontColor'],$data['bodyColor'],$data['bodyFontColor'],$data['sideBarColor'],$data['sideBarFontColor'],$data['linkColor'],$data['linkHoverColor']));
             }
         }
         $themes->closeCursor();
@@ -120,25 +120,25 @@ class Settings
         $content = "";
         if ($this->_theme != null) {
             $content ="/* Selected theme => ".$this->_theme[1]."*/\n";
-            $content .= "@main_color : ".$this->_theme[2].";\n";
-            $content .= "@body_color: ".$this->_theme[3].";\n";
-            $content .= "@body_font_color: ".$this->_theme[4].";\n";
-            $content .= "@main_dark_font: ".$this->_theme[5].";\n";
-            $content .= "@side_bar_color: ".$this->_theme[6].";\n";
-            $content .= "@side_bar_link_color: ".$this->_theme[7].";\n";
-            $content .= "@side_bar_link_hover_color: ".$this->_theme[8].";\n";
-            $content .= "@side_bar_font_color: ".$this->_theme[9].";\n";
+            $content .= "@mainColor : ".$this->_theme[2].";\n";
+			$content .= "@mainDarkFontColor: ".$this->_theme[3].";\n";
+			$content .= "@bodyColor: ".$this->_theme[4].";\n";
+            $content .= "@bodyFontColor: ".$this->_theme[5].";\n";
+            $content .= "@sideBarColor: ".$this->_theme[6].";\n";
+			$content .= "@sideBarFontColor: ".$this->_theme[7].";\n";
+			$content .= "@linkColor: ".$this->_theme[8].";\n";
+            $content .= "@linkHoverColor: ".$this->_theme[9].";\n";
         }
         else {
             $content ="/* Error so => Default theme */\n";
-            $content .="@main_color : #fdd700;\n";
-            $content .="@body_color: #333;\n";
-            $content .="@body_font_color: #fff;\n";
-            $content .="@main_dark_font: #000;\n";
-            $content .="@side_bar_color: #292b2c;\n";
-            $content .="@side_bar_link_color: rgba(255,255,255,.5);\n";
-            $content .="@side_bar_link_hover_color: #fff;\n";
-            $content .="@side_bar_font_color: #dedede;\n";
+            $content .="@mainColor : #fdd700;\n";
+			$content .="@mainDarkFontColor: #000;\n";
+            $content .="@bodyColor: #333;\n";
+            $content .="@bodyFontColor: #fff;\n";
+            $content .="@sideBarColor: #292b2c;\n";
+			$content .="@sideBarFontColor: #dedede;\n";
+            $content .="@linkColor: rgba(255,255,255,.5);\n";
+            $content .="@linkHoverColor: #fff;\n";
         }
 
         try{

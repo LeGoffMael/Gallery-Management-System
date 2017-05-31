@@ -9,16 +9,16 @@
     width: 50px;
     height: 100%;
     overflow-y: no-display;
-    background-color: @side_bar_color;
+    background-color: @sideBarColor;
     font-size: 1.2em;
 
     /*Le lien actif de la nav*/
     .active {
         i {
-            color : @main_color;
+            color : @mainColor;
         }
         span {
-            color : @side_bar_link_hover_color;
+            color : @linkHoverColor;
         }
     }
 
@@ -55,12 +55,12 @@
 .sidebar-toggle {
 
     .fa{
-        color: @main_color;
+        color: @mainColor;
     }
     
     &:hover {
         .fa {
-            color: @side_bar_font_color;
+            color: @sideBarFontColor;
         }     
     }
 }
@@ -79,10 +79,10 @@
     padding-right: 3px;
     padding-left: 3px;
     width: 80%;
-    background-color: @side_bar_color;
+    background-color: @sideBarColor;
     margin-bottom: 0;
     border : 1px solid;
-    color: @side_bar_font_color;
+    color: @sideBarFontColor;
     border-color: #444;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -92,7 +92,7 @@
 #search-form .search-button {
     border: 0;
     background: none;
-    color: @side_bar_link_color;
+    color: @linkColor;
     padding: 2px 5px;
     margin-top: 2px;
     position: relative;
@@ -120,7 +120,7 @@
     a {
         display: block;
         text-decoration: none;
-        color: @side_bar_link_color;
+        color: @linkColor;
         padding: 0;
         text-align: center;
 
@@ -131,13 +131,13 @@
 
     a:hover, .active a {
         text-decoration: none;
-        color: @side_bar_link_hover_color;
+        color: @linkHoverColor;
         background: none;
     }
 
     a:active, a:focus {
         text-decoration: none;
-        color: @side_bar_link_hover_color;
+        color: @linkHoverColor;
         background: none;
     }
 
@@ -150,11 +150,11 @@
 /*La petite recherche*/
 /*Lorsque elle est ouverte*/
 .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
-    background-color: @side_bar_color;
+    background-color: @sideBarColor;
 }
 
 .sidebar-nav ul.dropdown-menu {
-    background-color: @side_bar_color;
+    background-color: @sideBarColor;
     width: 200px;
     height: 35px;
 
@@ -180,8 +180,8 @@
 
     p {
         position: absolute;
-        background-color: @main_color;
-        color: @side_bar_color;
+        background-color: @mainColor;
+        color: @sideBarColor;
     }
 }
 
@@ -219,7 +219,7 @@
 }
 /*Contact*/
 #contact {
-    color: @side_bar_link_color;
+    color: @linkColor;
     position:absolute;
     bottom:0;
 
@@ -253,15 +253,15 @@
     }
 
     .modal-content {
-        background-color: @side_bar_color;
-        border: 1px solid @side_bar_color;
+        background-color: @sideBarColor;
+        border: 1px solid @sideBarColor;
         border-radius: 2px;
 
         a {
-            color : @side_bar_link_color;
+            color : @linkColor;
 
             &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus ,&:hover {
-                color: @side_bar_link_hover_color;
+                color: @linkHoverColor;
                 text-decoration: none;
             }
         }

@@ -21,7 +21,11 @@ if (isset($_POST['mail']))
 		if ($requete->execute()) {
 			return Settings::getInstance()->getDatabase()->getDb()->lastInsertId();
 		}
-		return $requete->errorInfo();
+		else {
+			$error = array("error" , $requete->errorInfo());
+			echo json_encode($error, JSON_PRETTY_PRINT);
+			exit();
+		}
 	}
 
 	$hash_validation = md5(uniqid(rand(), true));

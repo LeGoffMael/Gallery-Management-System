@@ -127,20 +127,96 @@
                         <!--theme-->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="private-theme">Theme</label>
-                            <div class="col-md-4 themes">
-                                <div class="radio-inline">
-                                    <?php
-                                        foreach(Settings::getInstance()->getThemes() as $index => $theme) {
-                                            if($theme == Settings::getInstance()->getTheme())
-                                                echo "<label for='private-theme-".str_replace(' ', '-', $theme[1])."'><input type='radio' name='private-theme' id='private-theme-".str_replace(' ', '-', $theme[1])."' value='".$theme[0]."' checked='checked'>".$theme[1]."</label>";
-                                            else {
-                                                echo "<label for='private-theme-".str_replace(' ', '-', $theme[1])."'><input type='radio' name='private-theme' id='private-theme-".str_replace(' ', '-', $theme[1])."' value='".$theme[0]."'>".$theme[1]."</label>";
-                                            }
-                                        }
-                                    ?>
-                                </div>
+                            <div class="col-md-8 themes">
+                                <?php
+                                    foreach(Settings::getInstance()->getThemes() as $index => $theme) {
+                                        if($theme == Settings::getInstance()->getTheme())
+                                            echo "<label for='private-theme-".str_replace(' ', '-', $theme[1])."'><input type='radio' name='private-theme-".str_replace(' ', '-', $theme[1])."' id='private-theme-".str_replace(' ', '-', $theme[1])."' class='colored-radio' data-color='".$theme[6]."' value='".$theme[0]."' checked='checked'>".$theme[1]."</label>";
+                                        else
+											echo "<label for='private-theme-".str_replace(' ', '-', $theme[1])."'><input type='radio' name='private-theme-".str_replace(' ', '-', $theme[1])."' id='private-theme-".str_replace(' ', '-', $theme[1])."' class='colored-radio' data-color='".$theme[6]."' value='".$theme[0]."'>".$theme[1]."</label>";
+                                    }
+                                ?>
+								<button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#newTheme"><i class="fa fa-plus" aria-hidden="true"></i> Add new theme</button>
                             </div>
                         </div>
+
+						<!-- Modal new theme-->
+						<div id="newTheme" class="modal fade" role="dialog">
+						  <div class="modal-dialog modal-sm">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title">Custom theme</h4>
+								</div>
+								<div class="modal-body form-horizontal">
+									<div id="newTheme-form">
+										<div class="alert alert-danger msg-error">
+											<i class="fa fa-times" aria-hidden="true"></i>
+											<span></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4" for="name-newTheme">Theme name</label>
+										<div class="col-md-8">
+											<input id="name-newTheme" class="form-control" name="name-newTheme" type="text" required />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-6" for="mainColor-newTheme">Main color</label>
+										<div class="col-md-6">
+											<input id="mainColor-newTheme" class="form-control" name="mainColor-newTheme" type="color" required />
+										</div>		
+									</div>
+									<div class="form-group">
+										<label class="col-md-6" for="mainDarkFontColor-newTheme">Main dark font color</label>
+										<div class="col-md-6">
+											<input id="mainDarkFontColor-newTheme" class="form-control" name="mainDarkFontColor-newTheme" type="color" required />
+										</div>		
+									</div>	
+									<div class="form-group">
+										<label class="col-md-6" for="bodyColor-newTheme">Body color</label>
+										<div class="col-md-6">
+											<input id="bodyColor-newTheme" class="form-control" name="bodyColor-newTheme" type="color" required />
+										</div>		
+									</div>	
+									<div class="form-group">
+										<label class="col-md-6" for="bodyFontColor-newTheme">Body font color</label>
+										<div class="col-md-6">
+											<input id="bodyFontColor-newTheme" class="form-control" name="bodyFontColor-newTheme" type="color" required />
+										</div>		
+									</div>	
+									<div class="form-group">
+										<label class="col-md-6" for="sideBarColor-newTheme">Side bar color</label>
+										<div class="col-md-6">
+											<input id="sideBarColor-newTheme" class="form-control" name="sideBarColor-newTheme" type="color" required />
+										</div>
+									</div>	
+									<div class="form-group">
+										<label class="col-md-6" for="sideBarFontColor-newTheme">Side bar font color</label>
+										<div class="col-md-6">
+											<input id="sideBarFontColor-newTheme" class="form-control" name="sideBarFontColor-newTheme" type="color" required />
+										</div>		
+									</div>	
+									<div class="form-group">
+										<label class="col-md-6" for="linkColor-newTheme">Link color</label>
+										<div class="col-md-6">
+											<input id="linkColor-newTheme" class="form-control" name="linkColor-newTheme" type="color" required />
+										</div>		
+									</div>	
+									<div class="form-group">
+										<label class="col-md-6" for="linkHoverColor-newTheme">Link hover color</label>
+										<div class="col-md-6">
+											<input id="linkHoverColor-newTheme" class="form-control" name="linkHoverColor-newTheme" type="color" required />
+										</div>		
+									</div>						
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+									<button type="button" id="newTheme-button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+								</div>
+							</div>
+						</div>
+					</div>
                                         
                         <!--Submit-->
                         <div class="form-group">

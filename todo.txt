@@ -1,0 +1,12 @@
+TODO list (No order)
+
+- restart vote
+- Pagination galleries
+- Administration area
+- GSL Logo
+- Search
+- More comments
+- Translate everything in english
+- Improve code Readability
+- Add differents languages
+- Installation page

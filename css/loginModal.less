@@ -47,8 +47,8 @@
 }
 
 #login-modal .modal-content {
-    background-color: @side_bar_color;
-    border: 1px solid @side_bar_color;
+    background-color: @sideBarColor;
+    border: 1px solid @sideBarColor;
     border-radius: 0px;
     outline: 0;
     height: auto;
@@ -59,7 +59,7 @@
     padding: 15px 15px 15px 15px;
     border-bottom: 0px;
     button i {
-        color: @side_bar_link_hover_color;
+        color: @linkHoverColor;
     }
 }
 
@@ -88,21 +88,21 @@
 
 #login-modal .btn-lg, .btn-group-lg>.btn {
     border-radius: 0px;
-    color : @side_bar_link_hover_color;
-    border-color: @main_color;
-    background-color : @main_color;
+    color : @linkHoverColor;
+    border-color: @mainColor;
+    background-color : @mainColor;
 
     &:hover, &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus {
-        background-color : @main_color;
+        background-color : @mainColor;
     }
 }
 
 #login-modal .btn-link {
     padding: 5px 10px 0px 0px;
-    color: @side_bar_link_color;
+    color: @linkColor;
 
     &:hover, &:focus {
-        color: @side_bar_link_hover_color;
+        color: @linkHoverColor;
         text-decoration: none;
     }
 }
