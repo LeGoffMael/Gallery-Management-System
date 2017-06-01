@@ -114,6 +114,6 @@ class Score
 	}
 }
 
-$currentScore = filter_input(INPUT_GET, 'currentVote');
-$urlImage = filter_input(INPUT_GET, 'urlImage');
+$currentScore = filter_input(INPUT_POST, 'currentVote');
+$urlImage = filter_input(INPUT_POST, 'urlImage');
 $score = new Score($currentScore,$urlImage);

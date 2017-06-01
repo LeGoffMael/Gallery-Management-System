@@ -91,7 +91,7 @@ else {
 		<script>
         	function resetPassword() {
         		$.ajax({
-        			url: './php/functions/newAdmin.php',
+        			url: './php/pages/newAdmin.php',
         			type: 'post',
         			dataType: 'json',
         			data: 'hash=' + $('input[name=hash]').val() + '&username=' + $('input[name=username]').val() + '&mail=' + $('input[name=mail]').val() + '&newPassword=' + $('input[name=newPassword]').val() + '&confirmPassword=' + $('input[name=confirmPassword]').val(),

@@ -30,10 +30,10 @@ class Categories
 		}
 		else {
 			if ($this->_parent == null) {
-				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=null' onClick='Controleur.setCategoriesChild(&#34;null&#34;);'>retour</a></h1>";
+				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=null' onClick='ControllerGallery.setCategoriesChild(&#34;null&#34;);'>retour</a></h1>";
 			}
 			else
-				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=".$this->_parent."' onClick='Controleur.setCategoriesChild(&#34;".$this->_parent."&#34;);'>retour</a></h1>";
+				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=".$this->_parent."' onClick='ControllerGallery.setCategoriesChild(&#34;".$this->_parent."&#34;);'>retour</a></h1>";
 		}
 		$res .= "<section class='row'><ul class='col-lg-12 col-md-12 col-sm-12 col-xs-12' id='categorie-list'>";
         for ($i = 0; $i < count($this->_listCategories); $i++) {

@@ -150,4 +150,15 @@ class Settings
             echo "erreur config theme";
         }
     }
+
+	/**
+	 * Return the name of all the tags in JSON
+	 */
+	public function getAllTags() {
+	}
+	/**
+	 * Return the name of all the categories in JSON
+	 */
+	public function getAllCategories() {
+	}
 }

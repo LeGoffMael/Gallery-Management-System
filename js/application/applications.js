@@ -1,15 +1,31 @@
 /// <reference path="../libs/jquery.d.ts" />
-/// <reference path="../controleurs/controleur.ts" />
+/// <reference path="../controlers/controlerPrincipal.ts" />
+/// <reference path="../controlers/controlerNav.ts" />
+/// <reference path="../controlers/controlerGallery.ts" />
+/// <reference path="../controlers/controlerSession.ts" />
+/// <reference path="../controlers/controlerSettings.ts" />
+/// <reference path="../controlers/controlerAdmin.ts" />
 /**
- * Représente l'application Web en cours d'exécution
+ * Represents the running Web application
  */
 var Application = (function () {
+    /**
+     * Initialization of all controlers
+     */
     function Application() {
-        this.controleur = new Controleur();
-        this.controleur.initialiser();
+        this.controlerPrincipal = new ControlerPrincipal();
+        this.controlerNav = new ControlerNav();
+        this.controlerGallery = new ControlerGallery();
+        this.controlerSession = new ControlerSession();
     }
+    Application.admin = function () {
+        var controlerSettings = new ControlerSettings();
+        var controlerAdmin = new ControlerAdmin();
+    };
     return Application;
 }());
-//Démarrage de l'application une fois le chargement de la page terminé
+//Start the application when page is loaded
 var application = null;
-$(window).ready(function () { application = new Application(); });
+$(window).ready(function () {
+    application = new Application();
+});

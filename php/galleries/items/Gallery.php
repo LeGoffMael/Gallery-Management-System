@@ -32,9 +32,9 @@ class Gallery
 		}
 		else {
 			if ($this->_categoryParent == null)
-				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=null' onClick='Controleur.setCategoriesChild(&#34;null&#34;);'>retour</a></h1>";
+				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=null' onClick='ControllerGallery.setCategoriesChild(&#34;null&#34;);'>retour</a></h1>";
 			else
-				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=".$this->_categoryParent."' onClick='Controleur.setCategoriesChild(&#34;".$this->_categoryParent."&#34;);'>retour</a></h1>";
+				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=".$this->_categoryParent."' onClick='ControllerGallery.setCategoriesChild(&#34;".$this->_categoryParent."&#34;);'>retour</a></h1>";
 		}
 		$res .= "<div class='row gallery'><div class='col-md-12'><div id='demo-test-gallery' class='demo-gallery'><div class='gallery-container'>";
         for ($i = 0; $i < count($this->_listImages); $i++) {

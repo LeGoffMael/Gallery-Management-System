@@ -85,7 +85,7 @@ if (isset($_GET['hash']))
 		<script>
         	function resetPassword() {
         		$.ajax({
-        			url: './php/functions/resetPassword.php',
+        			url: './php/pages/resetPassword.php',
         			type: 'post',
         			dataType: 'json',
         			data: 'hash=' + $('input[name=hash]').val() + '&newPassword=' + $('input[name=newPassword]').val() + '&confirmPassword=' + $('input[name=confirmPassword]').val(),

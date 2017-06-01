@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Gallery-Management-System</title>
+    <title><?php echo htmlspecialchars(Settings::getInstance()->getTitle());?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" type="image/png" href="images/logo/logo.png" />
@@ -25,16 +25,16 @@
 <body>
     <!--Main content-->
     <div class="wrapper">
-        <!--La nav gauche-->
+        <!-- The left navigation -->
         <div class="sidebar">
-                <!--Bouton de réduction-->
+                <!-- Reduction button -->
                 <div class="button sidebar-toggle text-right"><a><i class="fa fa-caret-left fa-2x"></i></a></div>
 
                 <div id="logo" class="text-center">
-                    <p id="home-link"><img class="logo" onclick="location.href='index.php';" src="images/logo/logo.png" alt="Logo" /></p>
+                    <p id="home-link"><img class="logo" src="images/logo/logo.png" alt="Logo" /></p>
                 </div>
 
-                <!--Recherche-->
+                <!-- Search -->
                 <form id="search-form" class="form-search form-horizontal">
                     <div class="input-append">
                         <input type="text" class="search-input" placeholder="Search...">
@@ -44,7 +44,7 @@
 
                 <ul class="nav sidebar-nav">
 
-                    <!--Recherche retrecie-->
+                    <!-- Search reduced -->
                     <li id="little-search">
                         <a data-toggle="dropdown" href="#"><i class="fa fa-search"></i></a>
 
@@ -60,16 +60,16 @@
                         </ul>
                     </li>
 
-                    <!--Liens-->
+                    <!-- Links -->
                     <li class="active" data-toggle="tooltip" id="nav-home" data-placement="right" title="Home"><a class="menuLink" href="#home" data-toggle="tab"><i class="fa fa-home"></i> <span>Home</span></a></li>
                     <li data-toggle="tooltip" id="nav-top" data-placement="right" title="Top"><a class="menuLink" href="#top" data-toggle="tab"><i class="fa fa-thumbs-up"></i> <span>Top</span></a></li>
-                    <li data-toggle="tooltip" onClick="Controleur.setCategories()" id="nav-categ" data-placement="right" title="Categories"><a class="menuLink" href="#categories" data-toggle="tab"><i class="fa fa-bookmark"></i> <span>Categories</span></a></li>
+                    <li data-toggle="tooltip" id="nav-categ" data-placement="right" title="Categories"><a class="menuLink" href="#categories" data-toggle="tab"><i class="fa fa-bookmark"></i> <span>Categories</span></a></li>
 
                     <li class="nav-divider" id="firstDivider"></li>
 
-                    <!--Persos-->
 					<?php
                     if (!empty($_SESSION['id'])) {
+						//If the user isn't logged
 						echo '<li data-toggle="tooltip" id="nav-settings" class="nav-log" data-placement="right" title="Settings"><a class="menuLink" href="#settings" data-toggle="tab"><i class="fa fa-cogs"></i> <span>Settings</span></a></li>
 							  <li data-toggle="tooltip" id="nav-admin" class="nav-log"  data-placement="right" title="Administration"><a class="menuLink" href="#admin" data-toggle="tab"><i class="fa fa-wrench"></i> <span>Administration</span></a></li>
 
@@ -77,9 +77,9 @@
 
 							  <!--Connexion/Deconnexion-->
 
-						      <li data-toggle="tooltip" id="nav-logout" data-placement="right" title="Logout"><a href="php/account/logout.php"><i class="fa fa-sign-out"></i> <strong><span>Logout</span></strong></a></li>';
+						      <li data-toggle="tooltip" id="nav-logout" data-placement="right" title="Logout"><a href="php/session/logout.php"><i class="fa fa-sign-out"></i> <strong><span>Logout</span></strong></a></li>';
                     } else {
-						// Utilisateur non connecté
+						//If the user is logged
 						echo '<li data-toggle="tooltip" id="nav-login" data-placement="right" title="Login"><a href="#" data-target="#login-modal" data-toggle="modal"><i class="fa fa-sign-in"></i> <strong><span>Login</span></strong></a></li>';
                     }
 					?>
@@ -89,27 +89,28 @@
                 <a href="#" id="contact" data-target="#contact-modal" data-toggle="modal"><small>Contact</small></a>
             </div>
         
-        <!--Les différentes zones du menu-->
+        <!-- The different menu areas -->
         <div class="main">
             <div class="tab-content">
-                <!--Accueil-->
+                <!-- Home -->
                 <section class="tab-pane active" id="home">
                     <div class="galleryLatest"></div>
                 </section>
-                <!--Top-->
+                <!-- Top -->
                 <section class="tab-pane fade" id="top">
                     <div class="galleryTop"></div>
                 </section>
-                <!--Categories-->
+                <!-- Categories -->
                 <section class="tab-pane fade" id="categories">
                     <div class="galleryCategories"></div>
                 </section>
 				<?php
-				//Si on est connecté on affiche ces sections
+				//If the user is logged
 				if (!empty($_SESSION['id'])) {
-					include_once('php/includes/settings_admin_zones.php');
+					include_once('php/includes/settingsArea.php');
+					include_once('php/includes/adminArea.php');
 				}
-                ?>
+				?>
             </div>
         </div>
     </div>
@@ -145,7 +146,7 @@
                         </div>
                         <div class="modal-footer">
                             <div>
-                                <button class="btn btn-primary btn-lg btn-block" type="button" onclick="Controleur.login();">Login</button>
+								<button class="btn btn-primary btn-lg btn-block" type="button" id="login-button">Login</button>
                             </div>
                             <div>
                                 <button id="login_lost_btn" type="button" class="btn btn-link">Lost Password?</button>
@@ -168,7 +169,7 @@
                         </div>
                         <div class="modal-footer">
                             <div>
-								<button class="btn btn-primary btn-lg btn-block" type="button" onclick="Controleur.lostPassword();">Send</button>
+								<button class="btn btn-primary btn-lg btn-block" type="button" id="lost-password-button">Send</button>
                             </div>
                             <div>
                                 <button id="lost_login_btn" type="button" class="btn btn-link">Log In</button>
@@ -260,111 +261,33 @@
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/libs/bootstrap/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
-    <!--Pour la gallerie-->
+    <!-- For the gallery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.3.0/js/mdb.min.js"></script>
-    <!--Pour la light box-->
+    <!-- For the light box -->
     <script src="js/libs/photoSwipe/photoswipe.min.js"></script>
     <script src="js/libs/photoSwipe/photoswipe-ui-default.min.js"></script>
-    <!--MVC-->
-    <script src="js/application/applications.js"></script>
-    <script src="js/controleurs/controleur.js"></script>
-    <script src="js/vues/vue.js"></script>
-    <script>
-        //Lors de chaque changement de taille de l'écrans
-    	$(window).resize(function () {
-            Vue.initialiserSideBarWidth();
-            Vue.initialiserGallery();
-        });
-        
-        //Lorsque l'on reload on retourne à la même zone
-        $(function () {
-        	var hash = window.location.hash;
-
-        	if (hash.includes('categoryName')) {
-        		var newHash = hash.split("?");
-        		hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
-        		Controleur.setCategoriesChild(Controleur.getUrlVars().categoryName);
-        	}
-        	else {
-        		hash && $('.sidebar-nav li .menuLink[href="' + hash + '"]').tab('show');
-        	}
-
-            if (hash == "#home") {
-                $('#nav-home').addClass('active');
-            }
-
-            $('.sidebar-nav li .menuLink').click(function (e) {
-                $(this).tab('show');
-                var scrollmem = $('body').scrollTop() || $('html').scrollTop();
-                window.location.hash = this.hash;
-                $('html,body').scrollTop(scrollmem);
-            });
-        });
-    </script>
+    <!-- Views & controllers -->
+    <script src="js/application/application.js"></script>
+    <script src="js/controllers/controllerPrincipal.js"></script>
+    <script src="js/views/viewPrincipal.js"></script>
+	<script src="js/controllers/controllerNav.js"></script>
+	<script src="js/views/viewNav.js"></script>
+	<script src="js/controllers/controllerSession.js"></script>
+	<script src="js/views/viewSession.js"></script>
+	<script src="js/controllers/controllerGallery.js"></script>
+    <script src="js/views/viewGallery.js"></script>
 <?php
 if (!empty($_SESSION['id']))
 {
 ?>
+	<!-- If the user is logged -->
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+	<script src="js/controllers/controllerSettings.js"></script>
+	<script src="js/views/viewSettings.js"></script>
+	<script src="js/controllers/controllerAdmin.js"></script>
+	<script src="js/views/viewAdmin.js"></script>
 	<script>
-    	(function ($) {
-    		$(function () {
-    			var isoCountries = [
-					{ id: $('#currentCountry').val(), text: 'Current (' + $('#currentCountry').val()+')' },
-					{ id: 'FR', text: 'Français' },
-					{ id: 'US', text: 'English' }
-    			];
-
-    			function formatCountry(country) {
-    				if (!country.id) { return country.text; }
-    				var $country = $(
-					  '<span class="flag-icon flag-icon-' + country.id.toLowerCase() + ' flag-icon-squared"></span>' +
-					  '<span class="flag-text">' + country.text + "</span>"
-					);
-    				return $country;
-    			};
-
-    			$("[name='country']").select2({
-    				placeholder: "Select a country",
-    				templateResult: formatCountry,
-    				data: isoCountries
-    			});
-
-    		});
-    	})(jQuery);
-
-			$( document ).ready(function() {
-				$('#account-settings-form').validate({
-        			rules: {
-        				passwordSettings: {
-        					required: true
-        				},
-        				password2Settings: {
-        					equalTo: "#passwordSettings",
-        					required: true
-        				}
-        			},
-        			highlight: function (element) {
-        				var id_attr = "#" + $(element).attr("id") + "Icon";
-        				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-        				$(id_attr).removeClass('glyphicon-ok').addClass('glyphicon-remove');
-        			},
-        			unhighlight: function (element) {
-        				var id_attr = "#" + $(element).attr("id") + "Icon";
-        				$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-        				$(id_attr).removeClass('glyphicon-remove').addClass('glyphicon-ok');
-        			},
-        			errorElement: 'span',
-        			errorClass: 'help-block',
-        			errorPlacement: function (error, element) {
-        				if (element.length) {
-        					error.insertAfter(element);
-        				} else {
-        					error.insertAfter(element);
-        				}
-        			}
-        		});
-        	});
+    	Application.admin();
 	</script>
 <?php
 }

@@ -1,12 +1,15 @@
 TODO list (No order)
 
-- restart vote
+- Restart vote method
 - Pagination galleries
 - Administration area
-- GSL Logo
+- GSM Logo
 - Search
-- More comments
-- Translate everything in english
-- Improve code Readability
 - Add differents languages
 - Installation page
+- Export database button
+
+- Improve code Readability
+	-> Add view for each section (started)
+	-> More comments
+	-> Translate everything in english (started)
