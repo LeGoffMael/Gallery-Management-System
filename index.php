@@ -89,7 +89,7 @@
                 <a href="#" id="contact" data-target="#contact-modal" data-toggle="modal"><small>Contact</small></a>
             </div>
         
-        <!-- The different menu areas -->
+        <!-- The differents menu areas -->
         <div class="main">
             <div class="tab-content">
                 <!-- Home -->
@@ -181,7 +181,7 @@
         </div>
     </div>
 
-    <!--La Light Box-->
+    <!--The Light Box-->
     <div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="pswp__bg"></div>
         <div class="pswp__scroll-wrap">

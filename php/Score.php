@@ -10,7 +10,7 @@ require_once('Settings.php');
  */
 class Score
 {
-	private $_currentScore; //1 vote positif, 0 vote négatif
+	private $_currentScore; //1 positive vote, 0 negative vote
 	private $_idImage;
 	private $_canVote;
 	private $_alreadyVote;
@@ -22,11 +22,11 @@ class Score
 		$this->setScore();
     }
 	/**
-	 * Génére l'id de l'image en fonction de son url
+	 * Generates the id of the image according to its url
 	 * @param mixed $url
 	 */
 	public function setId($url) {
-		$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM images WHERE urlImage = :urlImage");
+		$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT idImage FROM images WHERE urlImage = :urlImage");
 
 		$requete->bindValue(':urlImage', $url);
 		$requete->execute();
@@ -39,7 +39,7 @@ class Score
 	}
 
 	/**
-	 * Vérifie si on a le droit d'effectuer le score
+	 * Check if the ip can vote
 	 */
 	public function checkIp() {
 		$ip = $_SERVER['REMOTE_ADDR'];
@@ -52,35 +52,39 @@ class Score
 
 		if ($ip_vote->rowCount() == 0) //si l'IP n'a jamais voté
 		{
-			$ip_vote = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO ip_score (ip,idImage,scoreImage) VALUES (:ip, :id, :score");
+			$insertNewIp = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO ip_score (ip,idImage,valueScore) VALUES (:ip, :id, :score)");
 
-			$ip_vote->bindValue(':ip', $ip);
-			$ip_vote->bindValue(':id', $this->_idImage);
-			$ip_vote->bindValue(':score', $this->_currentScore);
-			$ip_vote->execute();
+			echo $this->_idImage;
+
+			$insertNewIp->bindValue(':ip', $ip);
+			$insertNewIp->bindValue(':id', $this->_idImage);
+			$insertNewIp->bindValue(':score', $this->_currentScore);
+			$insertNewIp->execute();
+
+			print_r($insertNewIp->errorInfo());
 
 			$this->_canVote = true;
 		}
-		else //si l'IP à déjà voté
+		else //If the IP has already voted
 		{
 			$vote = null;
 			while ($dataIV = $ip_vote->fetch())
 			{
-				$vote = $dataIV['scoreImage'];
+				$vote = $dataIV['valueScore'];
 			}
 			$ip_vote->closeCursor();
 
-			if ($vote == $this->_currentScore) //si on fait le même vote
+			if ($vote == $this->_currentScore) //If he do the same vote
 			{
 				$this->_canVote = false;
 			}
-			else if ($vote != $this->_currentScore) //si on fait un vote différent
+			else if ($vote != $this->_currentScore) //If he do a different vote
 			{
 				$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("UPDATE ip_score SET
-				scoreImage = :scoreImage
+				valueScore = :valueScore
 				WHERE ip = :ip AND idImage = :idImage");
 
-				$requete->bindValue(':scoreImage', $this->_currentScore);
+				$requete->bindValue(':valueScore', $this->_currentScore);
 				$requete->bindValue(':ip', $ip);
 				$requete->bindValue(':idImage', $this->_idImage);
 				$requete->execute();
@@ -92,23 +96,43 @@ class Score
 	}
 
 	/**
-	 * Met à jour le score
+	 * Update the score
 	 */
 	public function setScore() {
 		if ($this->_currentScore == 1) {
 			if ($this->_canVote == true) {
-				if ($this->_alreadyVote == false)
-					Settings::getInstance()->getDatabase()->update('images',array('scoreImage = scoreImage + 1'),array('idImage = '.$this->_idImage));
-				else if ($this->_alreadyVote == true)
-					Settings::getInstance()->getDatabase()->update('images',array('scoreImage = scoreImage + 2'),array('idImage = '.$this->_idImage));
+				if ($this->_alreadyVote == false) {
+					$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("UPDATE images SET
+					scoreImage = scoreImage + 1
+					WHERE idImage = :idImage");
+					$requete->bindValue(':idImage', $this->_idImage);
+					$requete->execute();
+				}
+				else if ($this->_alreadyVote == true) {
+					$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("UPDATE images SET
+					scoreImage = scoreImage + 2
+					WHERE idImage = :idImage");
+					$requete->bindValue(':idImage', $this->_idImage);
+					$requete->execute();
+				}
 			}
 		}
 		else if ($this->_currentScore == 0) {
 			if ($this->_canVote == true) {
-				if ($this->_alreadyVote == false)
-					Settings::getInstance()->getDatabase()->update('images',array('scoreImage = scoreImage - 1'),array('idImage = '.$this->_idImage));
-				else if ($this->_alreadyVote == true)
-					Settings::getInstance()->getDatabase()->update('images',array('scoreImage = scoreImage - 2'),array('idImage = '.$this->_idImage));
+				if ($this->_alreadyVote == false) {
+					$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("UPDATE images SET
+					scoreImage = scoreImage - 1
+					WHERE idImage = :idImage");
+					$requete->bindValue(':idImage', $this->_idImage);
+					$requete->execute();
+				}
+				else if ($this->_alreadyVote == true) {
+					$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("UPDATE images SET
+					scoreImage = scoreImage - 2
+					WHERE idImage = :idImage");
+					$requete->bindValue(':idImage', $this->_idImage);
+					$requete->execute();
+				}
 			}
 		}
 	}

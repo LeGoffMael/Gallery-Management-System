@@ -39,17 +39,21 @@ class Image
 	 */
 	public function scoreToString() {
 		$res = "<a onClick='ControllerGallery.setVote(0,&#34;".$this->_url."&#34;);'";
+
 		if ($this->_downActive == false)
 		$res .= " class='' >";
 		else
 			$res .= " class='active' >";
+
 		$res .= "<i class='fa fa-thumbs-down fa-flip-horizontal' aria-hidden='true'></i></a>";
 		$res .= $this->_score ;
 		$res .= "<a onClick='ControllerGallery.setVote(1,&#34;".$this->_url."&#34;);'";
+
 		if ($this->_upActive == false)
 			$res .= " class='' >";
 		else
 			$res .= " class='active' >";
+
 		$res .= "<i class='fa fa-thumbs-up' aria-hidden='true'></i>";
 		return $res;
 	}

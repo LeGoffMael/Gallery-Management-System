@@ -5,9 +5,7 @@ TODO list (No order)
 - Administration area
 - GSM Logo
 - Search
-- Add differents languages
 - Installation page
-- Export database button
 
 - Improve code Readability
 	-> Add view for each section (started)

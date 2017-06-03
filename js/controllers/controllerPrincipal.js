@@ -22,7 +22,7 @@ var ControllerPrincipal = (function () {
             var newHash = hash.split("?");
             hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
             //Display it
-            ControllerGallery.setCategoriesChild(this.getUrlVars().categoryName);
+            ControllerGallery.setCategoriesChild(ControllerPrincipal.getUrlVars().categoryName);
         }
         else {
             hash && $('.sidebar-nav li .menuLink[href="' + hash + '"]').tab('show');
@@ -44,7 +44,7 @@ var ControllerPrincipal = (function () {
     /**
      * Returns all variables included in the URL
      */
-    ControllerPrincipal.prototype.getUrlVars = function () {
+    ControllerPrincipal.getUrlVars = function () {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
             vars[key] = value;

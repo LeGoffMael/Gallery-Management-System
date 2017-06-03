@@ -653,6 +653,7 @@
     <TypeScriptCompile Include="js\views\viewSession.ts" />
     <TypeScriptCompile Include="js\views\viewSettings.ts" />
     <Content Include="js\libs\typescript\jquery.validation.d.ts" />
+    <Content Include="js\libs\typescript\photoswipe.d.ts" />
     <Content Include="todo.txt" />
   </ItemGroup>
 </Project>

@@ -91,32 +91,25 @@ abstract class GalleryManager
 		$res = null;
 		$ip = $_SERVER['REMOTE_ADDR'];
 
-		$ip_score = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT scoreImage FROM ip_score WHERE ip = :ip AND idImage = :idImage");
+		$ip_score = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT valueScore FROM ip_score WHERE ip = :ip AND idImage = :idImage");
 		$ip_score->bindValue(':ip', $ip);
 		$ip_score->bindValue(':idImage', $idImage);
 		$ip_score->execute();
 
 		if ($ip_score->rowCount() == 0) //si l'IP n'a jamais voté
 		{
-			$res = 0;
+			$res = -1;
 		}
 		else //si l'IP à déjà voté
 		{
 			$last_score = null;
 			while ($dataIPS = $ip_score->fetch())
 			{
-				$last_score = $dataIPS['scoreImage'];
+				$last_score = $dataIPS['valueScore'];
 			}
 			$ip_score->closeCursor();
 
-			if ($last_score == 0) //si vote negatif
-			{
-				$res = 1;
-			}
-			else if ($last_score == 1) //si vote positif
-			{
-				$res = 2;
-			}
+			$res = $last_score;
 		}
 
 		return $res;

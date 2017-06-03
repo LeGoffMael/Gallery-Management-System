@@ -378,9 +378,6 @@
 								<button id="submit-database-settings" name="submit-database-settings" class="btn btn-success">
 									<i class="fa fa-floppy-o" aria-hidden="true"></i> Save
 								</button>
-								<button type="button" id="export-database" class="btn">
-									<i class="fa fa-download" aria-hidden="true"></i> Export
-								</button>
 							</div>
 						</div>
 					</fieldset>

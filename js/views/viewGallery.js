@@ -2,6 +2,7 @@
 /// <reference path="../libs/typescript/bootstrap.d.ts" />
 /// <reference path="../libs/typescript/bootstrap-select.d.ts" />
 /// <reference path="../controllers/controllerGallery.ts" />
+/// <reference path="../libs/typescript/photoswipe.d.ts" />
 /**
  * View of the galleries
  */
@@ -249,10 +250,7 @@ var ViewGallery = (function () {
                     }
                 });
                 gallery.init();
-                //When clicking on a link in the lightbox
-                $('.pswp__caption__center small').on('click', 'a', function (e) {
-                    location.reload();
-                });
+                ViewGallery.eventGallery(gallery);
             };
             // select all gallery elements
             var galleryElements = document.querySelectorAll(gallerySelector);
@@ -267,6 +265,23 @@ var ViewGallery = (function () {
             }
         };
         initPhotoSwipeFromDOM('.demo-gallery');
+    };
+    ViewGallery.eventGallery = function (element) {
+        var gallery = element;
+        //When the user voted
+        $('div.score').on('click', 'a', function (e) {
+            console.log('gallery :');
+            console.log(gallery);
+            gallery.invalidateCurrItems();
+            gallery.updateSize(true);
+            gallery.ui.update();
+            console.log(ControllerGallery.getCurrentGallery());
+        });
+        //When clicking on a link in the lightbox
+        $('.pswp__caption__center small').on('click', 'a', function (e) {
+            console.log('reload');
+            location.reload();
+        });
     };
     return ViewGallery;
 }());

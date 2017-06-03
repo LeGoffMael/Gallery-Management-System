@@ -1,5 +1,6 @@
 ﻿/// <reference path="../libs/typescript/jquery.d.ts" />
 /// <reference path="../views/viewGallery.ts" />
+/// <reference path="controllerPrincipal.ts" />
 
 /**
  * controller of the galleries
@@ -16,14 +17,14 @@ class ControllerGallery {
      */
     constructor() {
         this.viewGallery = new ViewGallery(this);
-        this.setLatestGallery();
-        this.setTopGallery();
+        ControllerGallery.setLatestGallery();
+        ControllerGallery.setTopGallery();
     }
 
     /**
      * Create the latest gallery
      */
-    public setLatestGallery() {
+    static setLatestGallery() {
         $(".galleryLatest").each(function () {
             var that = this;
             $.ajax({
@@ -45,7 +46,7 @@ class ControllerGallery {
     /**
      * Create the top gallery
      */
-    public setTopGallery() {
+    static setTopGallery() {
         $(".galleryTop").each(function () {
             var that = this;
             $.ajax({
@@ -114,19 +115,51 @@ class ControllerGallery {
     }
 
     /**
-     * Do a vote
+     * Return the current gallery
+     */
+    static getCurrentGallery() {
+        //To determine in which gallery we are
+        var gallery = null;
+        var hash = window.location.hash
+        gallery = hash.substring(hash.lastIndexOf('#') + 1);
+        //If we are in a category
+        if(gallery.includes('categoryName'))
+            gallery = ControllerPrincipal.getUrlVars().categoryName);
+        else if (gallery == '')
+            gallery = 'home';
+
+        return gallery;
+    }
+
+    /**
+     * Do a vote and refresh the value displayed
      * @param currentVote up or down
      * @param urlImage the image voted
      */
     static setVote(currentVote, urlImage) {
-        var that = this;
+        var gallery = ControllerGallery.getCurrentGallery();
         $.ajax({
             url: './php/Score.php',
             type: 'POST',
             data: 'currentVote=' + currentVote + '&urlImage=' + urlImage,
             dataType: 'html',
             success: function (code_html) {
-                location.reload();
+                //If we are in the latests gallery
+                if (gallery == 'home') {
+                    ControllerGallery.setLatestGallery();
+                    ControllerGallery.setTopGallery();
+                }
+                //If we are in the latests gallery
+                else if (gallery == 'top')
+                    ControllerGallery.setTopGallery();
+                //If we are in the latests gallery
+                else if (gallery == null)
+                    location.reload()
+                //If we are in a category
+                else {
+                    ControllerGallery.setCategoriesChild(gallery);
+                    ControllerGallery.setTopGallery();
+                }
             },
             error: function (resultat, statut, erreur) {
                 console.log('error vote (' + urlImage + ': ' + currentVote + ')');

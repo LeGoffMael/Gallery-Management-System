@@ -56,15 +56,15 @@ class CategoryGallery extends GalleryManager
 				$up = null;
 				$down = null;
 				$vote = $this->getVote($idImage);
-				if($vote == 0) {
+				if($vote == -1) {
 					$up = false;
 					$down = false;
 				}
-				else if($vote == 1) {
+				else if($vote == 0) {
 					$up = false;
 					$down = true;
 				}
-				else if($vote == 2) {
+				else if($vote == 1) {
 					$up = true;
 					$down = false;
 				}
