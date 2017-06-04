@@ -41,21 +41,25 @@
 }
 
 /*Modal de confirmation*/
-#admin #confirm-delete.modal {
+#admin .confirm-delete.modal {
     color: @mainDarkFontColor;
     text-align: center;
     padding: 0!important;
 }
-#admin #confirm-delete.modal.modal:before {
+#admin .confirm-delete.modal.modal:before {
     content: '';
     display: inline-block;
     height: 100%;
     vertical-align: middle;
     margin-right: -4px;
 }
-#admin #confirm-delete.modal .modal-dialog {
+#admin .confirm-delete.modal .modal-dialog {
     display: inline-block;
     text-align: left;
     vertical-align: middle;
     height: auto;
+}
+
+li.select2-results__option {
+    color: @mainDarkFontColor;
 }

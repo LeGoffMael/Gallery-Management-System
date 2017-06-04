@@ -144,11 +144,20 @@ var ControllerGallery = (function () {
                     ControllerGallery.setCategoriesChild(gallery);
                     ControllerGallery.setTopGallery();
                 }
+                //Change score displayed in the light box
+                ControllerGallery.updateLightBox(code_html);
             },
             error: function (resultat, statut, erreur) {
                 console.log('error vote (' + urlImage + ': ' + currentVote + ')');
             }
         });
+    };
+    /**
+     * Update the content of the light box
+     * @param vote the new vote value
+     */
+    ControllerGallery.updateLightBox = function (vote) {
+        $('#pswp div.score').html(vote);
     };
     return ControllerGallery;
 }());

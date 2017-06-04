@@ -16,36 +16,44 @@ var ViewSettings = (function () {
          */
         this.controllerSettings = null;
         this.controllerSettings = controller;
-        this.initSettingsZone();
+        this.initSumbitSettingsArea();
     }
     /**
-     * Initializes the configuration area
+     * Initializes the configuration area and the on click event for submit buttons
      */
-    ViewSettings.prototype.initSettingsZone = function () {
+    ViewSettings.prototype.initSumbitSettingsArea = function () {
         var that = this;
-        $('body').on('click', '#submit-general-settings', function (e) {
+        //When the admin edit de general settings
+        $('#submit-general-settings').click(function (e) {
             e.preventDefault();
             that.controllerSettings.submitGeneralSettings();
         });
-        $('body').on('click', '#submit-appareance-settings', function (e) {
+        //When the admin edit the current theme
+        $('#submit-appareance-settings').click(function (e) {
             e.preventDefault();
             that.controllerSettings.changeTheme();
         });
-        $('body').on('click', '#newTheme-button', function (e) {
+        //When the admin add a new theme
+        $('#newTheme-button').click(function (e) {
+            e.preventDefault();
             that.controllerSettings.addTheme();
         });
-        $('body').on('click', '#submit-account-settings', function (e) {
+        //When the admin edit her account configuration
+        $('#submit-account-settings').click(function (e) {
             e.preventDefault();
             that.controllerSettings.submitAccountSettings();
         });
-        $('body').on('click', '#submit-addAdmin-settings', function (e) {
+        //When the admin add a new admin
+        $('#submit-addAdmin-settings').click(function (e) {
             e.preventDefault();
             that.controllerSettings.addAdmin();
         });
-        $('body').on('click', '#submit-database-settings', function (e) {
+        //When the admin submit a database configuration
+        $('#submit-database-settings').click(function (e) {
             e.preventDefault();
             that.controllerSettings.changeConfig();
         });
+        //Initalize themes radio buttons
         that.initThemesRadio(null);
         $(".colored-radio").click(function () {
             that.initThemesRadio($(this));

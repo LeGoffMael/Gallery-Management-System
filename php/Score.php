@@ -10,6 +10,7 @@ require_once('Settings.php');
  */
 class Score
 {
+	private $_url;
 	private $_currentScore; //1 positive vote, 0 negative vote
 	private $_idImage;
 	private $_canVote;
@@ -17,7 +18,8 @@ class Score
 
 	public function __construct($currentScore,$urlImage) {
 		$this->_currentScore = $currentScore;
-		$this->setId($urlImage);
+		$this->_url = $urlImage;
+		$this->setId();
 		$this->checkIp();
 		$this->setScore();
     }
@@ -25,10 +27,10 @@ class Score
 	 * Generates the id of the image according to its url
 	 * @param mixed $url
 	 */
-	public function setId($url) {
+	public function setId() {
 		$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT idImage FROM images WHERE urlImage = :urlImage");
 
-		$requete->bindValue(':urlImage', $url);
+		$requete->bindValue(':urlImage', $this->_url);
 		$requete->execute();
 
 		if ($result = $requete->fetch(PDO::FETCH_ASSOC)) {
@@ -60,8 +62,6 @@ class Score
 			$insertNewIp->bindValue(':id', $this->_idImage);
 			$insertNewIp->bindValue(':score', $this->_currentScore);
 			$insertNewIp->execute();
-
-			print_r($insertNewIp->errorInfo());
 
 			$this->_canVote = true;
 		}
@@ -136,8 +136,50 @@ class Score
 			}
 		}
 	}
+
+	/**
+	 * Return the new score of the image
+	 */
+	public function getScore() {
+		$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT scoreImage FROM images WHERE idImage = :idImage");
+		$requete->bindValue(':idImage', $this->_idImage);
+		$requete->execute();
+
+		if ($result = $requete->fetch(PDO::FETCH_ASSOC)) {
+			$requete->closeCursor();
+		}
+
+		return $result['scoreImage'];
+	}
+
+	/**
+	 * Return the score in string
+	 */
+	public function getScoreString() {
+		$res = "<a onClick='ControllerGallery.setVote(0,&#34;".$this->_url."&#34;);'";
+
+		if ($this->_currentScore == 0)
+			$res .= " class='active' >";
+		else
+			$res .= " class='' >";
+
+		$res .= "<i class='fa fa-thumbs-down fa-flip-horizontal' aria-hidden='true'></i></a>";
+		$res .= $this->getScore();
+		$res .= "<a onClick='ControllerGallery.setVote(1,&#34;".$this->_url."&#34;);'";
+
+		if ($this->_currentScore == 1)
+		$res .= " class='active' >";
+		else
+			$res .= " class='' >";
+
+		$res .= "<i class='fa fa-thumbs-up' aria-hidden='true'></i>";
+
+
+		return $res;
+	}
 }
 
 $currentScore = filter_input(INPUT_POST, 'currentVote');
 $urlImage = filter_input(INPUT_POST, 'urlImage');
 $score = new Score($currentScore,$urlImage);
+echo $score->getScoreString();

@@ -188,7 +188,7 @@ class ViewGallery {
 
             var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
                 var pswpElement = document.querySelectorAll('.pswp')[0],
-                    gallery,
+                    pswp,
                     options,
                     items;
 
@@ -270,7 +270,7 @@ class ViewGallery {
                 }
 
                 // Pass data to PhotoSwipe and initialize it
-                gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+                pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
 
                 // see: http://photoswipe.com/documentation/responsive-images.html
                 var realViewportWidth,
@@ -278,14 +278,14 @@ class ViewGallery {
                     firstResize = true,
                     imageSrcWillChange;
 
-                gallery.listen('beforeResize', function () {
+                pswp.listen('beforeResize', function () {
 
                     var dpiRatio = window.devicePixelRatio ? window.devicePixelRatio : 1;
                     dpiRatio = Math.min(dpiRatio, 2.5);
-                    realViewportWidth = gallery.viewportSize.x * dpiRatio;
+                    realViewportWidth = pswp.viewportSize.x * dpiRatio;
 
 
-                    if (realViewportWidth >= 1200 || (!gallery.likelyTouchDevice && realViewportWidth > 800) || screen.width > 1200) {
+                    if (realViewportWidth >= 1200 || (!pswp.likelyTouchDevice && realViewportWidth > 800) || screen.width > 1200) {
                         if (!useLargeImages) {
                             useLargeImages = true;
                             imageSrcWillChange = true;
@@ -299,7 +299,7 @@ class ViewGallery {
                     }
 
                     if (imageSrcWillChange && !firstResize) {
-                        gallery.invalidateCurrItems();
+                        pswp.invalidateCurrItems();
                     }
 
                     if (firstResize) {
@@ -310,7 +310,7 @@ class ViewGallery {
 
                 });
 
-                gallery.listen('gettingData', function (index, item) {
+                pswp.listen('gettingData', function (index, item) {
                     if (useLargeImages) {
                         item.src = item.o.src;
                         item.w = item.o.w;
@@ -322,8 +322,8 @@ class ViewGallery {
                     }
                 });
 
-                gallery.init();
-                ViewGallery.eventGallery(gallery);
+                pswp.init();
+                ViewGallery.eventCategoryClick();
             };
 
             // select all gallery elements
@@ -343,21 +343,9 @@ class ViewGallery {
         initPhotoSwipeFromDOM('.demo-gallery');
     }
 
-    static eventGallery(element) {
-        var gallery = element;
-        //When the user voted
-        $('div.score').on('click', 'a', function (e) {
-            console.log('gallery :');
-            console.log(gallery);
-            gallery.invalidateCurrItems();
-            gallery.updateSize(true);
-            gallery.ui.update();
-            console.log(ControllerGallery.getCurrentGallery());
-        });
-        
+    static eventCategoryClick() {
         //When clicking on a link in the lightbox
-        $('.pswp__caption__center small').on('click', 'a', function (e) {
-            console.log('reload');
+        $('.pswp__caption__center small a').click(function (e) {
             location.reload();
         });
     }

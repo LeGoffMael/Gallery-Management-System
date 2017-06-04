@@ -4,18 +4,18 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel-group" id="accordion">
-                <!--New picture-->
+                <!--New image-->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <i class="fa fa-picture-o" aria-hidden="true"></i>
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> NEW PICTURE</a>
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> NEW IMAGE</a>
                         </h4>
                     </div>
                     <div id="collapseOne" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" placeholder="The address of the picture" required />
+                                <input type="text" class="form-control" placeholder="The address of the image" required />
                                 <br />
                                 <textarea class="form-control" placeholder="Description" rows="3"></textarea>
                             </div>
@@ -23,11 +23,8 @@
                                 <div class="col-md-6" id="categorySelection">
                                     <div class="form-group">
                                         <label for="category"> Category </label>
-                                        <select class="form-control" id="category" required>
-                                            <option selected disabled>Choose an option</option>
-                                            <option>Sport</option>
-                                            <option>Travel</option>
-                                            <option>Birthday</option>
+                                        <select class="categories-select form-control" id="category" required>
+                                            <option selected="selected">Choose a category</option>
                                         </select>
                                     </div>
                                 </div>
@@ -40,7 +37,7 @@
                             </div>
                             <form class="form form-inline " role="form">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success btn-sm">
+                                    <button type="submit" id="submit-newImage-admin" class="btn btn-success btn-sm">
                                         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
                                     </button>
                                 </div>
@@ -48,12 +45,12 @@
                         </div>
                     </div>
                 </div>
-                <!--Edit picture-->
+                <!--Edit image-->
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <i class="fa fa-picture-o" aria-hidden="true"></i>
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> EDIT PICTURE</a>
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> EDIT IMAGE</a>
                         </h4>
                     </div>
                     <div id="collapseTwo" class="panel-collapse collapse">
@@ -89,10 +86,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success btn-sm">
+                                    <button type="submit" id="submit-saveImage-admin" class="btn btn-success btn-sm">
                                         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
                                     </button>
-                                    <button class="btn btn-danger btn-sm" data-record-title="" data-toggle="modal" id="image-delete" data-target="#confirm-delete">
+                                    <button class="btn btn-danger btn-sm" data-record-title="" data-toggle="modal" id="image-delete" data-target="#confirm-delete-image">
                                         <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                     </button>
                                     <button id="cancel-edit-image" class="btn btn-secondary btn-sm">Cancel</button>
@@ -150,7 +147,7 @@
                             </div>
                             <form class="form form-inline " role="form">
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success btn-sm">
+                                    <button type="submit" id="submit-newCategory-admin" class="btn btn-success btn-sm">
                                         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
                                     </button>
                                 </div>
@@ -214,10 +211,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success btn-sm">
+                                    <button type="submit" id="submit-saveCategory-admin"  class="btn btn-success btn-sm">
                                         <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
                                     </button>
-                                    <button class="btn btn-danger btn-sm" id="categorie-delete" data-record-title="" data-toggle="modal" data-target="#confirm-delete">
+                                    <button class="btn btn-danger btn-sm" id="categorie-delete" data-record-title="" data-toggle="modal" data-target="#confirm-delete-category">
                                         <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                     </button>
                                     <button id="cancel-edit-categorie" class="btn btn-secondary btn-sm">Cancel</button>
@@ -240,14 +237,14 @@
                                 <div class="input-group" id="add-tag">
                                     <input type="text" class="form-control" placeholder="Tag name to add (separated by ;)" />
                                     <span class="input-group-btn">
-                                        <button class="btn btn-success" type="button"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                                        <button class="btn btn-success" id="submit-newTag-admin" type="submit"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
                                     </span>
                                 </div>
                                 <br />
                                 <div class="input-group" id="delete-tag">
                                     <input type="text" class="form-control" placeholder="Tag name to delete (separated by ;)" />
                                     <span class="input-group-btn">
-                                        <button class="btn btn-danger" data-record-title="" data-toggle="modal" data-target="#confirm-delete">
+                                        <button class="btn btn-danger" data-record-title="" data-toggle="modal" data-target="#confirm-delete-tag">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </button>
                                     </span>
@@ -259,21 +256,65 @@
             </div>
         </div>
     </div>
-    <!--Modal delete-->
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="label-delete" aria-hidden="true">
+    <!--Modal delete image-->
+    <div class="modal fade confirm-delete" id="confirm-delete-image" tabindex="-1" role="dialog" aria-labelledby="label-delete" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
                     <h4 class="modal-title" id="label-delete">Confirm Delete</h4>
                 </div>
                 <div class="modal-body">
-                    <p>You are about to delete <b><i class="title"></i></b> record, this procedure is irreversible.</p>
+                    <p>You are about to delete <b><i class="image-name-delete"></i></b>, this procedure is irreversible.</p>
                     <p>Do you want to proceed?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger btn-ok">Delete</button>
+                    <button type="submit" id="submit-deleteImage-admin" class="btn btn-danger btn-ok">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal delete category-->
+    <div class="modal fade confirm-delete" id="confirm-delete-category" tabindex="-1" role="dialog" aria-labelledby="label-delete" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <h4 class="modal-title" id="label-delete">Confirm Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>You are about to delete <b><i id="category-name-delete"></i></b>, this procedure is irreversible.</p>
+                    <p>Do you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" id="submit-deleteCategory-admin" class="btn btn-danger btn-ok">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal delete tag-->
+    <div class="modal fade confirm-delete" id="confirm-delete-tag" tabindex="-1" role="dialog" aria-labelledby="label-delete" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <h4 class="modal-title" id="label-delete">Confirm Delete</h4>
+                </div>
+                <div class="modal-body">
+                    <p>You are about to delete <b><i class="tag-name-delet"></i></b>, this procedure is irreversible.</p>
+                    <p>Do you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" id="submit-deleteTag-admin" class="btn btn-danger btn-ok">Delete</button>
                 </div>
             </div>
         </div>

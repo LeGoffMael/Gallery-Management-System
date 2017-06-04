@@ -1,8 +1,8 @@
 TODO list (No order)
 
-- Restart vote method
 - Pagination galleries
 - Administration area
+- Select 2 json call
 - GSM Logo
 - Search
 - Installation page

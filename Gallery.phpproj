@@ -18,6 +18,7 @@
   <ItemGroup>
     <Compile Include=".vs\config\applicationhost.config" />
     <Compile Include="newAdmin.php" />
+    <Compile Include="php\functions\getAllCategories.php" />
     <Compile Include="php\settings\addAdmin.php" />
     <Compile Include="php\settings\addTheme.php" />
     <Compile Include="php\settings\changeConfig.php" />
@@ -633,7 +634,7 @@
     <Folder Include="php" />
     <Folder Include="php\galleries\items\" />
     <Folder Include="php\galleries\" />
-    <Folder Include="php\account\" />
+    <Folder Include="php\functions\" />
     <Folder Include="php\pages\" />
     <Folder Include="php\includes\" />
     <Folder Include="php\session\" />
@@ -654,6 +655,7 @@
     <TypeScriptCompile Include="js\views\viewSettings.ts" />
     <Content Include="js\libs\typescript\jquery.validation.d.ts" />
     <Content Include="js\libs\typescript\photoswipe.d.ts" />
+    <Content Include="js\libs\typescript\select2.d.ts" />
     <Content Include="todo.txt" />
   </ItemGroup>
 </Project>

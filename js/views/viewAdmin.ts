@@ -19,6 +19,8 @@ class ViewAdmin {
     constructor(controller: ControllerAdmin) {
         this.controllerAdmin = controller;
         this.initAdminArea();
+        this.initSelect();
+        this.submitAdmin();
     }
 
     /**
@@ -58,6 +60,51 @@ class ViewAdmin {
             var data = $(e.relatedTarget).data();
             $('.title', this).text(data.recordTitle);
             $('.btn-ok', this).data('recordId', data.recordId);
+        });
+    }
+
+    /**
+     * Add data in select lists
+     */
+    private initSelect() {
+        this.controllerAdmin.setSelectListCategories();
+    }
+
+    private submitAdmin() {
+        var that = this;
+        //When the admin add a new image
+        $('#submit-newImage-admin').click(function (e) {
+            e.preventDefault();
+        });
+        //When the admin edit an image
+        $('#submit-saveImage-admin').click(function (e) {
+            e.preventDefault();
+        });
+        //When the admin delete an image
+        $('#submit-deleteImage-admin').click(function (e) {
+            e.preventDefault();
+        });
+
+        //When the admin add a new category
+        $('#submit-newCategory-admin').click(function (e) {
+            e.preventDefault();
+        });
+        //When the admin edit a category
+        $('#submit-saveCategory-admin').click(function (e) {
+            e.preventDefault();
+        });
+        //When the admin delete a category
+        $('#submit-deleteCategory-admin').click(function (e) {
+            e.preventDefault();
+        });
+
+        //When the admin add new tag(s)
+        $('#submit-newTag-admin').click(function (e) {
+            e.preventDefault();
+        });
+        //When the admin delete tag(s)
+        $('#submit-deleteTag-admin').click(function (e) {
+            e.preventDefault();
         });
     }
 }
