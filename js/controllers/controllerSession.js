@@ -22,15 +22,15 @@ var ControllerSession = (function () {
             data: 'login_username_mail=' + $('input[name=login_username_mail]').val() + '&login_password=' + $('input[name=login_password]').val(),
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("login", "success", "Connexion réussie");
+                    ControllerPrincipal.formMsg("login-form", "success", "Connexion réussie");
                     document.location.reload(true);
                 }
                 else {
-                    ControllerPrincipal.formMsg("login", "error", data[1]);
+                    ControllerPrincipal.formMsg("login-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("login", "error", "Internal error.");
+                ControllerPrincipal.formMsg("login-form", "error", "Internal error.");
             }
         });
     };
@@ -45,14 +45,14 @@ var ControllerSession = (function () {
             data: 'lost_mail=' + $('input[name=lost_mail]').val(),
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("lost", "success", "E-mail sent, please go to your inbox.");
+                    ControllerPrincipal.formMsg("lost-form", "success", "E-mail sent, please go to your inbox.");
                 }
                 else {
-                    ControllerPrincipal.formMsg("lost", "error", data[1]);
+                    ControllerPrincipal.formMsg("lost-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("lost", "error", "Internal error (Check if your server can send mails).");
+                ControllerPrincipal.formMsg("lost-form", "error", "Internal error (Check if your server can send mails).");
             }
         });
     };

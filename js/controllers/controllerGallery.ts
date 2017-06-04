@@ -22,6 +22,14 @@ class ControllerGallery {
     }
 
     /**
+     * Reset top and latest galleries
+     */
+    static updateLatestTopGallery() {
+        ControllerGallery.setLatestGallery();
+        ControllerGallery.setTopGallery();
+    }
+
+    /**
      * Create the latest gallery
      */
     static setLatestGallery() {

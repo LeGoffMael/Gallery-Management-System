@@ -14,6 +14,13 @@ var ControllerGallery = (function () {
         ControllerGallery.setTopGallery();
     }
     /**
+     * Reset top and latest galleries
+     */
+    ControllerGallery.updateLatestTopGallery = function () {
+        ControllerGallery.setLatestGallery();
+        ControllerGallery.setTopGallery();
+    };
+    /**
      * Create the latest gallery
      */
     ControllerGallery.setLatestGallery = function () {

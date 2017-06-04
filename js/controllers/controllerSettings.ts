@@ -73,14 +73,14 @@ class ControllerSettings {
             dataType: 'json',
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("general-settings", "success", "Updated settings.");
+                    ControllerPrincipal.formMsg("general-settings-form", "success", "Updated settings.");
                     location.reload();
                 } else {
-                    ControllerPrincipal.formMsg("general-settings", "error", data[1]);
+                    ControllerPrincipal.formMsg("general-settings-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("general-settings", "error", "Internal error.");
+                ControllerPrincipal.formMsg("general-settings-form", "error", "Internal error.");
             }
         });
     }
@@ -101,13 +101,13 @@ class ControllerSettings {
             data: 'username=' + username + '&mail=' + mail + '&newPassword=' + newPassword + '&confirmPassword=' + confirmPassword,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("account-settings", "success", "Updated account");
+                    ControllerPrincipal.formMsg("account-settings-form", "success", "Updated account");
                 } else {
-                    ControllerPrincipal.formMsg("account-settings", "error", data[1]);
+                    ControllerPrincipal.formMsg("account-settings-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("account-settings", "error", "Internal error.");
+                ControllerPrincipal.formMsg("account-settings-form", "error", "Internal error.");
             }
         });
     }
@@ -124,14 +124,14 @@ class ControllerSettings {
             data: 'idTheme=' + themeId,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("appareance-settings", "success", "Updated theme.");
+                    ControllerPrincipal.formMsg("appareance-settings-form", "success", "Updated theme.");
                     location.reload();
                 } else {
-                    ControllerPrincipal.formMsg("appareance-settings", "error", data[1]);
+                    ControllerPrincipal.formMsg("appareance-settings-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("appareance-settings", "error", "Internal error.");
+                ControllerPrincipal.formMsg("appareance-settings-form", "error", "Internal error.");
             }
         });
     }
@@ -157,10 +157,10 @@ class ControllerSettings {
             data: 'nameTheme=' + name + '&mainColor=' + mainColor + '&mainDarkFontColor=' + mainDarkFontColor + '&bodyColor=' + bodyColor + '&bodyFontColor=' + bodyFontColor + '&sideBarColor=' + sideBarColor + '&sideBarFontColor=' + sideBarFontColor + '&linkColor=' + linkColor + '&linkHoverColor=' + linkHoverColor,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("newTheme", "success", "Theme added.");
+                    ControllerPrincipal.formMsg("newTheme-form", "success", "Theme added.");
                     location.reload();
                 } else {
-                    ControllerPrincipal.formMsg("newTheme", "error", data[1]);
+                    ControllerPrincipal.formMsg("newTheme-form", "error", data[1]);
                 }
             },
             error: function () {
@@ -182,13 +182,13 @@ class ControllerSettings {
             data: 'mail=' + mail,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("addAdmin", "success", "E-mail sent.");
+                    ControllerPrincipal.formMsg("addAdmin-form", "success", "E-mail sent.");
                 } else {
-                    ControllerPrincipal.formMsg("addAdmin", "error", data[1]);
+                    ControllerPrincipal.formMsg("addAdmin-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("addAdmin", "error", "Internal error.");
+                ControllerPrincipal.formMsg("addAdmin-form", "error", "Internal error.");
             }
         });
     }
@@ -209,13 +209,13 @@ class ControllerSettings {
             data: 'DB_NAME=' + name + '&DB_USER=' + user + '&DB_PASSWORD=' + password + '&DB_HOST=' + host,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("database-settings", "success", "Updated config.php");
+                    ControllerPrincipal.formMsg("database-settings-form", "success", "Updated config.php");
                 } else {
-                    ControllerPrincipal.formMsg("database-settings", "error", data[1]);
+                    ControllerPrincipal.formMsg("database-settings-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("database-settings", "error", "Internal error.");
+                ControllerPrincipal.formMsg("database-settings-form", "error", "Internal error.");
             }
         });
     }

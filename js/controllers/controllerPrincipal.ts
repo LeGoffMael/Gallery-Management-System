@@ -71,15 +71,15 @@ class ControllerPrincipal {
      */
     static formMsg(form, type, msg) {
         if (type == 'success') {
-            $("#" + form + "-form .msg-error").css('display', 'none');
-            $("#" + form +"-form .msg-success span").html(msg);
-            $("#" + form +"-form .msg-success").css('display', 'block');
+            $("#" + form + " .msg-error").css('display', 'none');
+            $("#" + form + " .msg-success span").html("  " +msg);
+            $("#" + form +" .msg-success").css('display', 'block');
             $("#div-forms").css("height", $("#" + form +"-form").height());
         }
         else if (type == 'error') {
-            $("#" + form + "-form .msg-success").css('display', 'none');
-            $("#" + form +"-form .msg-error span").html("  " +msg);
-            $("#" + form +"-form .msg-error").css('display','block');
+            $("#" + form + " .msg-success").css('display', 'none');
+            $("#" + form +" .msg-error span").html("  " +msg);
+            $("#" + form +" .msg-error").css('display','block');
             $("#div-forms").css("height", $("#" + form +"-form").height());
         }
     }

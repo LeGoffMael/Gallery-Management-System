@@ -18,7 +18,12 @@
   <ItemGroup>
     <Compile Include=".vs\config\applicationhost.config" />
     <Compile Include="newAdmin.php" />
+    <Compile Include="php\admin\deleteImage.php" />
+    <Compile Include="php\admin\newImage.php" />
+    <Compile Include="php\admin\checkElement.php" />
+    <Compile Include="php\admin\editImage.php" />
     <Compile Include="php\functions\getAllCategories.php" />
+    <Compile Include="php\functions\getAllTags.php" />
     <Compile Include="php\settings\addAdmin.php" />
     <Compile Include="php\settings\addTheme.php" />
     <Compile Include="php\settings\changeConfig.php" />
@@ -635,6 +640,7 @@
     <Folder Include="php\galleries\items\" />
     <Folder Include="php\galleries\" />
     <Folder Include="php\functions\" />
+    <Folder Include="php\admin\" />
     <Folder Include="php\pages\" />
     <Folder Include="php\includes\" />
     <Folder Include="php\session\" />

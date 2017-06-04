@@ -56,8 +56,6 @@ class Score
 		{
 			$insertNewIp = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO ip_score (ip,idImage,valueScore) VALUES (:ip, :id, :score)");
 
-			echo $this->_idImage;
-
 			$insertNewIp->bindValue(':ip', $ip);
 			$insertNewIp->bindValue(':id', $this->_idImage);
 			$insertNewIp->bindValue(':score', $this->_currentScore);
