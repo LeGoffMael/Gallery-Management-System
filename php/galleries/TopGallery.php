@@ -65,7 +65,7 @@ class TopGallery extends GalleryManager
 				array_push($listImagesTop, $img);
 			}
 			$top_images->closeCursor();
-			$this->gallerie = new Gallery($listImagesTop,"Top",null);
+			$this->gallerie = new Gallery($listImagesTop,null,null);
 		}
 	}
 }

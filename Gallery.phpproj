@@ -18,7 +18,13 @@
   <ItemGroup>
     <Compile Include=".vs\config\applicationhost.config" />
     <Compile Include="newAdmin.php" />
+    <Compile Include="php\admin\addTags.php" />
+    <Compile Include="php\admin\deleteCategory.php" />
     <Compile Include="php\admin\deleteImage.php" />
+    <Compile Include="php\admin\deleteTags.php" />
+    <Compile Include="php\admin\deleteUnreferencedRecords.php" />
+    <Compile Include="php\admin\editCategory.php" />
+    <Compile Include="php\admin\newCategory.php" />
     <Compile Include="php\admin\newImage.php" />
     <Compile Include="php\admin\checkElement.php" />
     <Compile Include="php\admin\editImage.php" />

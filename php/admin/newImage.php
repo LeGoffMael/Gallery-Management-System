@@ -4,6 +4,10 @@
 	require_once('../Settings.php');
 
 	if (isset($_POST['urlImage']) and isset($_POST['descriptionImage']) and isset($_POST['tabCategories']) and isset($_POST['tabTags'])) {
+		$description = $_POST['descriptionImage'];
+		if ($description == "")
+			$description = NULL;
+
 		$image = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT urlImage
 			FROM images
 			WHERE urlImage = :urlImage");
@@ -62,7 +66,7 @@
 					descriptionImage = :desc");
 
 				$requete->bindValue(':url', $_POST['urlImage']);
-				$requete->bindValue(':desc', $_POST['descriptionImage']);
+				$requete->bindValue(':desc', $description, PDO::PARAM_NULL);
 
 				//If insert working
 				if ($requete->execute()) {

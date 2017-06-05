@@ -19,13 +19,11 @@ class ParentCategories extends CategoriesManager
 	public function setCategories() {
 		$list = array();
 
-		$categoriesParent = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT c1.nameCategory, i.urlImage, COUNT(ci.idCategory) AS nbElements
+		$categoriesParent = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT c1.nameCategory, c1.urlImageCategory, COUNT(ci.idCategory) AS nbElements
 		FROM categories c1
-		LEFT JOIN mainimages_categories mic ON mic.idCategory=c1.idCategory
-		LEFT JOIN images i ON mic.idMainImage=i.idImage
 		LEFT JOIN categories_images ci ON ci.idCategory=c1.idCategory
 		WHERE c1.idCategory NOT IN (SELECT idChild FROM parent_child)
-		GROUP BY c1.idCategory,i.urlImage
+		GROUP BY c1.idCategory,c1.urlImageCategory
 		ORDER BY c1.nameCategory ASC");
 		$categoriesParent->execute();
 
@@ -40,11 +38,11 @@ class ParentCategories extends CategoriesManager
 				$nbElements = $data['nbElements'];
 
 				$urlImage = "";
-				if (is_null($data['urlImage'])) {
+				if (is_null($data['urlImageCategory'])) {
 					$urlImage = "images/defaultCategory.png";
 				}
 				else {
-					$urlImage = $data['urlImage'];
+					$urlImage = $data['urlImageCategory'];
 				}
 
 				$categ = new Category($nameCategory, $urlImage, null, null, $nbElements);

@@ -128,7 +128,7 @@
                     </div>
                 </div>
                 <!--New category-->
-                <div class="panel panel-default">
+                <div class="panel panel-default" id="newCategory-admin">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <i class="fa fa-bookmark"></i>
@@ -138,9 +138,19 @@
                     <div id="collapseTree" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" placeholder="Title" required />
+                                <div id="div-general-msg">
+                                    <div class="alert alert-danger msg-error">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                        <span></span>
+                                    </div>
+                                    <div class="alert alert-success msg-success">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" id="newAdmin-name-admin" placeholder="Title" required />
                                 <br />
-                                <input type="text" class="form-control" id="categorie-image-url" placeholder="Category's image url" required />
+                                <input type="text" class="form-control" id="newAdmin-url-admin" placeholder="Category's image url" required />
                             </div>
                             
                             <label for="newCategoryParent"> Category's parent :</label>
@@ -161,7 +171,7 @@
                     </div>
                 </div>
                 <!--Edit category-->
-                <div class="panel panel-default">
+                <div class="panel panel-default" id="editCategory-admin">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <i class="fa fa-bookmark"></i>
@@ -170,7 +180,7 @@
                     </div>
                     <div id="collapseFour" class="panel-collapse collapse">
                         <div class="panel-body">
-                            <div class="col-md-12" id="edit-category-name">
+                            <div class="col-md-12" id="edit-category-admin">
                                 <div id="div-general-msg">
                                     <div class="alert alert-danger msg-error">
                                         <i class="fa fa-times" aria-hidden="true"></i>
@@ -190,6 +200,16 @@
                             </div>
                             <div id="edit-category-option">
                                 <div class="col-md-12">
+                                    <div id="div-general-msg">
+                                        <div class="alert alert-danger msg-error">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                            <span></span>
+                                        </div>
+                                        <div class="alert alert-success msg-success">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <span></span>
+                                        </div>
+                                    </div>
                                     <input type="text" id="edit-name-category" class="form-control" placeholder="Title" required />
                                     <br />
                                     <input type="text" class="form-control" id="category-image-url" placeholder="Category's image url" required />
@@ -215,7 +235,7 @@
                     </div>
                 </div>
                 <!--Edit tags-->
-                <div class="panel panel-default">
+                <div class="panel panel-default" id="editTags-admin">
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <i class="fa fa-tags" aria-hidden="true"></i>
@@ -225,6 +245,16 @@
                     <div id="collapseFive" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div class="col-md-12" id="manage-tag">
+                                <div id="div-general-msg">
+                                    <div class="alert alert-danger msg-error">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                        <span></span>
+                                    </div>
+                                    <div class="alert alert-success msg-success">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        <span></span>
+                                    </div>
+                                </div>
                                 <div class="input-group" id="add-tag">
                                     <select multiple="true" class="new-tags-select"></select>
                                     <span class="input-group-btn">
@@ -235,7 +265,7 @@
                                 <div class="input-group" id="delete-tag">
                                     <select multiple="true" class="form-control tags-select"></select>
                                     <span class="input-group-btn">
-                                        <button class="btn btn-danger" data-toggle="modal" data-target="#confirm-delete-tag">
+                                        <button class="btn btn-danger" id="button-delete-tag" data-toggle="modal" data-target="#confirm-delete-tag">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
                                         </button>
                                     </span>
@@ -245,7 +275,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+			<!-- Button delete all unreferenced records -->
+            <button class="btn btn-danger btn-sm pull-right" id="button-delete-unreferenced" data-toggle="modal" data-target="#confirm-delete-unreferenced">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Delete all unreferenced records
+            </button>
+        </div> 
     </div>
     <!--Modal delete image-->
     <div class="modal fade confirm-delete" id="confirm-delete-image" tabindex="-1" role="dialog" aria-labelledby="label-delete" aria-hidden="true">
@@ -289,6 +323,16 @@
                     <h4 class="modal-title" id="label-delete">Confirm Delete</h4>
                 </div>
                 <div class="modal-body">
+                    <div id="div-general-msg">
+                        <div class="alert alert-danger msg-error">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <span></span>
+                        </div>
+                        <div class="alert alert-success msg-success">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            <span></span>
+                        </div>
+                    </div>
                     <p>You are about to delete <b><i id="category-name-delete"></i></b>, this procedure is irreversible.</p>
                     <p>Do you want to proceed?</p>
                 </div>
@@ -310,12 +354,53 @@
                     <h4 class="modal-title" id="label-delete">Confirm Delete</h4>
                 </div>
                 <div class="modal-body">
-                    <p>You are about to delete <b><i id="tag-name-delet"></i></b>, this procedure is irreversible.</p>
+                    <div id="div-general-msg">
+                        <div class="alert alert-danger msg-error">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <span></span>
+                        </div>
+                        <div class="alert alert-success msg-success">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            <span></span>
+                        </div>
+                    </div>
+                    <p>You are about to delete <b>tags</b>, this procedure is irreversible.</p>
                     <p>Do you want to proceed?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="submit" id="submit-deleteTag-admin" class="btn btn-danger btn-ok">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal delete unreferenced records -->
+    <div class="modal fade confirm-delete" id="confirm-delete-unreferenced" tabindex="-1" role="dialog" aria-labelledby="label-delete" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                    <h4 class="modal-title" id="label-delete">Confirm deletion of all unreferenced records</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="div-general-msg">
+                        <div class="alert alert-danger msg-error">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            <span></span>
+                        </div>
+                        <div class="alert alert-success msg-success">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            <span></span>
+                        </div>
+                    </div>
+                    <p>You are about to delete <b>all unreferenced records</b>, this procedure is irreversible.</p>
+                    <p>Do you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" id="submit-deleteUnreferenced-admin" class="btn btn-danger btn-ok">Delete</button>
                 </div>
             </div>
         </div>

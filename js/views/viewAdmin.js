@@ -24,28 +24,16 @@ var ViewAdmin = (function () {
      * Initializes the administration area
      */
     ViewAdmin.prototype.initAdminArea = function () {
+        var that = this;
         $('#admin #delete-tag button').click(function () {
             $('#admin #delete-tag button').attr('data-record-title', $('#admin #delete-tag input[type="text"]').val());
         });
         //Cancel edit
         $('#admin #cancel-edit-image').click(function () {
-            $('#admin #edit-image-url').css('display', 'block');
-            $('#admin #edit-image-option').css('display', 'none');
+            that.resetEditImageInterface();
         });
         $('#admin #cancel-edit-category').click(function () {
-            $('#admin #edit-category-name').css('display', 'block');
-            $('#admin #edit-category-option').css('display', 'none');
-        });
-        //Modal delete
-        $('#admin #confirm-delete').on('click', '.btn-ok', function (e) {
-            $('#admin #confirm-delete').modal('hide');
-            $('#admin #cancel-edit-image').click();
-            $('#admin #cancel-edit-categorie').click();
-        });
-        $('#admin #confirm-delete').on('show.bs.modal', function (e) {
-            var data = $(e.relatedTarget).data();
-            $('.title', this).text(data.recordTitle);
-            $('.btn-ok', this).data('recordId', data.recordId);
+            that.resetEditCategoryInterface();
         });
     };
     /**
@@ -112,14 +100,39 @@ var ViewAdmin = (function () {
             that.controllerAdmin.deleteTags();
             e.preventDefault();
         });
+        //When the admin delete all unreferenced records
+        $('#submit-deleteUnreferenced-admin').click(function (e) {
+            that.controllerAdmin.deleteUnreferencedRecords();
+            e.preventDefault();
+        });
     };
     /**
      * Reset the edit image area
      */
     ViewAdmin.prototype.resetEditImageInterface = function () {
+        $('#admin #confirm-delete-image').modal('hide');
         $("#admin #editImage-admin #url-image-input").val('');
         $('#admin #edit-image-url').css('display', 'block');
         $('#admin #edit-image-option').css('display', 'none');
+        $('#admin #image-name-delete').html('');
+    };
+    /**
+     * Reset the edit category area
+     */
+    ViewAdmin.prototype.resetEditCategoryInterface = function () {
+        $('#admin #confirm-delete-category').modal('hide');
+        $("#admin #name-category-input").val('');
+        $('#admin #edit-category-admin').css('display', 'block');
+        $('#admin #edit-category-option').css('display', 'none');
+        $('#admin #category-name-delete').html('');
+    };
+    /**
+     * Reset the edit tag area
+     */
+    ViewAdmin.prototype.resetEditTagInterface = function () {
+        $('#admin #confirm-delete-tag').modal('hide');
+        $('#admin #editTags-admin .new-tags-select')["0"].innerHTML = '';
+        $('#admin #editTags-admin .tags-select').val('');
     };
     return ViewAdmin;
 }());

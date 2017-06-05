@@ -46,10 +46,8 @@
 	}
 	//Check if the category name is in the database
 	else if (isset($_POST['nameCategory'])) {
-		$category = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT c.nameCategory,i.urlImage,pc2.idParent
+		$category = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT c.nameCategory,c.urlImageCategory,pc2.idParent
 			FROM categories c
-			LEFT JOIN mainimages_categories mic ON mic.idCategory=c.idCategory
-			LEFT JOIN images i ON i.idImage=mic.idMainImage
 			LEFT JOIN parent_child pc2 ON pc2.idChild=c.idCategory
 			WHERE nameCategory = :nameCategory");
 		$category->bindValue(':nameCategory', $_POST['nameCategory']);
@@ -69,7 +67,7 @@
 			while ($data = $category->fetch())
 			{
 				$name = $data['nameCategory'];
-				$url = $data['urlImage'];
+				$url = $data['urlImageCategory'];
 				$parent = $data['idParent'];
 			}
 			$category->closeCursor();

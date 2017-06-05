@@ -60,7 +60,7 @@ class LastGallery extends GalleryManager
 				array_push($listImages, $img);
 			}
 			$last_images->closeCursor();
-			$this->gallerie = new Gallery($listImages,"Latest",null);
+			$this->gallerie = new Gallery($listImages,null,null);
 		}
 	}
 }

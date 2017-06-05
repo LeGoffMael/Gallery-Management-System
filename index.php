@@ -82,7 +82,7 @@
 						//If the user is logged
 						echo '<li data-toggle="tooltip" id="nav-login" data-placement="right" title="Login"><a href="#" data-target="#login-modal" data-toggle="modal"><i class="fa fa-sign-in"></i> <strong><span>Login</span></strong></a></li>';
                     }
-					?>
+                    ?>
 
                 </ul>
 
@@ -94,10 +94,12 @@
             <div class="tab-content">
                 <!-- Home -->
                 <section class="tab-pane active" id="home">
+					<h1>Latest</h1>
                     <div class="galleryLatest"></div>
                 </section>
                 <!-- Top -->
                 <section class="tab-pane fade" id="top">
+					<h1>Top</h1>
                     <div class="galleryTop"></div>
                 </section>
                 <!-- Categories -->
@@ -262,6 +264,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
     <!-- For the gallery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.3.0/js/mdb.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.3.9/jquery.jscroll.min.js"></script>
     <!-- For the light box -->
     <script src="js/libs/photoSwipe/photoswipe.min.js"></script>
     <script src="js/libs/photoSwipe/photoswipe-ui-default.min.js"></script>
@@ -275,6 +278,7 @@
 	<script src="js/views/viewSession.js"></script>
 	<script src="js/controllers/controllerGallery.js"></script>
     <script src="js/views/viewGallery.js"></script>
+	<script>$('.scroll').jscroll();</script>
 <?php
 if (!empty($_SESSION['id']))
 {

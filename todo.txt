@@ -1,13 +1,18 @@
 TODO list (No order)
 
-- Pagination galleries
-- Administration area
-- Select 2 json call
+- New administration area for add images that can be uploaded directly with .zip for example
+- Tags menu
 - GSM Logo
-- Search
 - Installation page
 
-- Improve code Readability
+- Gallery:
+	- Pagination galleries (in progress)
+	- Display image of categories even if she have childs
+	- Tags galleries
+	- Possibility to sort gallery to display
+	- Search
+
+- Improve code Readability (in progress)
 	-> Add view for each section (started)
 	-> More comments
 	-> Translate everything in english (started)

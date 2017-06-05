@@ -91,7 +91,9 @@ abstract class GalleryManager
 		$res = null;
 		$ip = $_SERVER['REMOTE_ADDR'];
 
-		$ip_score = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT valueScore FROM ip_score WHERE ip = :ip AND idImage = :idImage");
+		$ip_score = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT valueScore
+		FROM ip_score
+		WHERE ip = :ip AND idImage = :idImage");
 		$ip_score->bindValue(':ip', $ip);
 		$ip_score->bindValue(':idImage', $idImage);
 		$ip_score->execute();
@@ -116,7 +118,7 @@ abstract class GalleryManager
 	}
 
 	/**
-	 * Retourne la gallery
+	 * Return the gallery
 	 * @return mixed
 	 */
 	public function getGallery() {

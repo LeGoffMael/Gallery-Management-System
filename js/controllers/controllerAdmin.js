@@ -61,6 +61,10 @@ var ControllerAdmin = (function () {
      * Apply the select2 plugin with datas for tags select
      */
     ControllerAdmin.prototype.setSelectListTags = function () {
+        //Clear datas
+        $("#admin .tags-select").each(function () {
+            $(this)["0"].innerHTML = '';
+        });
         $.ajax({
             url: './php/functions/getAllTags.php',
             dataType: 'json',
@@ -194,7 +198,6 @@ var ControllerAdmin = (function () {
                     }
                 },
                 error: function (resultat, statut, erreur) {
-                    console.log(resultat);
                     ControllerPrincipal.formMsg("edit-image-option", "error", "Internal error.");
                 }
             });
@@ -214,16 +217,14 @@ var ControllerAdmin = (function () {
             success: function (data) {
                 if (data[0] === "success") {
                     ControllerGallery.updateLatestTopGallery();
-                    ControllerPrincipal.formMsg("confirm-delete-image", "success", "Image successfully edited");
+                    ControllerPrincipal.formMsg("confirm-delete-image", "success", "Image successfully deleted.");
                     that.viewAdmin.resetEditImageInterface();
-                    $('#admin #confirm-delete-image').modal('hide');
                 }
                 else {
                     ControllerPrincipal.formMsg("confirm-delete-image", "error", data[1]);
                 }
             },
             error: function (resultat, statut, erreur) {
-                console.log(resultat);
                 ControllerPrincipal.formMsg("confirm-delete-image", "error", "Internal error.");
             }
         });
@@ -232,12 +233,44 @@ var ControllerAdmin = (function () {
      * Add a new category in the database
      */
     ControllerAdmin.prototype.newCategory = function () {
+        var that = this;
+        var name = $("#admin #newCategory-admin #newAdmin-name-admin").val();
+        var url = $("#admin #newCategory-admin #newAdmin-url-admin").val();
+        var parent = $("#admin #newCategory-admin #newCategoryParent").val();
+        if (name == undefined || name == "") {
+            ControllerPrincipal.formMsg("newCategory-admin", "error", "A name is required.");
+        }
+        else if (parent == undefined || parent == "") {
+            ControllerPrincipal.formMsg("newCategory-admin", "error", "Category is required.");
+        }
+        else {
+            $.ajax({
+                url: './php/admin/newCategory.php',
+                type: 'POST',
+                data: 'nameCategory=' + name + '&urlImageCategory=' + url + '&idParent=' + parent,
+                dataType: 'json',
+                success: function (data) {
+                    if (data[0] === "success") {
+                        ControllerPrincipal.formMsg("newCategory-admin", "success", "Category successfully added");
+                        that.setSelectListCategories();
+                        that.setSelectListImageCategories();
+                    }
+                    else {
+                        ControllerPrincipal.formMsg("newCategory-admin", "error", data[1]);
+                    }
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log(resultat.responseText);
+                    ControllerPrincipal.formMsg("newCategory-admin", "error", "Internal error.");
+                }
+            });
+        }
     };
     /**
      * Check if the category name exist and fill fields if that is the case
      */
     ControllerAdmin.prototype.checkCategoryName = function () {
-        var category = $("#admin #name-category-input").val();
+        var category = $("#admin #editCategory-admin #name-category-input").val();
         $.ajax({
             url: './php/admin/checkElement.php',
             type: 'POST',
@@ -251,16 +284,16 @@ var ControllerAdmin = (function () {
                     $('#admin #edit-category-option #editCategoryParent').select2('val', data[3]);
                     $('#admin #edit-category-option #editCategoryChild').select2('val', [data[4]]);
                     //Show edit box
+                    $('#admin #edit-category-admin').css('display', 'none');
                     $('#admin #edit-category-option').css('display', 'block');
-                    $('#admin #edit-category-name').css('display', 'none');
                     $('#admin #category-name-delete').html(data[1]);
                 }
                 else {
-                    ControllerPrincipal.formMsg("edit-category-name", "error", data[1]);
+                    ControllerPrincipal.formMsg("edit-category-admin", "error", data[1]);
                 }
             },
             error: function (resultat, statut, erreur) {
-                ControllerPrincipal.formMsg("edit-category-name", "error", "Internal error.");
+                ControllerPrincipal.formMsg("edit-category-admin", "error", "Internal error.");
             }
         });
     };
@@ -268,21 +301,157 @@ var ControllerAdmin = (function () {
      * Edit the category by it name
      */
     ControllerAdmin.prototype.editCategory = function () {
+        var that = this;
+        var lastName = $("#admin #editCategory-admin #name-category-input").val();
+        var newName = $("#admin #editCategory-admin #edit-name-category").val();
+        var url = $('#admin #editCategory-admin #category-image-url').val();
+        var parent = $('#admin #editCategory-admin #editCategoryParent').val();
+        if (newName == undefined || newName == "") {
+            ControllerPrincipal.formMsg("edit-category-option", "error", "A name is required.");
+        }
+        else if (parent == undefined || parent == "") {
+            ControllerPrincipal.formMsg("edit-category-option", "error", "Category is required.");
+        }
+        else {
+            $.ajax({
+                url: './php/admin/editCategory.php',
+                type: 'POST',
+                data: 'lastNameCategory=' + lastName + '&newNameCategory=' + newName + '&urlImageCategory=' + url + '&idParent=' + parent,
+                dataType: 'json',
+                success: function (data) {
+                    if (data[0] === "success") {
+                        ControllerPrincipal.formMsg("edit-category-admin", "success", "Category successfully edited.");
+                        ControllerGallery.updateLatestTopGallery();
+                        that.viewAdmin.resetEditCategoryInterface();
+                        that.setSelectListCategories();
+                        that.setSelectListImageCategories();
+                    }
+                    else {
+                        ControllerPrincipal.formMsg("edit-category-option", "error", data[1]);
+                    }
+                },
+                error: function (resultat, statut, erreur) {
+                    ControllerPrincipal.formMsg("edit-category-option", "error", "Internal error.");
+                }
+            });
+        }
     };
     /**
      * Delete the category by it name
      */
     ControllerAdmin.prototype.deleteCategory = function () {
+        var that = this;
+        var name = $("#admin #editCategory-admin #name-category-input").val();
+        $.ajax({
+            url: './php/admin/deleteCategory.php',
+            type: 'POST',
+            data: 'nameCategory=' + name,
+            dataType: 'json',
+            success: function (data) {
+                if (data[0] === "success") {
+                    ControllerPrincipal.formMsg("confirm-delete-category", "success", "Category successfully deleted.");
+                    ControllerGallery.updateLatestTopGallery();
+                    that.viewAdmin.resetEditCategoryInterface();
+                    that.setSelectListCategories();
+                    that.setSelectListImageCategories();
+                }
+                else {
+                    ControllerPrincipal.formMsg("confirm-delete-category", "error", data[1]);
+                }
+            },
+            error: function (resultat, statut, erreur) {
+                ControllerPrincipal.formMsg("confirm-delete-category", "error", "Internal error.");
+            }
+        });
     };
     /**
      * Add new tags in the database
      */
     ControllerAdmin.prototype.addTags = function () {
+        var that = this;
+        var tags = $('#admin #editTags-admin .new-tags-select').val();
+        if (tags == undefined || tags == "") {
+            ControllerPrincipal.formMsg("editTags-admin", "error", "Tags is required.");
+        }
+        else {
+            $.ajax({
+                url: './php/admin/addTags.php',
+                type: 'POST',
+                data: 'tags=' + JSON.stringify(tags),
+                dataType: 'json',
+                success: function (data) {
+                    if (data[0] === "success") {
+                        that.setSelectListTags();
+                        ControllerPrincipal.formMsg("editTags-admin", "success", "Tags that do not exist have been successfully added.");
+                        that.viewAdmin.resetEditTagInterface();
+                    }
+                    else {
+                        ControllerPrincipal.formMsg("editTags-admin", "error", data[1]);
+                    }
+                },
+                error: function (resultat, statut, erreur) {
+                    ControllerPrincipal.formMsg("editTags-admin", "error", "Internal error.");
+                }
+            });
+        }
     };
     /**
      * Delete the tags by name
      */
     ControllerAdmin.prototype.deleteTags = function () {
+        var that = this;
+        var tags = $('#admin #editTags-admin .tags-select').val();
+        if (tags == undefined || tags == "") {
+            $('#admin #confirm-delete-tag').modal('hide');
+            ControllerPrincipal.formMsg("editTags-admin", "error", "Tags is required.");
+        }
+        else {
+            $.ajax({
+                url: './php/admin/deleteTags.php',
+                type: 'POST',
+                data: 'tags=' + JSON.stringify(tags),
+                dataType: 'json',
+                success: function (data) {
+                    if (data[0] === "success") {
+                        that.setSelectListTags();
+                        ControllerPrincipal.formMsg("editTags-admin", "success", "Tags that exist have been successfully deleted.");
+                        ControllerGallery.updateLatestTopGallery();
+                        that.viewAdmin.resetEditTagInterface();
+                    }
+                    else {
+                        ControllerPrincipal.formMsg("confirm-delete-tag", "error", data[1]);
+                    }
+                },
+                error: function (resultat, statut, erreur) {
+                    ControllerPrincipal.formMsg("confirm-delete-tag", "error", "Internal error.");
+                }
+            });
+        }
+    };
+    /**
+     * Delete all tags, categories and images which aren't referenced to other element
+     */
+    ControllerAdmin.prototype.deleteUnreferencedRecords = function () {
+        var that = this;
+        $.ajax({
+            url: './php/admin/deleteUnreferencedRecords.php',
+            dataType: 'json',
+            success: function (data) {
+                if (data[0] === "success") {
+                    that.setSelectListTags();
+                    that.setSelectListCategories();
+                    that.setSelectListImageCategories();
+                    ControllerPrincipal.formMsg("confirm-delete-unreferenced", "success", "All unreferenced records have been successfully deleted.");
+                    ControllerGallery.updateLatestTopGallery();
+                }
+                else {
+                    ControllerPrincipal.formMsg("confirm-delete-unreferenced", "error", data[1]);
+                }
+            },
+            error: function (resultat, statut, erreur) {
+                ControllerPrincipal.formMsg("confirm-delete-unreferenced", "error", "Internal error.");
+            }
+        });
     };
     return ControllerAdmin;
 }());

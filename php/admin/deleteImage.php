@@ -11,13 +11,12 @@
 		$image->execute();
 
 		//If no data find
-		if($image->rowCount() == 0)
-		{
+		if($image->rowCount() == 0){
 			$error = array("error" , "The Url doesn't exist.");
 			echo json_encode($error, JSON_PRETTY_PRINT);
 			exit();
 		}
-		else{
+		else {
 			if ($result = $image->fetch(PDO::FETCH_ASSOC)) {
 				$image->closeCursor();
 			}
