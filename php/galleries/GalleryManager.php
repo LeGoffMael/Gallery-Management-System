@@ -16,7 +16,8 @@ require_once('items/Tag.php');
  */
 abstract class GalleryManager
 {
-	protected $gallerie;
+	protected $gallery;
+	protected $page;
 
 	public function __construct() {
     }
@@ -122,6 +123,30 @@ abstract class GalleryManager
 	 * @return mixed
 	 */
 	public function getGallery() {
-		return $this->gallerie;
+		return $this->gallery;
+	}
+
+	/**
+	 * Init the page
+	 * @param mixed $p
+	 */
+	public function setPage($p) {
+		$this->page = $p;
+	}
+
+	/**
+	 * Return the page
+	 * @return mixed
+	 */
+	public function getPage() {
+		return $this->page;
+	}
+
+	/**
+	 * Return the offset
+	 * @return mixed
+	 */
+	public function getOffset() {
+		return ($this->page * Settings::getInstance()->getLimit()) - Settings::getInstance()->getLimit();
 	}
 }

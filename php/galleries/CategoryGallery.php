@@ -15,7 +15,8 @@ class CategoryGallery extends GalleryManager
 	private $_nameCategory;
 	private $_parent;
 
-	public function __construct($nameCategory, $parent) {
+	public function __construct($nameCategory, $parent, $page) {
+		$this->setPage($page);
 		$this->_nameCategory = $nameCategory;
 		$this->_parent = $parent;
 		$this->setGallery();
@@ -32,14 +33,15 @@ class CategoryGallery extends GalleryManager
 		JOIN categories_images ci ON ci.idImage=i.idImage
 		JOIN categories c ON c.idCategory=ci.idCategory
 		WHERE c.nameCategory = :name
-		ORDER BY i.idImage DESC LIMIT ".Settings::getInstance()->getLimit());
+		ORDER BY i.idImage DESC
+		LIMIT ".$this->getOffset().", ". Settings::getInstance()->getLimit());
 
 		$categoryImages->bindValue(':name', $this->_nameCategory);
 		$categoryImages->execute();
 
 		if($categoryImages->rowCount() == 0)
 		{
-			echo "<h2>No items to display</h2>";
+			echo "<h2 class='text-center'>No items to display</h2>";
 		}
 		else{
 			while ($dataImage = $categoryImages->fetch())
@@ -73,7 +75,7 @@ class CategoryGallery extends GalleryManager
 				array_push($listImages, $img);
 			}
 			$categoryImages->closeCursor();
-			$this->gallerie = new Gallery($listImages,$this->_nameCategory, $this->_parent);
+			$this->gallery = new Gallery($listImages,$this->_nameCategory, $this->_parent, $this->getPage());
 		}
 
 	}

@@ -264,7 +264,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
     <!-- For the gallery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.3.0/js/mdb.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.3.9/jquery.jscroll.min.js"></script>
     <!-- For the light box -->
     <script src="js/libs/photoSwipe/photoswipe.min.js"></script>
     <script src="js/libs/photoSwipe/photoswipe-ui-default.min.js"></script>
@@ -278,7 +277,6 @@
 	<script src="js/views/viewSession.js"></script>
 	<script src="js/controllers/controllerGallery.js"></script>
     <script src="js/views/viewGallery.js"></script>
-	<script>$('.scroll').jscroll();</script>
 <?php
 if (!empty($_SESSION['id']))
 {

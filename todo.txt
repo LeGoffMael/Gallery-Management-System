@@ -6,7 +6,6 @@ TODO list (No order)
 - Installation page
 
 - Gallery:
-	- Pagination galleries (in progress)
 	- Display image of categories even if she have childs
 	- Tags galleries
 	- Possibility to sort gallery to display

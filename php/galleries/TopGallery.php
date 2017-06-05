@@ -12,7 +12,8 @@ require_once('GalleryManager.php');
  */
 class TopGallery extends GalleryManager
 {
-	public function __construct() {
+	public function __construct($page) {
+		$this->setPage($page);
 		$this->setGallery();
     }
 
@@ -26,12 +27,12 @@ class TopGallery extends GalleryManager
 		FROM images
 		WHERE scoreImage > 0
 		ORDER BY scoreImage
-		DESC LIMIT ". Settings::getInstance()->getLimit());
+		LIMIT ".$this->getOffset().", ". Settings::getInstance()->getLimit());
 		$top_images->execute();
 
 		if($top_images->rowCount() == 0)
 		{
-			echo "<h2>No items to display</h2>";
+			echo "<h2 class='text-center'>No items to display</h2>";
 		}
 		else{
 			while ($dataImage = $top_images->fetch())
@@ -44,7 +45,7 @@ class TopGallery extends GalleryManager
 				$categories = $this->getCategoriesImage($idImage);
 				$tags = $this->getTagsImage($idImage);
 
-				//Gestion des votes
+				//Vote management
 				$up = null;
 				$down = null;
 				$vote = $this->getVote($idImage);
@@ -65,10 +66,12 @@ class TopGallery extends GalleryManager
 				array_push($listImagesTop, $img);
 			}
 			$top_images->closeCursor();
-			$this->gallerie = new Gallery($listImagesTop,null,null);
+			$this->gallery = new Gallery($listImagesTop,null,null,$this->getPage());
 		}
 	}
 }
 
-$topGallery = new TopGallery();
-echo $topGallery->getGallery()->toString();
+$page = filter_input(INPUT_POST, 'page');
+$topGallery = new TopGallery($page);
+if (!is_null($topGallery->getGallery()))
+	echo $topGallery->getGallery()->toString();

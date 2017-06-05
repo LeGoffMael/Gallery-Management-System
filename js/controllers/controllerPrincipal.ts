@@ -30,7 +30,7 @@ class ControllerPrincipal {
             var newHash = hash.split("?");
             hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
             //Display it
-            ControllerGallery.setCategoriesChild(ControllerPrincipal.getUrlVars().categoryName);
+            ControllerGallery.setCategoriesChild(ControllerPrincipal.getUrlVars().categoryName, 1, true);
         }
         else {
             hash && $('.sidebar-nav li .menuLink[href="' + hash + '"]').tab('show');

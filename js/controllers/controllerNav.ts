@@ -27,5 +27,10 @@ class ControllerNav {
         $('#nav-categ').click(function () {
             ControllerGallery.setCategories()
         });
+        //Reset scroll
+        $('.sidebar-nav a').click(function () {
+            $('.main').scrollTop(0);
+            ControllerGallery.updateLatestTopGallery();
+        });
     }
 }

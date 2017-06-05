@@ -10,28 +10,53 @@ var ControllerGallery = (function () {
      */
     function ControllerGallery() {
         this.viewGallery = new ViewGallery(this);
-        ControllerGallery.setLatestGallery();
-        ControllerGallery.setTopGallery();
+        ControllerGallery.updateLatestTopGallery();
+        this.paginationManagement();
     }
+    ControllerGallery.prototype.paginationManagement = function () {
+        $('.main').scroll(function () {
+            if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
+                var allPage = $('.main #' + ControllerGallery.getCurrentGallery() + ' .pageGallery');
+                var nextPage = allPage.last().attr('data-nextPage');
+                if (ControllerGallery.getCurrentGallery() == 'home') {
+                    ControllerGallery.setLatestGallery(nextPage, false);
+                }
+                else if (ControllerGallery.getCurrentGallery() == 'top') {
+                    ControllerGallery.setTopGallery(nextPage, false);
+                }
+                else {
+                    var nextPage = $('.main #categories .pageGallery').last().attr('data-nextPage');
+                    console.log(nextPage);
+                    ControllerGallery.setCategoriesChild(ControllerGallery.getCurrentGallery(), nextPage, false);
+                }
+            }
+        });
+    };
     /**
      * Reset top and latest galleries
      */
     ControllerGallery.updateLatestTopGallery = function () {
-        ControllerGallery.setLatestGallery();
-        ControllerGallery.setTopGallery();
+        ControllerGallery.setLatestGallery(1, true);
+        ControllerGallery.setTopGallery(1, true);
     };
     /**
      * Create the latest gallery
      */
-    ControllerGallery.setLatestGallery = function () {
+    ControllerGallery.setLatestGallery = function (page, reset) {
         $(".galleryLatest").each(function () {
             var that = this;
             $.ajax({
                 url: './php/galleries/LastGallery.php',
-                type: 'GET',
+                type: 'POST',
+                data: 'page=' + page,
                 dataType: 'html',
                 success: function (code_html) {
-                    $(that).html(code_html);
+                    if (reset)
+                        $(that).html(code_html);
+                    else
+                        $(that).html($(that).html() + code_html);
+                    //Hide other no items to display
+                    $(that).children('h2:not(:first)').css('display', 'none');
                     ViewGallery.initGallery();
                     ViewGallery.initLightBox();
                 },
@@ -44,15 +69,21 @@ var ControllerGallery = (function () {
     /**
      * Create the top gallery
      */
-    ControllerGallery.setTopGallery = function () {
+    ControllerGallery.setTopGallery = function (page, reset) {
         $(".galleryTop").each(function () {
             var that = this;
             $.ajax({
                 url: './php/galleries/TopGallery.php',
-                type: 'GET',
+                type: 'POST',
+                data: 'page=' + page,
                 dataType: 'html',
                 success: function (code_html) {
-                    $(that).html(code_html);
+                    if (reset)
+                        $(that).html(code_html);
+                    else
+                        $(that).html($(that).html() + code_html);
+                    //Hide other no items to display
+                    $(that).children('h2:not(:first)').css('display', 'none');
                     ViewGallery.initGallery();
                     ViewGallery.initLightBox();
                 },
@@ -84,18 +115,26 @@ var ControllerGallery = (function () {
     /**
      * Create the child categories of the category send in parameters
      * @param name the parent category
+     * @param page the page to display category
      */
-    ControllerGallery.setCategoriesChild = function (name) {
+    ControllerGallery.setCategoriesChild = function (name, page, reset) {
         if (name != 'null') {
             $(".galleryCategories").each(function () {
                 var that = this;
                 $.ajax({
                     url: './php/galleries/ChildCategories.php',
-                    type: 'GET',
-                    data: 'nameParent=' + name,
+                    type: 'POST',
+                    data: 'nameParent=' + name + '&page=' + page,
                     dataType: 'html',
                     success: function (code_html) {
-                        $(that).html(code_html);
+                        if (reset)
+                            $(that).html(code_html);
+                        else
+                            $(that).html($(that).html() + code_html);
+                        //Hide other title
+                        $(that).children('h1:not(:first)').css('display', 'none');
+                        //Hide other no items to display
+                        $(that).children('h2:not(:first)').css('display', 'none');
                         ViewGallery.initGallery();
                         ViewGallery.initLightBox();
                     },
@@ -140,16 +179,15 @@ var ControllerGallery = (function () {
             success: function (code_html) {
                 //If we are in the latests gallery
                 if (gallery == 'home') {
-                    ControllerGallery.setLatestGallery();
-                    ControllerGallery.setTopGallery();
+                    ControllerGallery.updateLatestTopGallery();
                 }
                 else if (gallery == 'top')
-                    ControllerGallery.setTopGallery();
+                    ControllerGallery.setTopGallery(1, true);
                 else if (gallery == null)
                     location.reload();
                 else {
-                    ControllerGallery.setCategoriesChild(gallery);
-                    ControllerGallery.setTopGallery();
+                    ControllerGallery.setCategoriesChild(gallery, false, 1);
+                    ControllerGallery.setTopGallery(1, true);
                 }
                 //Change score displayed in the light box
                 ControllerGallery.updateLightBox(code_html);

@@ -12,7 +12,8 @@ require_once('GalleryManager.php');
  */
 class LastGallery extends GalleryManager
 {
-	public function __construct() {
+	public function __construct($page) {
+		$this->setPage($page);
 		$this->setGallery();
     }
 
@@ -22,12 +23,15 @@ class LastGallery extends GalleryManager
 	public function setGallery() {
 		$listImages = array();
 
-		$last_images = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT * FROM images ORDER BY dateImage AND idImage DESC LIMIT ". Settings::getInstance()->getLimit());
+		$last_images = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT *
+		FROM images
+		ORDER BY idImage DESC
+		LIMIT ".$this->getOffset().", ". Settings::getInstance()->getLimit());
 		$last_images->execute();
 
 		if($last_images->rowCount() == 0)
 		{
-			echo "<h2>No items to display</h2>";
+			echo "<h2 class='text-center'>No items to display</h2>";
 		}
 		else{
 			while ($dataImage = $last_images->fetch())
@@ -39,7 +43,7 @@ class LastGallery extends GalleryManager
 				$categories = $this->getCategoriesImage($idImage);
 				$tags = $this->getTagsImage($idImage);
 
-				//Gestion des votes
+				//Vote management
 				$up = null;
 				$down = null;
 				$vote = $this->getVote($idImage);
@@ -60,9 +64,12 @@ class LastGallery extends GalleryManager
 				array_push($listImages, $img);
 			}
 			$last_images->closeCursor();
-			$this->gallerie = new Gallery($listImages,null,null);
+			$this->gallery = new Gallery($listImages,null,null,$this->getPage());
 		}
 	}
 }
-$lastGallery = new LastGallery();
-echo $lastGallery->getGallery()->toString();
+
+$page = filter_input(INPUT_POST, 'page');
+$lastGallery = new LastGallery($page);
+if (!is_null($lastGallery->getGallery()))
+	echo $lastGallery->getGallery()->toString();

@@ -14,10 +14,11 @@ require_once('CategoryGallery.php');
 class ChildCategories extends CategoriesManager
 {
 	private $_nameParent;
+	private $_page;
 
-	public function __construct($name) {
+	public function __construct($name,$page) {
 		$this->_nameParent = $name;
-		$this->_nameParent = $name;
+		$this->_page = $page;
 		$this->setCategories();
     }
 
@@ -42,7 +43,7 @@ class ChildCategories extends CategoriesManager
 		//Si il n'a pas d'enfant on affiche les images
 		if($categoriesChild->rowCount() == 0)
 		{
-			$categoryGallery = new CategoryGallery($this->_nameParent, $this->getCategoryParent($this->_nameParent));
+			$categoryGallery = new CategoryGallery($this->_nameParent, $this->getCategoryParent($this->_nameParent), $this->_page);
 			//If category content image
 			if($categoryGallery->getGallery() != null)
 				echo $categoryGallery->getGallery()->toString();
@@ -73,6 +74,6 @@ class ChildCategories extends CategoriesManager
 	}
 }
 
-$nameParent = filter_input(INPUT_GET, 'nameParent');
-
-$childCategories = new ChildCategories($nameParent);
+$nameParent = filter_input(INPUT_POST, 'nameParent');
+$page = filter_input(INPUT_POST, 'page');
+$childCategories = new ChildCategories($nameParent,$page);
