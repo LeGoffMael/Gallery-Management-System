@@ -43,110 +43,124 @@ var ControllerGallery = (function () {
      * Create the latest gallery
      */
     ControllerGallery.setLatestGallery = function (page, reset) {
-        $(".galleryLatest").each(function () {
-            var that = this;
-            $.ajax({
-                url: './php/galleries/LastGallery.php',
-                type: 'POST',
-                data: 'page=' + page,
-                dataType: 'html',
-                success: function (code_html) {
-                    if (reset)
-                        $(that).html(code_html);
-                    else
-                        $(that).html($(that).html() + code_html);
-                    //Hide other no items to display
-                    $(that).children('h2:not(:first)').css('display', 'none');
-                    ViewGallery.initGallery();
-                    ViewGallery.initLightBox();
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('error gallery latest (' + erreur + ')');
-                }
-            });
+        $.ajax({
+            url: './php/galleries/LastGallery.php',
+            type: 'POST',
+            data: 'page=' + page,
+            dataType: 'html',
+            success: function (html) {
+                if (reset)
+                    $("#galleryLatest").html(html);
+                else
+                    $("#galleryLatest").html($("#galleryLatest").html() + html);
+                //Hide other no items to display
+                $("#galleryLatest").children('h2:not(:first)').css('display', 'none');
+                ViewGallery.initGallery();
+                ViewGallery.initLightBox();
+            },
+            error: function (resultat, statut, erreur) {
+                console.log('error gallery latest (' + erreur + ')');
+            }
         });
     };
     /**
      * Create the top gallery
      */
     ControllerGallery.setTopGallery = function (page, reset) {
-        $(".galleryTop").each(function () {
-            var that = this;
-            $.ajax({
-                url: './php/galleries/TopGallery.php',
-                type: 'POST',
-                data: 'page=' + page,
-                dataType: 'html',
-                success: function (code_html) {
-                    if (reset)
-                        $(that).html(code_html);
-                    else
-                        $(that).html($(that).html() + code_html);
-                    //Hide other no items to display
-                    $(that).children('h2:not(:first)').css('display', 'none');
-                    ViewGallery.initGallery();
-                    ViewGallery.initLightBox();
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('error gallery top (' + erreur + ')');
-                }
-            });
+        $.ajax({
+            url: './php/galleries/TopGallery.php',
+            type: 'POST',
+            data: 'page=' + page,
+            dataType: 'html',
+            success: function (html) {
+                if (reset)
+                    $("#galleryTop").html(html);
+                else
+                    $("#galleryTop").html($(".galleryTop").html() + html);
+                //Hide other no items to display
+                $("#galleryTop").children('h2:not(:first)').css('display', 'none');
+                ViewGallery.initGallery();
+                ViewGallery.initLightBox();
+            },
+            error: function (resultat, statut, erreur) {
+                console.log('error gallery top (' + erreur + ')');
+            }
         });
     };
     /**
      * Create parent categories gallery
      */
     ControllerGallery.setCategories = function () {
-        $(".galleryCategories").each(function () {
-            var that = this;
-            $.ajax({
-                url: './php/galleries/ParentCategories.php',
-                type: 'GET',
-                dataType: 'html',
-                success: function (code_html) {
-                    $(that).html(code_html);
-                },
-                error: function (resultat, statut, erreur) {
-                    console.log('error parent categories (' + erreur + ')');
-                }
-            });
+        $.ajax({
+            url: './php/galleries/ParentCategories.php',
+            type: 'GET',
+            dataType: 'html',
+            success: function (html) {
+                $("#galleryCategories").html(html);
+            },
+            error: function (resultat, statut, erreur) {
+                console.log('error parent categories (' + erreur + ')');
+            }
         });
     };
     /**
      * Create the child categories of the category send in parameters
      * @param name the parent category
      * @param page the page to display category
+     * @param reset if the new gallery crushed the last
      */
     ControllerGallery.setCategoriesChild = function (name, page, reset) {
         if (name != 'null') {
-            $(".galleryCategories").each(function () {
-                var that = this;
-                $.ajax({
-                    url: './php/galleries/ChildCategories.php',
-                    type: 'POST',
-                    data: 'nameParent=' + name + '&page=' + page,
-                    dataType: 'html',
-                    success: function (code_html) {
-                        if (reset)
-                            $(that).html(code_html);
-                        else
-                            $(that).html($(that).html() + code_html);
-                        //Hide other title
-                        $(that).children('h1:not(:first)').css('display', 'none');
-                        //Hide other no items to display
-                        $(that).children('h2:not(:first)').css('display', 'none');
-                        ViewGallery.initGallery();
-                        ViewGallery.initLightBox();
-                    },
-                    error: function (resultat, statut, erreur) {
-                        console.log('error category ' + name + ' (' + erreur + ')');
-                    }
-                });
+            $.ajax({
+                url: './php/galleries/ChildCategories.php',
+                type: 'POST',
+                data: 'nameParent=' + name + '&page=' + page,
+                dataType: 'html',
+                success: function (html) {
+                    if (reset)
+                        $("#galleryCategories").html(html);
+                    else
+                        $("#galleryCategories").html($("#galleryCategories").html() + html);
+                    //Hide other title
+                    $("#galleryCategories").children('h1:not(:first)').css('display', 'none');
+                    //Hide other no items to display
+                    $("#galleryCategories").children('h2:not(:first)').css('display', 'none');
+                    ViewGallery.initGallery();
+                    ViewGallery.initLightBox();
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('error category ' + name + ' (' + erreur + ')');
+                }
             });
         }
         else {
             ControllerGallery.setCategories();
         }
+    };
+    /**
+     * Create the gallery of the tag
+     * @param id the tag id
+     * @param page the page to display category
+     * @param reset if the new gallery crushed the last
+     */
+    ControllerGallery.setTagGallery = function (nameTag, page, reset) {
+        $.ajax({
+            url: './php/galleries/TagGallery.php',
+            type: 'POST',
+            data: 'nameTag=' + nameTag + '&page=' + page,
+            dataType: 'html',
+            success: function (html) {
+                if (reset)
+                    $("#tagsContent").html(html);
+                else
+                    $("#tagsContent").html($(".galleryTop").html() + html);
+                ViewGallery.initGallery();
+                ViewGallery.initLightBox();
+            },
+            error: function (resultat, statut, erreur) {
+                console.log('error parent categories (' + erreur + ')');
+            }
+        });
     };
     /**
      * Return the current gallery

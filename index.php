@@ -19,6 +19,7 @@
   	<link rel="stylesheet/less" type="text/css" href="css/loginModal.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/gallery.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/categories.less" />
+  	<link rel="stylesheet/less" type="text/css" href="css/tags.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/settings.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/admin.less" />
   </head>
@@ -64,6 +65,7 @@
                     <li class="active" data-toggle="tooltip" id="nav-home" data-placement="right" title="Home"><a class="menuLink" href="#home" data-toggle="tab"><i class="fa fa-home"></i> <span>Home</span></a></li>
                     <li data-toggle="tooltip" id="nav-top" data-placement="right" title="Top"><a class="menuLink" href="#top" data-toggle="tab"><i class="fa fa-thumbs-up"></i> <span>Top</span></a></li>
                     <li data-toggle="tooltip" id="nav-categ" data-placement="right" title="Categories"><a class="menuLink" href="#categories" data-toggle="tab"><i class="fa fa-bookmark"></i> <span>Categories</span></a></li>
+                    <li data-toggle="tooltip" id="nav-tag" data-placement="right" title="Tags"><a class="menuLink" href="#tags" data-toggle="tab"><i class="fa fa-tags"></i> <span>Tags</span></a></li>
 
                     <li class="nav-divider" id="firstDivider"></li>
 
@@ -95,17 +97,21 @@
                 <!-- Home -->
                 <section class="tab-pane active" id="home">
 					<h1>Latest</h1>
-                    <div class="galleryLatest"></div>
+                    <div id="galleryLatest"></div>
                 </section>
                 <!-- Top -->
                 <section class="tab-pane fade" id="top">
 					<h1>Top</h1>
-                    <div class="galleryTop"></div>
+                    <div id="galleryTop"></div>
                 </section>
                 <!-- Categories -->
                 <section class="tab-pane fade" id="categories">
-                    <div class="galleryCategories"></div>
+                    <div id="galleryCategories"></div>
                 </section>
+				<!-- Tags -->
+				<section class="tab-pane fade" id="tags">
+					<div id="tagsContent"></div>
+				</section>
 				<?php
 				//If the user is logged
 				if (!empty($_SESSION['id'])) {

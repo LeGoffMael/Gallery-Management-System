@@ -27,6 +27,9 @@ class ControllerNav {
         $('#nav-categ').click(function () {
             ControllerGallery.setCategories()
         });
+        $('#nav-tag').click(function () {
+            ControllerPrincipal.setTagsList();
+        });
         //Reset scroll
         $('.sidebar-nav a').click(function () {
             $('.main').scrollTop(0);

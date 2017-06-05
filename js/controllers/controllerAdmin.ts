@@ -71,6 +71,8 @@ class ControllerAdmin {
      * Apply the select2 plugin with datas for tags select
      */
     public setSelectListTags() {
+        //Reload the list
+        ControllerPrincipal.setTagsList(); 
         //Clear datas
         $("#admin .tags-select").each(function () {
             $(this)["0"].innerHTML = '';

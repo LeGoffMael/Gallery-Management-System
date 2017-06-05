@@ -30,6 +30,7 @@
     <Compile Include="php\admin\editImage.php" />
     <Compile Include="php\functions\getAllCategories.php" />
     <Compile Include="php\functions\getAllTags.php" />
+    <Compile Include="php\galleries\TagGallery.php" />
     <Compile Include="php\settings\addAdmin.php" />
     <Compile Include="php\settings\addTheme.php" />
     <Compile Include="php\settings\changeConfig.php" />
@@ -654,6 +655,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\secondaryPage.less" />
+    <Content Include="css\tags.less" />
     <Content Include="images\defaultCategory.png" />
     <TypeScriptCompile Include="js\controllers\controllerGallery.ts" />
     <TypeScriptCompile Include="js\controllers\controllerNav.ts" />

@@ -61,6 +61,8 @@ var ControllerAdmin = (function () {
      * Apply the select2 plugin with datas for tags select
      */
     ControllerAdmin.prototype.setSelectListTags = function () {
+        //Reload the list
+        ControllerPrincipal.setTagsList();
         //Clear datas
         $("#admin .tags-select").each(function () {
             $(this)["0"].innerHTML = '';

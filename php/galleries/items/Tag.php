@@ -21,7 +21,7 @@ class Tag
      */
     public function toString() {
         $res = "";
-        $res .= "<a href='#tags?tagName=".$this->_tag."'>".$this->_tag."</a>";
+        $res .= "<a href='#tags?nameTag=".$this->_tag."'>".$this->_tag."</a>";
         return $res;
     }
 }

@@ -11,6 +11,7 @@ var ControllerPrincipal = (function () {
     function ControllerPrincipal() {
         this.viewPrincipal = new ViewPrincipal(this);
         this.setUrl();
+        ControllerPrincipal.setTagsList();
     }
     /**
      * When we reload we return to the same area
@@ -23,6 +24,12 @@ var ControllerPrincipal = (function () {
             hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
             //Display it
             ControllerGallery.setCategoriesChild(ControllerPrincipal.getUrlVars().categoryName, 1, true);
+        }
+        else if (hash.includes('nameTag')) {
+            var newHash = hash.split("?");
+            hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
+            //Display it
+            ControllerGallery.setTagGallery(ControllerPrincipal.getUrlVars().nameTag, 1, true);
         }
         else {
             hash && $('.sidebar-nav li .menuLink[href="' + hash + '"]').tab('show');
@@ -39,6 +46,26 @@ var ControllerPrincipal = (function () {
             var scrollmem = $('body').scrollTop() || $('html').scrollTop();
             window.location.hash = this.hash;
             $('html,body').scrollTop(scrollmem);
+        });
+    };
+    /**
+     * Display all the tags name in the tags area
+     */
+    ControllerPrincipal.setTagsList = function () {
+        $.ajax({
+            url: './php/functions/getAllTags.php',
+            dataType: 'json',
+            success: function (json) {
+                var html = "<ul class='list-inline'>";
+                for (var i = 0; i < json.length; i++) {
+                    html += "<li class='list-inline-item col-lg-2 col-sm-3 col-xs-4 text-center'><a onClick='ControllerGallery.setTagGallery(&#34;" + json[i].text + "&#34;,1,true)' href='#tags?nameTag=" + json[i].text + "'>" + json[i].text + "</a></li>";
+                }
+                html += "</ul>";
+                $("#tagsContent").html(html);
+            },
+            error: function (resultat, statut, erreur) {
+                console.log('error tags list (' + erreur + ')');
+            }
         });
     };
     /**

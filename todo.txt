@@ -1,17 +1,17 @@
 TODO list (No order)
 
-- New administration area for add images that can be uploaded directly with .zip for example
-- Tags menu
+- Mobile nav
+- Search
 - GSM Logo
 - Installation page
-
-- Gallery:
-	- Display image of categories even if she have childs
-	- Tags galleries
-	- Possibility to sort gallery to display
-	- Search
+- Display image of categories even if she have childs
 
 - Improve code Readability (in progress)
 	-> Add view for each section (started)
 	-> More comments
 	-> Translate everything in english (started)
+
+- V2 {
+	-> New administration area for add images that can be uploaded directly with .zip for example
+	-> Possibility to sort gallery to display
+}
