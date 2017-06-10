@@ -35,11 +35,11 @@ class Gallery
 				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=".$this->_categoryParent."' onClick='ControllerGallery.setCategoriesChild(&#34;".$this->_categoryParent."&#34;,1,true);'>retour</a></h1>";
 		}
 
-		$res .= "<div class='row gallery'><div class='col-md-12'><div id='demo-test-gallery' class='demo-gallery'><div class='gallery-container'>";
+		$res .= "<div class='row gallery'><div class='col-md-12'><div class='gallery-container'>";
         for ($i = 0; $i < count($this->_listImages); $i++) {
             $res .= $this->_listImages[$i]->toString();
         }
-        $res .= "</div></div></div><div class='pageGallery' data-nextPage='".$nextPage."'></div></div>";
+        $res .= "</div></div><div class='pageGallery' data-nextPage='".$nextPage."'></div></div>";
 		return $res;
     }
 }

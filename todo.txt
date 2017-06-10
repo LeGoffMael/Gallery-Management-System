@@ -2,7 +2,6 @@ TODO list (No order)
 
 - Mobile nav
 - Search
-- GSM Logo
 - Installation page
 - Display image of categories even if she have childs
 

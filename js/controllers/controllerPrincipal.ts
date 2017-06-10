@@ -20,6 +20,16 @@ class ControllerPrincipal {
         ControllerPrincipal.setTagsList(); 
     }
 
+    static startLoader(element) {
+        element.addClass('loader dots');
+        element.css('display', 'block');
+    }
+
+    static stopLoader(element) {
+        element.removeClass('loader dots');
+        element.css('display', 'none');
+    }
+
     /**
      * When we reload we return to the same area
      */
@@ -69,7 +79,7 @@ class ControllerPrincipal {
             success: function (json) {
                 var html = "<ul class='list-inline'>";
                 for (var i = 0; i < json.length; i++) {
-                    html += "<li class='list-inline-item col-lg-2 col-sm-3 col-xs-4 text-center'><a onClick='ControllerGallery.setTagGallery(&#34;" + json[i].text +"&#34;,1,true)' href='#tags?nameTag=" + json[i].text + "'>" + json[i].text + "</a></li>";
+                    html += "<li class='list-inline-item col-lg-2 col-sm-3 col-xs-4 text-center'><a class='label label-default' onClick='ControllerGallery.setTagGallery(&#34;" + json[i].text +"&#34;,1,true)' href='#tags?nameTag=" + json[i].text + "'>" + json[i].text + "</a></li>";
                 }
                 html += "</ul>";
                 

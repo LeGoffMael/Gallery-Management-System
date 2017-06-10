@@ -18,7 +18,6 @@ var ViewGallery = (function () {
         this.controllerGallery = null;
         this.controllerGallery = controller;
         ViewGallery.initGallery();
-        ViewGallery.initLightBox();
         $(window).on('resize', this.onWindowResized.bind(this));
     }
     /**
@@ -47,6 +46,8 @@ var ViewGallery = (function () {
      */
     ViewGallery.initLightBox = function () {
         var initPhotoSwipeFromDOM = function (gallerySelector) {
+            // parse slide data (url, description, score, categories and tags) from DOM elements 
+            // (children of gallerySelector)
             var parseThumbnailElements = function (el) {
                 var thumbElements = el.childNodes, numNodes = thumbElements.length, items = [], el, childElements, thumbnailEl, item;
                 for (var i = 0; i < numNodes; i++) {
@@ -94,6 +95,7 @@ var ViewGallery = (function () {
             var closest = function closest(el, fn) {
                 return el && (fn(el) ? el : closest(el.parentNode, fn));
             };
+            // triggers when user clicks on thumbnail
             var onThumbnailsClick = function (e) {
                 e = e || window.event;
                 e.preventDefault ? e.preventDefault() : e.returnValue = false;
@@ -104,6 +106,8 @@ var ViewGallery = (function () {
                 if (!clickedListItem) {
                     return;
                 }
+                // find index of clicked item by looping through all child nodes
+                // alternatively, you may define index via data- attribute
                 var clickedGallery = clickedListItem.parentNode;
                 var childNodes = clickedListItem.parentNode.childNodes, numChildNodes = childNodes.length, nodeIndex = 0, index;
                 for (var i = 0; i < numChildNodes; i++) {
@@ -117,36 +121,18 @@ var ViewGallery = (function () {
                     nodeIndex++;
                 }
                 if (index >= 0) {
+                    // open PhotoSwipe if valid index found
                     openPhotoSwipe(index, clickedGallery);
                 }
                 return false;
             };
-            var photoswipeParseHash = function () {
-                var hash = window.location.hash.substring(1), params = {};
-                if (hash.length < 5) {
-                    return params;
-                }
-                var vars = hash.split('&');
-                for (var i = 0; i < vars.length; i++) {
-                    if (!vars[i]) {
-                        continue;
-                    }
-                    var pair = vars[i].split('=');
-                    if (pair.length < 2) {
-                        continue;
-                    }
-                    params[pair[0]] = pair[1];
-                }
-                if (params.gid) {
-                    params.gid = parseInt(params.gid, 10);
-                }
-                return params;
-            };
+            //Open the light box
             var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
-                var pswpElement = document.querySelectorAll('.pswp')[0], pswp, options, items;
+                var pswpElement = document.querySelectorAll('.pswp')[0];
                 items = parseThumbnailElements(galleryElement);
                 // define options (if needed)
-                options = {
+                var options = {
+                    // define gallery index (for URL)
                     galleryUID: galleryElement.getAttribute('data-pswp-uid'),
                     getThumbBoundsFn: function (index) {
                         // See Options->getThumbBoundsFn section of docs for more info
@@ -165,6 +151,7 @@ var ViewGallery = (function () {
                         return true;
                     }
                 };
+                // PhotoSwipe opened from URL
                 if (fromURL) {
                     if (options.galleryPIDs) {
                         // parse real index when custom PIDs are used 
@@ -210,47 +197,9 @@ var ViewGallery = (function () {
                     options.showAnimationDuration = 0;
                 }
                 // Pass data to PhotoSwipe and initialize it
-                pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-                // see: http://photoswipe.com/documentation/responsive-images.html
-                var realViewportWidth, useLargeImages = false, firstResize = true, imageSrcWillChange;
-                pswp.listen('beforeResize', function () {
-                    var dpiRatio = window.devicePixelRatio ? window.devicePixelRatio : 1;
-                    dpiRatio = Math.min(dpiRatio, 2.5);
-                    realViewportWidth = pswp.viewportSize.x * dpiRatio;
-                    if (realViewportWidth >= 1200 || (!pswp.likelyTouchDevice && realViewportWidth > 800) || screen.width > 1200) {
-                        if (!useLargeImages) {
-                            useLargeImages = true;
-                            imageSrcWillChange = true;
-                        }
-                    }
-                    else {
-                        if (useLargeImages) {
-                            useLargeImages = false;
-                            imageSrcWillChange = true;
-                        }
-                    }
-                    if (imageSrcWillChange && !firstResize) {
-                        pswp.invalidateCurrItems();
-                    }
-                    if (firstResize) {
-                        firstResize = false;
-                    }
-                    imageSrcWillChange = false;
-                });
-                pswp.listen('gettingData', function (index, item) {
-                    if (useLargeImages) {
-                        item.src = item.o.src;
-                        item.w = item.o.w;
-                        item.h = item.o.h;
-                    }
-                    else {
-                        item.src = item.m.src;
-                        item.w = item.m.w;
-                        item.h = item.m.h;
-                    }
-                });
+                var pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
                 pswp.init();
-                ViewGallery.eventCategoryClick();
+                ViewGallery.eventLinkPhotoSwipe();
             };
             // select all gallery elements
             var galleryElements = document.querySelectorAll(gallerySelector);
@@ -258,15 +207,10 @@ var ViewGallery = (function () {
                 galleryElements[i].setAttribute('data-pswp-uid', i + 1);
                 galleryElements[i].onclick = onThumbnailsClick;
             }
-            // Parse URL and open gallery if it contains #&pid=3&gid=1
-            var hashData = photoswipeParseHash();
-            if (hashData.pid && hashData.gid) {
-                openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true);
-            }
         };
-        initPhotoSwipeFromDOM('.demo-gallery');
+        initPhotoSwipeFromDOM(".gallery");
     };
-    ViewGallery.eventCategoryClick = function () {
+    ViewGallery.eventLinkPhotoSwipe = function () {
         //When clicking on a link in the lightbox
         $('.pswp__caption__center small a').click(function (e) {
             location.reload();

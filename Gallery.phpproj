@@ -654,6 +654,7 @@
     <Folder Include="php\settings\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\loader.less" />
     <Content Include="css\secondaryPage.less" />
     <Content Include="css\tags.less" />
     <Content Include="images\defaultCategory.png" />

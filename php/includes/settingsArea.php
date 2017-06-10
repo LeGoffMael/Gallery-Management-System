@@ -69,45 +69,43 @@
 				<form class="form-horizontal" id="uploadimage" action="" method="post" enctype="multipart/form-data">
 					<fieldset>
 						<legend>Upload logo</legend>
-						<!--Logo-->
-						<div class="form-group">
-							<label class="col-md-4 control-label" for="site-logo">Site logo (.png)</label>
-							<div class="col-md-4">
+						<!--Logo Submit-->
+						<div class="form-group form-horizontal">
+							<div class="input-group col-xs-12 text-center">
 								<input id="site-logo" name="site-logo" class="input-file" type="file" accept=".png" />
-							</div>
-						</div>
-						<!--Submit-->
-						<div class="form-group">
-							<label class="col-md-4 control-label" for="submit-logo"></label>
-							<div class="col-md-4">
+								<label for="site-logo" id="label-site-logo">
+									<i class="fa fa-upload" aria-hidden="true"></i>
+									Select your logo
+								</label>
 								<button type="submit" id="submit-logo" name="submit-logo" class="btn btn-success">
-									<i class="fa fa-upload" aria-hidden="true"></i> Upload
+									<i class="fa fa-upload" aria-hidden="true"></i>Upload
 								</button>
+
 								<?php
 								if(isset($_POST['submit-logo']))
 								{
-									//Vérifier si bien uploadé
+									//Check if uploaded
 									if ($_FILES['site-logo']['error'] > 0)
-										echo 'Erreur lors du transfert<br/>';
+										echo 'Error during transfer<br/>';
 									else
 									{
-										//Vérifier le format du fichier
-										$extensions_valides = array( 'png' ); //liste des formats correctes
+										//Check file format
+										$extensions = array( 'png' ); //List of correct formats
 										$extension_upload = strtolower(  substr(  strrchr($_FILES['site-logo']['name'], '.')  ,1)  );
-										if ( in_array($extension_upload,$extensions_valides) )
+										if ( in_array($extension_upload,$extensions) )
 										{
-											//Déplacer le fichier
-											$nom = "images/logo/logo.png";
-											$resultat = move_uploaded_file($_FILES['site-logo']['tmp_name'],$nom);
-											if ($resultat)
-												echo "Transfert réussi";
+											//Move the file
+											$name = "images/logo/logo.png";
+											$result = move_uploaded_file($_FILES['site-logo']['tmp_name'],$name);
+											if ($result)
+												echo "Success";
 											else
-												echo "Problème lors du tranfert";
+												echo "Problem with transfer";
 										}
-										else echo "Le format du fichier doit être un .png";
+										else echo "The format of the file must be a .png";
 									}
 								}
-                                ?>
+								?>
 							</div>
 						</div>
 					</fieldset>

@@ -21,24 +21,48 @@ class ControllerGallery {
         this.paginationManagement();
     }
 
+    /**
+     * Return the current gallery
+     */
+    static getCurrentGallery() {
+        //To determine in which gallery we are
+        var gallery = null;
+        var hash = window.location.hash
+        gallery = hash.substring(hash.lastIndexOf('#') + 1);
+        //If we are in a category
+        if (gallery.includes('categoryName'))
+            gallery = 'categories';
+        //If we are in a tag
+        else if (gallery.includes('nameTag'))
+            gallery = 'tags';
+        else if (gallery == '')
+            gallery = 'home';
+
+        return gallery;
+    }
+
+    /**
+     * Detect if the user is at the bottom
+     * And update the current gallery with it next page
+     */
     private paginationManagement() {
         $('.main').scroll(function () {
             if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
                 var allPage = $('.main #' + ControllerGallery.getCurrentGallery() + ' .pageGallery');
-                var nextPage = allPage.last().attr('data-nextPage');
+                var nextPage = allPage.last();
 
                 if (ControllerGallery.getCurrentGallery() == 'home') {
-                    ControllerGallery.setLatestGallery(nextPage, false);
+                    ControllerGallery.setLatestGallery(nextPage.attr('data-nextPage'), false);
                 }
                 else if (ControllerGallery.getCurrentGallery() == 'top') {
-                    ControllerGallery.setTopGallery(nextPage, false);
+                    ControllerGallery.setTopGallery(nextPage.attr('data-nextPage'), false);
                 }
-                else {
-                    var nextPage = $('.main #categories .pageGallery').last().attr('data-nextPage');
-                    console.log(nextPage);
-                    ControllerGallery.setCategoriesChild(ControllerGallery.getCurrentGallery(), nextPage, false);
+                else if (ControllerGallery.getCurrentGallery() == 'categories') {
+                    ControllerGallery.setCategoriesChild(ControllerPrincipal.getUrlVars().categoryName, nextPage, false);
                 }
-                
+                else if (ControllerGallery.getCurrentGallery() == 'tags') {
+                    ControllerGallery.setTagGallery(ControllerPrincipal.getUrlVars().nameTag, nextPage, false);
+                }
             }
         });
     }
@@ -91,7 +115,7 @@ class ControllerGallery {
                 if (reset)
                     $("#galleryTop").html(html);
                 else
-                    $("#galleryTop").html($(".galleryTop").html() + html);
+                    $("#galleryTop").html($("#galleryTop").html() + html);
 
                 //Hide other no items to display
                 $("#galleryTop").children('h2:not(:first)').css('display', 'none');
@@ -184,23 +208,6 @@ class ControllerGallery {
                 console.log('error parent categories (' + erreur + ')');
             }
         });
-    }
-
-    /**
-     * Return the current gallery
-     */
-    static getCurrentGallery() {
-        //To determine in which gallery we are
-        var gallery = null;
-        var hash = window.location.hash
-        gallery = hash.substring(hash.lastIndexOf('#') + 1);
-        //If we are in a category
-        if(gallery.includes('categoryName'))
-            gallery = ControllerPrincipal.getUrlVars().categoryName);
-        else if (gallery == '')
-            gallery = 'home';
-
-        return gallery;
     }
 
     /**

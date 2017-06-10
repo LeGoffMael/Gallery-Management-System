@@ -1,6 +1,10 @@
 ﻿/*Importation configuration*/
 @import "config.less";
 
+
+#mobile-nav {
+    display: none;
+}
 /*La nav gauche*/
 .sidebar {
     left: 0;
@@ -41,11 +45,11 @@
     list-style: none;
 }
 
-/*Le logo*/
-.sidebar-nav #logo {
+/* Logo*/
+#logo {
     margin-bottom: 10px;
 
-    img{
+    img.logo {
         height : 42px;
         width: 42px;
     }  
@@ -67,6 +71,7 @@
 
 /*La barre de recherche*/
 #search-form {
+    display: none;
     color: #333;
     margin:0;
     margin-top: 5px;
@@ -123,6 +128,7 @@
         color: @linkColor;
         padding: 0;
         text-align: center;
+        margin-left: 0;
 
         i {
             font-size : 150%;
@@ -185,43 +191,13 @@
     }
 }
 
-/*On affiche le texte du menu au dessus de 770 px*/
-@media(min-width:770px) {
-    .wrapper {
-    	padding-left: 50px;
-    }
-
-    .sidebar {
-    	left: 0;
-    	width: 50px;
-	}
-
-	.wrapper.toggled {
-		padding-left: 200px;
-	}
-
-	.wrapper.toggled .sidebar, .wrapper.toggled .sidebar-nav {
-		width: 200px;
-	}
-	
-	.wrapper.toggled .sidebar-nav li a {
-		text-align: left;
-		padding: 0 0 0 10px;
-
-        i {
-            font-size : 100%;
-        }
-	}
-
-	.wrapper.toggled .sidebar-nav li span {
-		display: inline;
-	}
-}
 /*Contact*/
 #contact {
     color: @linkColor;
     position:absolute;
     bottom:0;
+    margin-left: 1px;
+    font-size: 90%;
 
     &:focus, &:active:focus, &.active:focus, &.focus, &:active.focus, &.active.focus ,&:hover {
         text-decoration: none;
@@ -264,6 +240,162 @@
                 color: @linkHoverColor;
                 text-decoration: none;
             }
+        }
+    }
+}
+
+/* If more than 770 px*/
+@media(min-width:770px) {
+    .wrapper {
+    	padding-left: 50px;
+    }
+
+    .sidebar {
+    	left: 0;
+    	width: 50px;
+	}
+
+	.wrapper.toggled {
+		padding-left: 200px;
+	}
+
+	.wrapper.toggled .sidebar, .wrapper.toggled .sidebar-nav {
+		width: 200px;
+	}
+	
+	.wrapper.toggled .sidebar-nav li a {
+		text-align: left;
+        margin-left: 10px;
+		padding: 0 0 0 10px;
+
+        i {
+            font-size : 100%;
+        }
+	}
+
+	.wrapper.toggled .sidebar-nav li span {
+		display: inline;
+	}
+    .sidebar-toggle {
+        display: block;
+    }
+     .sidebar {
+         padding-top: 0px;
+     }
+     #little-search {
+         display: none;
+     }
+     #search-form {
+         display: block;
+     }
+     #contact {
+         margin-left: 5px;
+         font-size: 100%;
+     }
+}
+
+//The mobile navigation
+@media(max-width:770px) {
+
+    .main {
+        padding-top: 70px;
+    }
+
+    .wrapper, .wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #mobile-nav {
+        display: block;
+        background-color: @sideBarColor;
+        height: 70px;
+
+        #logoMobile {
+            padding: 15px 2px 2px 10px;
+            height: 70px;
+        }
+
+        #siteTitle {
+            margin: 0;
+            height: 70px;
+            padding: 28px 15px;
+            padding-left: 5px;
+            font-size: 22px;
+        }
+        #mobile-toggle {
+            color: @mainColor;
+            cursor: pointer;
+            float: right;
+            height: 70px;
+            padding: 20px 15px;
+            font-size: 22px;
+        }
+    }
+
+    .sidebar {
+        z-index: 1000;
+        position: fixed;
+        right: 250px;
+        width: 0;
+        height: 100%;
+        margin-right: -250px;
+        overflow-x: hidden;
+        background: @sideBarColor;
+
+        #logo {
+            display: none;
+        }
+
+        .sidebar-toggle {
+            display: none!important;
+        }
+    }
+
+    .wrapper {
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+
+    .main {
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+        }
+
+    .wrapper.mobile-toggled {
+        overflow-x: hidden;
+
+        .sidebar {
+            padding-top: 70px!important;
+            width: 250px;
+
+            #search-form input, button {
+               font-size: 110%;
+            }
+
+            .sidebar-nav {
+                width: 250px;
+
+                li {
+                    a {
+		                text-align: left;
+                        margin-left: 10px;
+		                padding: 0 0 0 10px;
+                        font-size : 110%;
+	                }
+
+                    span {
+		                display: inline;
+                    }
+	            }
+            }          
+        }
+
+        .main {
+            margin-left: 250px;
         }
     }
 }

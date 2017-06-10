@@ -22,10 +22,28 @@
   	<link rel="stylesheet/less" type="text/css" href="css/tags.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/settings.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/admin.less" />
+  	<link rel="stylesheet/less" type="text/css" href="css/loader.less" />
   </head>
 <body>
     <!--Main content-->
     <div class="wrapper">
+
+		<nav id="mobile-nav" class="nav navbar navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a href="index.php" id="logoMobile" class="navbar-brand">
+						<img class="logo" src="images/logo/logo.png" alt="Logo" />
+					</a>
+					<p id="siteTitle" class="navbar-brand">
+						<?php echo htmlspecialchars(Settings::getInstance()->getTitle());?>
+					</p>
+					<a class="pull-right" id="mobile-toggle">
+						<i class="fa fa-bars" aria-hidden="true"></i>
+					</a>
+				</div>
+			</div>
+		</nav>
+
         <!-- The left navigation -->
         <div class="sidebar">
                 <!-- Reduction button -->
@@ -47,7 +65,9 @@
 
                     <!-- Search reduced -->
                     <li id="little-search">
-                        <a data-toggle="dropdown" href="#"><i class="fa fa-search"></i></a>
+						<a data-toggle="dropdown" href="#">
+							<i class="fa fa-search"></i>
+						</a>
 
                         <ul class="dropdown-menu">
                             <li>
@@ -97,20 +117,52 @@
                 <!-- Home -->
                 <section class="tab-pane active" id="home">
 					<h1>Latest</h1>
-                    <div id="galleryLatest"></div>
+					<div id="galleryLatest">
+						<div class="row gallery">
+							<div class="col-md-12">
+								<div class="gallery-container">
+									<div class="pageGallery" data-nextpage="1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
                 </section>
                 <!-- Top -->
                 <section class="tab-pane fade" id="top">
 					<h1>Top</h1>
-                    <div id="galleryTop"></div>
+                    <div id="galleryTop">
+						<div class="row gallery">
+							<div class="col-md-12">
+								<div class="gallery-container">
+									<div class="pageGallery" data-nextpage="1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
                 </section>
                 <!-- Categories -->
                 <section class="tab-pane fade" id="categories">
-                    <div id="galleryCategories"></div>
+                    <div id="galleryCategories">
+						<div class="row gallery">
+							<div class="col-md-12">
+								<div class="gallery-container">
+									<div class="pageGallery" data-nextpage="1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
                 </section>
 				<!-- Tags -->
 				<section class="tab-pane fade" id="tags">
-					<div id="tagsContent"></div>
+					<div id="tagsContent">
+						<div class="row gallery">
+							<div class="col-md-12">
+								<div class="gallery-container">
+									<div class="pageGallery" data-nextpage="1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</section>
 				<?php
 				//If the user is logged
@@ -148,9 +200,6 @@
                             </div>
 							<input id="login_username_mail" name="login_username_mail" class="form-control" type="text" placeholder="Username or mail" required />
                             <input id="login_password" name="login_password" class="form-control" type="password" placeholder="Password" required>
-                            <div class="checkbox">
-                                <label><input type="checkbox"> Remember me</label>
-                            </div>
                         </div>
                         <div class="modal-footer">
                             <div>
@@ -251,7 +300,7 @@
                         <li><a href="https://mdbootstrap.com/javascript/lightbox/" target="_blank">Gallery</a></li>
                         <li><a href="http://photoswipe.com/" target="_blank">Light box</a></li>
                         <li><a href="http://bootsnipp.com/snippets/featured/modal-login-with-jquery-effects" target="_blank">Login modalbox</a></li>
-                        <li><a href="http://bootsnipp.com/snippets/featured/articles-submission-accordion" target="_blank">Admin zone</a></li>
+                        <li><a href="http://bootsnipp.com/snippets/featured/articles-submission-accordion" target="_blank">Admin area</a></li>
                     </ul>
                 </div>
             </div>

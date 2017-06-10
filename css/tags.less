@@ -4,15 +4,20 @@
 #tags {
     li {
         margin-bottom: 15px;
-        font-size: 1.2em;
+        font-size: 1.5em;
     }
 
     a {
-        color: @linkColor;
+        color: @bodyFontColor;
 
         &:hover, &:active, &:focus {
             color: @linkHoverColor;
             text-decoration: none;
         }
+    }
+
+    .label {
+        background-color : @mainColor;
+        padding: 5px 10px 5px 10px;
     }
 }
