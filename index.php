@@ -34,11 +34,14 @@
 					<a href="index.php" id="logoMobile" class="navbar-brand">
 						<img class="logo" src="images/logo/logo.png" alt="Logo" />
 					</a>
-					<p id="siteTitle" class="navbar-brand">
+					<a href="index.php" id="siteTitle" class="navbar-brand">
 						<?php echo htmlspecialchars(Settings::getInstance()->getTitle());?>
-					</p>
+					</a>
 					<a class="pull-right" id="mobile-toggle">
-						<i class="fa fa-bars" aria-hidden="true"></i>
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
 					</a>
 				</div>
 			</div>
@@ -301,6 +304,7 @@
                         <li><a href="http://photoswipe.com/" target="_blank">Light box</a></li>
                         <li><a href="http://bootsnipp.com/snippets/featured/modal-login-with-jquery-effects" target="_blank">Login modalbox</a></li>
                         <li><a href="http://bootsnipp.com/snippets/featured/articles-submission-accordion" target="_blank">Admin area</a></li>
+                        <li><a href="https://codepen.io/designcouch/pen/Atyop" target="_blank">Mobile navigation icon</a></li>
                     </ul>
                 </div>
             </div>
