@@ -31,7 +31,7 @@ class LastGallery extends GalleryManager
 
 		if($last_images->rowCount() == 0)
 		{
-			echo "<h2 class='text-center'>No items to display</h2>";
+			echo "<h2>No items to display</h2>";
 		}
 		else{
 			while ($dataImage = $last_images->fetch())

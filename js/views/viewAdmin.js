@@ -107,6 +107,15 @@ var ViewAdmin = (function () {
         });
     };
     /**
+     * Reset the new image area
+     */
+    ViewAdmin.prototype.resetNewImageInterface = function () {
+        $("#admin #newImage-admin #newImage-url-admin").val('');
+        $("#admin #newImage-admin #newImage-description-admin").val('');
+        $("#admin #newImage-admin .image-categories-select").val(null).trigger("change");
+        $("#admin #newImage-admin #newImage-tags-admin").val('');
+    };
+    /**
      * Reset the edit image area
      */
     ViewAdmin.prototype.resetEditImageInterface = function () {
@@ -114,6 +123,8 @@ var ViewAdmin = (function () {
         $("#admin #editImage-admin #url-image-input").val('');
         $('#admin #edit-image-url').css('display', 'block');
         $('#admin #edit-image-option').css('display', 'none');
+        $("#admin #newImage-admin .image-categories-select").val(null).trigger("change");
+        $("#admin #newImage-admin .tags-select").val(null).trigger("change");
         $('#admin #image-name-delete').html('');
     };
     /**

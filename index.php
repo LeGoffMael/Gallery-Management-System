@@ -22,12 +22,12 @@
   	<link rel="stylesheet/less" type="text/css" href="css/tags.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/settings.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/admin.less" />
-  	<link rel="stylesheet/less" type="text/css" href="css/loader.less" />
   </head>
 <body>
     <!--Main content-->
     <div class="wrapper">
 
+		<!-- The mobile navigation -->
 		<nav id="mobile-nav" class="nav navbar navbar-fixed-top">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -59,8 +59,10 @@
                 <!-- Search -->
                 <form id="search-form" class="form-search form-horizontal">
                     <div class="input-append">
-                        <input type="text" class="search-input" placeholder="Search...">
-                        <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
+						<input type="text" data-provide="typeahead" class="search-input" placeholder="Search..." />
+						<a type="submit" class="search-button menuLink" href="#search" data-toggle="tab">
+							<i class="fa fa-search"></i>
+						</a>
                     </div>
                 </form>
 
@@ -74,10 +76,12 @@
 
                         <ul class="dropdown-menu">
                             <li>
-                                <form id="search-form" class="form-search form-horizontal">
+                                <form id="search-form-reduce" class="form-search form-horizontal">
                                     <div class="input-append">
-                                        <input type="text" class="search-input" placeholder="Search...">
-                                        <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
+										<input type="text" class="search-input" placeholder="Search..." />
+										<a type="submit" class="search-button menuLink" href="#search" data-toggle="tab">
+											<i class="fa fa-search"></i>
+										</a>
                                     </div>
                                 </form>
                             </li>
@@ -111,7 +115,7 @@
 
                 </ul>
 
-                <a href="#" id="contact" data-target="#contact-modal" data-toggle="modal"><small>Contact</small></a>
+                <a href="#" id="contact" data-target="#contact-modal" data-toggle="modal"><small>Credits</small></a>
             </div>
         
         <!-- The differents menu areas -->
@@ -157,7 +161,21 @@
                 </section>
 				<!-- Tags -->
 				<section class="tab-pane fade" id="tags">
+					<h1>Tags</h1>
 					<div id="tagsContent">
+						<div class="row gallery">
+							<div class="col-md-12">
+								<div class="gallery-container">
+									<div class="pageGallery" data-nextpage="1"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- Search -->
+				<section class="tab-pane fade" id="search">
+					<h1>Search</h1>
+					<div id="searchResult">
 						<div class="row gallery">
 							<div class="col-md-12">
 								<div class="gallery-container">
@@ -292,7 +310,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <i class="fa fa-times" aria-hidden="true"></i>
                     </button>
-                    <h4 class="modal-title" id="label-delete">Contact</h4>
+                    <h4 class="modal-title" id="label-delete">Credits</h4>
                 </div>
                 <div class="modal-body">
                     <p>Application developed by <b>Maël Le Goff</b>.<br/>
@@ -320,9 +338,12 @@
     <script src="js/libs/less/less.min.js"></script>
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/libs/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Select -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
     <!-- For the gallery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.3.0/js/mdb.min.js"></script>
+	<!-- Auto complete -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
     <!-- For the light box -->
     <script src="js/libs/photoSwipe/photoswipe.min.js"></script>
     <script src="js/libs/photoSwipe/photoswipe-ui-default.min.js"></script>

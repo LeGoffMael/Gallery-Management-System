@@ -23,7 +23,7 @@ var ControllerNav = (function () {
             ControllerPrincipal.setTagsList();
         });
         //Reset scroll
-        $('.sidebar-nav a').click(function () {
+        $('.sidebar-nav a,button').click(function () {
             $('.main').scrollTop(0);
             ControllerGallery.updateLatestTopGallery();
         });

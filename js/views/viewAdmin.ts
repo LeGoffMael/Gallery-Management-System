@@ -119,6 +119,16 @@ class ViewAdmin {
     }
 
     /**
+     * Reset the new image area
+     */
+    public resetNewImageInterface() {
+        $("#admin #newImage-admin #newImage-url-admin").val('');
+        $("#admin #newImage-admin #newImage-description-admin").val('');
+        $("#admin #newImage-admin .image-categories-select").val(null).trigger("change"); 
+        $("#admin #newImage-admin #newImage-tags-admin").val('');
+    }
+
+    /**
      * Reset the edit image area
      */
     public resetEditImageInterface() {
@@ -126,6 +136,8 @@ class ViewAdmin {
         $("#admin #editImage-admin #url-image-input").val('');
         $('#admin #edit-image-url').css('display', 'block');
         $('#admin #edit-image-option').css('display', 'none');
+        $("#admin #newImage-admin .image-categories-select").val(null).trigger("change"); 
+        $("#admin #newImage-admin .tags-select").val(null).trigger("change"); 
         $('#admin #image-name-delete').html('');
     }
 

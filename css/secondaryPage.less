@@ -49,3 +49,35 @@ input[type="submit"], input[type="button"] {
         text-decoration: none;
     }
 }
+
+#install {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+
+    .panel-body {
+        #welcome {
+            display: block;
+            height: 100%;
+        }
+        #set-db {
+            display: none;
+            height: 0;
+        }
+        h1,h2 {
+            text-align: center!important;
+        }
+    }
+}
+
+#install.toggled {
+            #welcome {
+            display: none;
+            height: 0;
+        }
+        #set-db {
+            display: block;
+            height: 100%;
+        }
+}

@@ -63,6 +63,13 @@ class ControllerGallery {
                 else if (ControllerGallery.getCurrentGallery() == 'tags') {
                     ControllerGallery.setTagGallery(ControllerPrincipal.getUrlVars().nameTag, nextPage, false);
                 }
+                else if (ControllerGallery.getCurrentGallery() == 'search') {
+                    var terms = $("#search-form input").val();
+                    if (terms == "" ||terms == null)
+                        terms = $("#search-form-reduce input").val();
+
+                    ControllerGallery.setSearchResult(terms, nextPage, false);
+                }
             }
         });
     }
@@ -201,14 +208,48 @@ class ControllerGallery {
                 else
                     $("#tagsContent").html($(".galleryTop").html() + html);
 
+                $('#tags h1').html('Tags::<a class="menuLink" href= "#tags" data- toggle="tab" onClick="ControllerPrincipal.setTagsList()" >' + nameTag + '</a>');
+
                 ViewGallery.initGallery();
                 ViewGallery.initLightBox();
             },
             error: function (resultat, statut, erreur) {
-                console.log('error parent categories (' + erreur + ')');
+                console.log('error search (' + erreur + ')');
             }
         });
     }
+
+    /**
+     * Display the result of the search
+     */
+    static setSearchResult(terms, page, reset) {
+        if (terms != "" && terms != undefined) {
+            $.ajax({
+                url: './php/galleries/SearchResult.php',
+                type: 'POST',
+                data: 'terms=' + terms + '&page=' + page,
+                dataType: 'html',
+                success: function (html) {
+                    if (reset)
+                        $("#searchResult").html(html);
+                    else
+                        $("#searchResult").html($("#searchResult").html() + html);
+
+                    $('#search h1').html('Search::' + terms);
+
+                    //Hide other no items to display
+                    $("#searchResult").children('h2:not(:first)').css('display', 'none');
+
+                    ViewGallery.initGallery();
+                    ViewGallery.initLightBox();
+                },
+                error: function (resultat, statut, erreur) {
+                    console.log('error search (' + erreur + ')');
+                }
+            });
+        }
+    }
+
 
     /**
      * Do a vote and refresh the value displayed

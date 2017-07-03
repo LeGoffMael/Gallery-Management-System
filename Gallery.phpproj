@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include=".vs\config\applicationhost.config" />
+    <Compile Include="install.php" />
     <Compile Include="newAdmin.php" />
     <Compile Include="php\admin\addTags.php" />
     <Compile Include="php\admin\deleteCategory.php" />
@@ -30,6 +31,7 @@
     <Compile Include="php\admin\editImage.php" />
     <Compile Include="php\functions\getAllCategories.php" />
     <Compile Include="php\functions\getAllTags.php" />
+    <Compile Include="php\galleries\SearchResult.php" />
     <Compile Include="php\galleries\TagGallery.php" />
     <Compile Include="php\settings\addAdmin.php" />
     <Compile Include="php\settings\addTheme.php" />
@@ -654,7 +656,6 @@
     <Folder Include="php\settings\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\loader.less" />
     <Content Include="css\secondaryPage.less" />
     <Content Include="css\tags.less" />
     <Content Include="images\defaultCategory.png" />
@@ -664,6 +665,7 @@
     <TypeScriptCompile Include="js\views\viewAdmin.ts" />
     <TypeScriptCompile Include="js\controllers\controllerAdmin.ts" />
     <TypeScriptCompile Include="js\controllers\controllerSettings.ts" />
+    <TypeScriptCompile Include="js\libs\typescript\typeahead.ts" />
     <Content Include="js\views\viewGallery.ts" />
     <TypeScriptCompile Include="js\views\viewNav.ts" />
     <TypeScriptCompile Include="js\views\viewSession.ts" />

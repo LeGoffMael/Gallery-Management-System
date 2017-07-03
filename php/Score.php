@@ -54,7 +54,7 @@ class Score
 
 		if ($ip_vote->rowCount() == 0) //si l'IP n'a jamais voté
 		{
-			$insertNewIp = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO ip_score (ip,idImage,valueScore) VALUES (:ip, :id, :score)");
+			$insertNewIp = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO ip_score (ip,idImage,valueScore,dateScore) VALUES (:ip, :id, :score, NOW())");
 
 			$insertNewIp->bindValue(':ip', $ip);
 			$insertNewIp->bindValue(':id', $this->_idImage);
@@ -79,7 +79,7 @@ class Score
 			else if ($vote != $this->_currentScore) //If he do a different vote
 			{
 				$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("UPDATE ip_score SET
-				valueScore = :valueScore
+				valueScore = :valueScore, dateScore = NOW()
 				WHERE ip = :ip AND idImage = :idImage");
 
 				$requete->bindValue(':valueScore', $this->_currentScore);

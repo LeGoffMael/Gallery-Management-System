@@ -17,17 +17,8 @@ class ControllerPrincipal {
     constructor() {
         this.viewPrincipal = new ViewPrincipal(this);
         this.setUrl();
+        this.menuClicked();
         ControllerPrincipal.setTagsList(); 
-    }
-
-    static startLoader(element) {
-        element.addClass('loader dots');
-        element.css('display', 'block');
-    }
-
-    static stopLoader(element) {
-        element.removeClass('loader dots');
-        element.css('display', 'none');
     }
 
     /**
@@ -50,7 +41,7 @@ class ControllerPrincipal {
             ControllerGallery.setTagGallery(ControllerPrincipal.getUrlVars().nameTag, 1, true);
         }
         else {
-            hash && $('.sidebar-nav li .menuLink[href="' + hash + '"]').tab('show');
+            hash && $('.menuLink[href="' + hash + '"]').tab('show');
         }
 
         if (hash == "#home") {
@@ -59,13 +50,15 @@ class ControllerPrincipal {
         else if (hash == "#categories") {
             ControllerGallery.setCategories();
         }
+    }
 
-        //Write and show the tab clicked
-        $('.sidebar-nav li .menuLink').click(function (e) {
+    /**
+     * Write and show the tab clicked
+     */
+    private menuClicked() {
+        $('.menuLink').click(function (e) {
             $(this).tab('show');
-            var scrollmem = $('body').scrollTop() || $('html').scrollTop();
             window.location.hash = this.hash;
-            $('html,body').scrollTop(scrollmem);
         });
     }
 
@@ -79,15 +72,52 @@ class ControllerPrincipal {
             success: function (json) {
                 var html = "<ul class='list-inline'>";
                 for (var i = 0; i < json.length; i++) {
-                    html += "<li class='list-inline-item col-lg-2 col-sm-3 col-xs-4 text-center'><a class='label label-default' onClick='ControllerGallery.setTagGallery(&#34;" + json[i].text +"&#34;,1,true)' href='#tags?nameTag=" + json[i].text + "'>" + json[i].text + "</a></li>";
+                    html += "<li class='list-inline-item col-lg-2 col-sm-3 col-xs-4 text-center'><a class='label label-default' onClick='ControllerGallery.setTagGallery(&#34;" + json[i].text + "&#34;,1,true)' href='#tags?nameTag=" + json[i].text + "'>" + json[i].text + "<span class='badge'>" + json[i].nb + "</span></a></li>";
                 }
                 html += "</ul>";
-                
+
+                $('#tags h1').html('Tags');
                 $("#tagsContent").html(html);
             },
             error: function (resultat, statut, erreur) {
                 console.log('error tags list (' + erreur + ')');
             }
+        });
+    }
+
+    /**
+     * Init the auto complete search
+      */
+    static setSearchList() {
+        var search = [];
+
+        $.ajax({
+            url: './php/functions/getAllCategories.php',
+            dataType: 'json',
+            success: function (json) {
+                for (var i = 0; i < json.length; i++) {
+                    search.push(json[i].text);
+                }
+            },
+            error: function (resultat, statut, erreur) {
+                console.log('error tags list (' + erreur + ')');
+            }
+        });
+        $.ajax({
+            url: './php/functions/getAllTags.php',
+            dataType: 'json',
+            success: function (json) {
+                for (var i = 0; i < json.length; i++) {
+                    search.push(json[i].text);
+                }
+            },
+            error: function (resultat, statut, erreur) {
+                console.log('error tags list (' + erreur + ')');
+            }
+        });
+
+        $('.search-input').typeahead({
+            source: search
         });
     }
 

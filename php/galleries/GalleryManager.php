@@ -117,6 +117,9 @@ abstract class GalleryManager
 
 		return $res;
 	}
+	/* Retourne tous les enfants de la categorie */
+	public function getAllChilds($nameCategory) {
+	}
 
 	/**
 	 * Return the gallery

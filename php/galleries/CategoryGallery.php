@@ -41,7 +41,7 @@ class CategoryGallery extends GalleryManager
 
 		if($categoryImages->rowCount() == 0)
 		{
-			echo "<h2 class='text-center'>No items to display</h2>";
+			echo "<h2>No items to display</h2>";
 		}
 		else{
 			while ($dataImage = $categoryImages->fetch())

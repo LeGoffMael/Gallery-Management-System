@@ -19,9 +19,10 @@ class ViewNav {
     constructor(controller: ControllerNav) {
         this.controllerNav = controller;
         this.initSideBarButton();
-        this.initSideBarWidth();        
+        this.initSideBar();        
         $(window).on('resize', this.onWindowResized.bind(this));
         this.initMobileNav();
+        this.initSearch();
     }
 
     /**
@@ -29,7 +30,7 @@ class ViewNav {
      * @param event
      */
     private onWindowResized(event: UIEvent): void {
-        this.initSideBarWidth();
+        this.initSideBar();
     }
 
     /**
@@ -49,34 +50,20 @@ class ViewNav {
                 $(".sidebar-toggle a i").removeClass("fa-caret-left");
                 $(".sidebar-toggle a i").addClass("fa-caret-right");
             }
-            that.initSideBarWidth();
+            that.initSideBar();
         });
     }
 
     /**
      * Change the appearance of multiple items depending on the state of the nav
      */
-    private initSideBarWidth() {
+    private initSideBar() {
         //If the navigation is reduce
         if (($('.wrapper').hasClass("toggled") == false)) {
-            $(".sidebar-nav li a").css("margin-left", "0");
-            $("#little-search").css("display", "block");
-            $("#search-form").css("display", "none");
-            $("#contact").css("margin-left", "1px");
-            $("#contact").css("font-size", "90%");
-
             this.initToolTip();
         }
         //Else
         else if ($('.wrapper').hasClass("toggled") == true) {
-            $(".sidebar-toggle").css('display', 'block');
-            $(".sidebar").css('padding-top', '0px');
-            $(".sidebar-nav li a").css("margin-left", "10px");
-            $("#little-search").css("display", "none");
-            $("#search-form").css("display", "block");
-            $("#contact").css("margin-left", "5px");
-            $("#contact").css("font-size", "100%");
-
             this.destroyTooltip();
         }
     }
@@ -96,14 +83,35 @@ class ViewNav {
         $('.sidebar').tooltip('destroy');
     }
 
+    /**
+     * Init the mobile navigation
+     */
     private initMobileNav() {
         $("#mobile-toggle").click(function (e) {
             e.preventDefault();
             $(".wrapper").toggleClass("mobile-toggled");
         });
-        $(".sidebar-nav a").click(function (e) {
+        //Close toggle on link or button clicked
+        $(".sidebar-nav a,button").click(function (e) {
             e.preventDefault();
             $(".wrapper").removeClass("mobile-toggled");
+        });
+    }
+
+    /**
+     * Init search button
+     */
+    private initSearch() {
+        ControllerPrincipal.setSearchList();
+        $("#search-form a").click(function (e) {
+            var val = $("#search-form input").val();
+            if (val != "" && val != undefined)
+                ControllerGallery.setSearchResult(val,1,true);
+        });
+        $("#search-form-reduce a").click(function (e) {
+            var val = $("#search-form-reduce input").val();
+            if (val != "" && val != undefined)
+                ControllerGallery.setSearchResult(val,1,true);
         });
     }
 }

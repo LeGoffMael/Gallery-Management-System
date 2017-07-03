@@ -2,9 +2,11 @@
 header('Content-Type: application/json');
 require_once('../Settings.php');
 
-$categories = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT idTag,nameTag
-		FROM tags
-		ORDER BY nameTag ASC");
+$categories = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT t.idTag,nameTag, COUNT(ti.idTag) AS nbElements
+FROM tags t
+LEFT JOIN tags_images ti ON ti.idTag=t.idTag
+GROUP BY t.idTag
+ORDER BY nameTag ASC");
 $categories->execute();
 
 if($categories->rowCount() == 0)
@@ -19,6 +21,7 @@ else{
 	{
 		$row_array['id'] = $data['idTag'];
 		$row_array['text'] = $data['nameTag'];
+		$row_array['nb'] = $data['nbElements'];
 		array_push($tabCategories,$row_array);
 	}
 	$categories->closeCursor();

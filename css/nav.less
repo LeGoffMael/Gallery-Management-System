@@ -26,6 +26,10 @@
         }
     }
 
+    li a {
+        margin-left: 0!important;
+    }
+
     .button {
         cursor: pointer;
     }
@@ -70,7 +74,8 @@
 }
 
 /*La barre de recherche*/
-#search-form {
+#search-form,
+#search-form-reduce {
     display: none;
     color: #333;
     margin:0;
@@ -80,8 +85,9 @@
     padding: 0;
 }
  
-#search-form .search-input {
-    padding-right: 3px;
+#search-form .search-input,
+#search-form-reduce .search-input {
+    padding-right: 20px;
     padding-left: 3px;
     width: 80%;
     background-color: @sideBarColor;
@@ -94,7 +100,8 @@
     border-radius: 2px;
 }
  
-#search-form .search-button {
+#search-form .search-button,
+#search-form-reduce .search-button {
     border: 0;
     background: none;
     color: @linkColor;
@@ -102,11 +109,25 @@
     margin-top: 2px;
     position: relative;
     left: -28px;
-
     margin-bottom: 0;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
+
+    &:hover {
+        color: @linkHoverColor;
+    }
+}
+#search-form-reduce .search-button {
+    display: inline-block;
+    font-size: 100%;
+}
+
+#little-search {
+    display: block!important;
+}
+#search-form-reduce {
+    display: block;
 }
 
 /*Mettre à droite la boite de la petite search*/
@@ -243,6 +264,37 @@
         }
     }
 }
+
+#search-form {
+    display: none!important;
+}
+#contact {
+    margin-left: 1px!important;
+    font-size: 90%!important;
+}
+
+.wrapper.toggled {
+    .sidebar-toggle {
+        display: block;
+    }
+    .sidebar{
+        padding-top: 0px;
+    }    
+    .sidebar-nav li a {
+        margin-left: 10px;
+    }
+    #little-search {
+        display: none!important;
+    }
+    #search-form {
+        display: block!important;
+    }
+    #contact {
+        margin-left: 5px;
+        font-size: 100%;
+    }
+}
+
 
 /* If more than 770 px*/
 @media(min-width:770px) {

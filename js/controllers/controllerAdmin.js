@@ -104,6 +104,7 @@ var ControllerAdmin = (function () {
      * Add an image in the database
      */
     ControllerAdmin.prototype.newImage = function () {
+        var that = this;
         var url = $("#admin #newImage-admin #newImage-url-admin").val();
         var description = $("#admin #newImage-admin #newImage-description-admin").val();
         var categories = $("#admin #newImage-admin #newImage-categories-admin").val();
@@ -124,6 +125,7 @@ var ControllerAdmin = (function () {
                     if (data[0] === "success") {
                         ControllerGallery.updateLatestTopGallery();
                         ControllerPrincipal.formMsg("newImage-admin", "success", "Image successfully added");
+                        that.viewAdmin.resetNewImageInterface();
                     }
                     else {
                         ControllerPrincipal.formMsg("newImage-admin", "error", data[1]);
@@ -256,6 +258,7 @@ var ControllerAdmin = (function () {
                         ControllerPrincipal.formMsg("newCategory-admin", "success", "Category successfully added");
                         that.setSelectListCategories();
                         that.setSelectListImageCategories();
+                        ControllerPrincipal.setSearchList();
                     }
                     else {
                         ControllerPrincipal.formMsg("newCategory-admin", "error", data[1]);
@@ -327,6 +330,7 @@ var ControllerAdmin = (function () {
                         that.viewAdmin.resetEditCategoryInterface();
                         that.setSelectListCategories();
                         that.setSelectListImageCategories();
+                        ControllerPrincipal.setSearchList();
                     }
                     else {
                         ControllerPrincipal.formMsg("edit-category-option", "error", data[1]);
@@ -356,6 +360,7 @@ var ControllerAdmin = (function () {
                     that.viewAdmin.resetEditCategoryInterface();
                     that.setSelectListCategories();
                     that.setSelectListImageCategories();
+                    ControllerPrincipal.setSearchList();
                 }
                 else {
                     ControllerPrincipal.formMsg("confirm-delete-category", "error", data[1]);
@@ -386,6 +391,7 @@ var ControllerAdmin = (function () {
                         that.setSelectListTags();
                         ControllerPrincipal.formMsg("editTags-admin", "success", "Tags that do not exist have been successfully added.");
                         that.viewAdmin.resetEditTagInterface();
+                        ControllerPrincipal.setSearchList();
                     }
                     else {
                         ControllerPrincipal.formMsg("editTags-admin", "error", data[1]);
@@ -419,6 +425,7 @@ var ControllerAdmin = (function () {
                         ControllerPrincipal.formMsg("editTags-admin", "success", "Tags that exist have been successfully deleted.");
                         ControllerGallery.updateLatestTopGallery();
                         that.viewAdmin.resetEditTagInterface();
+                        ControllerPrincipal.setSearchList();
                     }
                     else {
                         ControllerPrincipal.formMsg("confirm-delete-tag", "error", data[1]);
@@ -445,6 +452,7 @@ var ControllerAdmin = (function () {
                     that.setSelectListImageCategories();
                     ControllerPrincipal.formMsg("confirm-delete-unreferenced", "success", "All unreferenced records have been successfully deleted.");
                     ControllerGallery.updateLatestTopGallery();
+                    ControllerPrincipal.setSearchList();
                 }
                 else {
                     ControllerPrincipal.formMsg("confirm-delete-unreferenced", "error", data[1]);

@@ -14,6 +14,12 @@ body {
 *::-webkit-scrollbar {
     width: 0.3em;
 }
+
+@media(max-width:770px) {
+    .main::-webkit-scrollbar {
+        width: 0;
+    }
+}
  
 *::-webkit-scrollbar-thumb {
     background-color: #111;
@@ -35,8 +41,15 @@ body {
 .main {
 	width: 100%;
     height: 100vh;
-    padding: 10px;
     overflow-x: hidden;
+}
+
+h1 {
+    padding-left: 10px;
+}
+
+section h2 {
+    text-align: center;
 }
 
 #logo img:hover {
@@ -53,12 +66,36 @@ body {
     display : none;
 }
 
-@media screen and (max-width: 992px) {
-    .main {
-        padding: 0;
+/* Auto complete */
+.typeahead.dropdown-menu {
+    background-color: @sideBarColor!important;
 
-        & h1 {
-            padding-left: 10px;
+    li a {
+        color: @linkHoverColor;
+        background-color: @sideBarColor!important;
+    }
+}
+#search-form, #search-form-reduce {
+    .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
+        background: @mainColor!important;
+        color: @linkHoverColor;
+    }
+}
+
+/* Coloized title links */
+section h1 {
+    a {
+        color: @mainColor;
+        cursor: pointer;
+
+        &:hover, &:active, &:focus {
+            color: @mainColor;
+            text-decoration: underline;
         }
     }
+}
+
+/* No border on inputs & buttons focus */
+input:focus, button:focus {
+    outline: none !important;
 }

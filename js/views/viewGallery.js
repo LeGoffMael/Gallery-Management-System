@@ -36,8 +36,8 @@ var ViewGallery = (function () {
         if (window.matchMedia("(min-width: 900px)").matches) {
             $(".gallery-container a .img-fluid").css("max-width", $(window).width() / 2);
         }
-        else {
-            $(".gallery-container a .img-fluid").css("max-width", $(window).width() / 3);
+        else if (window.matchMedia("(max-width: 500px)").matches) {
+            $(".gallery-container a .img-fluid").css("max-width", $(window).width());
         }
     };
     /**

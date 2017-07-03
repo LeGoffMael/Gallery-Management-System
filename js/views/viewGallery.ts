@@ -40,10 +40,11 @@ class ViewGallery {
         if (window.matchMedia("(min-width: 900px)").matches) {
             $(".gallery-container a .img-fluid").css("max-width", $(window).width() / 2);
         }
-        //If it's a little screen
-        else {
-            $(".gallery-container a .img-fluid").css("max-width", $(window).width() / 3);
+        //If it's a little screen, images are full width screen
+        else if (window.matchMedia("(max-width: 500px)").matches) {
+            $(".gallery-container a .img-fluid").css("max-width", $(window).width());
         }
+
     }
 
     /**
