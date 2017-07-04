@@ -2,7 +2,9 @@
 @import "config.less";
 
 .loaderContainer {
-  text-align: center;
+    text-align: center;
+    height: 1.5em;
+    display: block;
 }
 
 /* Thanks to https://codepen.io/nauerster/pen/KzENEN */
@@ -18,6 +20,8 @@
   color: @mainColor;
   font-size: 18px;
   position: relative;
+  z-index: 1000;
+  top: -2.5em;
 }
 
 .loaderContainer .ellipsis {

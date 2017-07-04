@@ -18,10 +18,10 @@ var ControllerPrincipal = (function () {
     }
     ControllerPrincipal.prototype.startLoader = function (element) {
         this.stopLoader(element);
-        $(element).addClass('loaderContainer').append('<span class="ellipsis"></span>');
+        $(element).append('<div class="loaderContainer"><span class="ellipsis"></span></div>');
     };
     ControllerPrincipal.prototype.stopLoader = function (element) {
-        $(element).removeClass('loaderContainer').children('.ellipsis').remove();
+        $(element).children('.loaderContainer').remove();
     };
     /**
      * When we reload we return to the same area

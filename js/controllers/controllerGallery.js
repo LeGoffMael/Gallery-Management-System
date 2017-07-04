@@ -38,9 +38,7 @@ var ControllerGallery = (function () {
     ControllerGallery.prototype.goToCategory = function () {
         var that = this;
         $("#categories").on("click", "a.categoryLink", function () {
-            console.log('category');
             var parent = $(this).attr('data-categoryLink');
-            console.log(parent);
             that.setCategoriesChild(parent, 1, true);
         });
     };
@@ -85,6 +83,8 @@ var ControllerGallery = (function () {
             if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
                 var allPage = $('.main #' + that.getCurrentGallery() + ' .pageGallery');
                 var nextPage = allPage.last();
+                //Start loader
+                that.application.getControllerPrincipal().startLoader('#' + that.getCurrentGallery() + '.gallery:last');
                 if (that.getCurrentGallery() == 'home') {
                     that.setLatestGallery(nextPage.attr('data-nextPage'), false);
                 }
@@ -103,6 +103,8 @@ var ControllerGallery = (function () {
                         terms = $("#search-form-reduce input").val();
                     that.setSearchResult(terms, nextPage, false);
                 }
+                //Stop loader
+                that.application.getControllerPrincipal().startLoader('#' + that.getCurrentGallery() + '.gallery');
             }
         });
     };

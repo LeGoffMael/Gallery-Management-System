@@ -52,9 +52,7 @@ class ControllerGallery {
     public goToCategory() {
         var that = this;
         $("#categories").on("click", "a.categoryLink", function () {
-            console.log('category');
             var parent = $(this).attr('data-categoryLink');
-            console.log(parent);
             that.setCategoriesChild(parent, 1, true);
         });
     }
@@ -105,11 +103,14 @@ class ControllerGallery {
                 var allPage = $('.main #' + that.getCurrentGallery() + ' .pageGallery');
                 var nextPage = allPage.last();
 
+                //Start loader
+                that.application.getControllerPrincipal().startLoader('#' + that.getCurrentGallery()+ '.gallery:last');
+
                 if (that.getCurrentGallery() == 'home') {
                     that.setLatestGallery(nextPage.attr('data-nextPage'), false);
                 }
-                else if (that.getCurrentGallery() == 'top') {
-                    that.setTopGallery(nextPage.attr('data-nextPage'), false);
+                else if (that.getCurrentGallery() == 'top') {                   
+                    that.setTopGallery(nextPage.attr('data-nextPage'), false);                   
                 }
                 else if (that.getCurrentGallery() == 'categories') {
                     that.setCategoriesChild(that.application.getControllerPrincipal().getUrlVars().categoryName, nextPage, false);
@@ -124,6 +125,9 @@ class ControllerGallery {
 
                     that.setSearchResult(terms, nextPage, false);
                 }
+
+                //Stop loader
+                that.application.getControllerPrincipal().startLoader('#' + that.getCurrentGallery() + '.gallery');
             }
         });
     }

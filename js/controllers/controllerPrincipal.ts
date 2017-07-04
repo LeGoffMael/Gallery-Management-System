@@ -30,11 +30,11 @@ class ControllerPrincipal {
 
     public startLoader(element) {
         this.stopLoader(element);
-        $(element).addClass('loaderContainer').append('<span class="ellipsis"></span>');
+        $(element).append('<div class="loaderContainer"><span class="ellipsis"></span></div>');
     }
 
     public stopLoader(element) {
-        $(element).removeClass('loaderContainer').children('.ellipsis').remove();
+        $(element).children('.loaderContainer').remove();
     }
 
     /**
