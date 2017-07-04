@@ -22,6 +22,7 @@
   	<link rel="stylesheet/less" type="text/css" href="css/tags.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/settings.less" />
   	<link rel="stylesheet/less" type="text/css" href="css/admin.less" />
+    <link rel="stylesheet/less" type="text/css" href="css/loader.less" />
   </head>
 <body>
     <!--Main content-->
@@ -104,9 +105,9 @@
 
 							  <li class="nav-divider"></li>
 
-							  <!--Connexion/Deconnexion-->
+							  <!--Login/Logout-->
 
-						      <li data-toggle="tooltip" id="nav-logout" data-placement="right" title="Logout"><a href="php/session/logout.php"><i class="fa fa-sign-out"></i> <strong><span>Logout</span></strong></a></li>';
+						      <li data-toggle="tooltip" id="nav-logout" data-placement="right" title="Logout"><a href="#"><i class="fa fa-sign-out"></i> <strong><span>Logout</span></strong></a></li>';
                     } else {
 						//If the user is logged
 						echo '<li data-toggle="tooltip" id="nav-login" data-placement="right" title="Login"><a href="#" data-target="#login-modal" data-toggle="modal"><i class="fa fa-sign-in"></i> <strong><span>Login</span></strong></a></li>';
@@ -116,6 +117,10 @@
                 </ul>
 
                 <a href="#" id="contact" data-target="#contact-modal" data-toggle="modal"><small>Credits</small></a>
+
+            <div class="ellipsisContainer">
+                <span></span>
+            </div>
             </div>
         
         <!-- The differents menu areas -->
@@ -357,21 +362,11 @@
 	<script src="js/views/viewSession.js"></script>
 	<script src="js/controllers/controllerGallery.js"></script>
     <script src="js/views/viewGallery.js"></script>
-<?php
-if (!empty($_SESSION['id']))
-{
-?>
 	<!-- If the user is logged -->
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
 	<script src="js/controllers/controllerSettings.js"></script>
 	<script src="js/views/viewSettings.js"></script>
 	<script src="js/controllers/controllerAdmin.js"></script>
 	<script src="js/views/viewAdmin.js"></script>
-	<script>
-    	Application.admin();
-	</script>
-<?php
-}
-?>
 </body>
 </html>

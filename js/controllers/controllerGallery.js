@@ -1,5 +1,6 @@
 /// <reference path="../libs/typescript/jquery.d.ts" />
 /// <reference path="../views/viewGallery.ts" />
+/// <reference path="../application/application.ts" />
 /// <reference path="controllerPrincipal.ts" />
 /**
  * controller of the galleries
@@ -8,15 +9,56 @@ var ControllerGallery = (function () {
     /**
      * Constructor
      */
-    function ControllerGallery() {
+    function ControllerGallery(application) {
+        this.application = application;
         this.viewGallery = new ViewGallery(this);
-        ControllerGallery.updateLatestTopGallery();
+        this.updateLatestTopGallery();
         this.paginationManagement();
+        this.voteButton();
+        this.goToCategory();
+        this.goToTag();
     }
+    /**
+     * Set vote when vote button is clicked
+     */
+    ControllerGallery.prototype.voteButton = function () {
+        var that = this;
+        $("#pswp").on("click", "a.voteButton", function () {
+            var typeVote = $(this).attr('data-typeVote');
+            var url = $(this).attr('data-voteUrl');
+            that.setVote(typeVote, url);
+        });
+    };
+    /**
+     * Set category when a new is clicked
+     */
+    ControllerGallery.prototype.goToCategory = function () {
+        var that = this;
+        $("#categories").on("click", "a.categoryLink", function () {
+            console.log('category');
+            var parent = $(this).attr('data-categoryLink');
+            console.log(parent);
+            that.setCategoriesChild(parent, 1, true);
+        });
+    };
+    /**
+     * Set tag when a new is clicked
+     */
+    ControllerGallery.prototype.goToTag = function () {
+        var that = this;
+        $("#tags").on("click", "a.tagLink", function () {
+            var tag = $(this).attr('data-tagLink');
+            console.log(tag);
+            that.setTagGallery(tag, 1, true);
+        });
+        $("#tags").on("click", "a.tagsLink", function () {
+            that.application.getControllerPrincipal().setTagsList();
+        });
+    };
     /**
      * Return the current gallery
      */
-    ControllerGallery.getCurrentGallery = function () {
+    ControllerGallery.prototype.getCurrentGallery = function () {
         //To determine in which gallery we are
         var gallery = null;
         var hash = window.location.hash;
@@ -35,27 +77,28 @@ var ControllerGallery = (function () {
      * And update the current gallery with it next page
      */
     ControllerGallery.prototype.paginationManagement = function () {
+        var that = this;
         $('.main').scroll(function () {
             if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
-                var allPage = $('.main #' + ControllerGallery.getCurrentGallery() + ' .pageGallery');
+                var allPage = $('.main #' + that.getCurrentGallery() + ' .pageGallery');
                 var nextPage = allPage.last();
-                if (ControllerGallery.getCurrentGallery() == 'home') {
-                    ControllerGallery.setLatestGallery(nextPage.attr('data-nextPage'), false);
+                if (that.getCurrentGallery() == 'home') {
+                    that.setLatestGallery(nextPage.attr('data-nextPage'), false);
                 }
-                else if (ControllerGallery.getCurrentGallery() == 'top') {
-                    ControllerGallery.setTopGallery(nextPage.attr('data-nextPage'), false);
+                else if (that.getCurrentGallery() == 'top') {
+                    that.setTopGallery(nextPage.attr('data-nextPage'), false);
                 }
-                else if (ControllerGallery.getCurrentGallery() == 'categories') {
-                    ControllerGallery.setCategoriesChild(ControllerPrincipal.getUrlVars().categoryName, nextPage, false);
+                else if (that.getCurrentGallery() == 'categories') {
+                    that.setCategoriesChild(that.application.getControllerPrincipal().getUrlVars().categoryName, nextPage, false);
                 }
-                else if (ControllerGallery.getCurrentGallery() == 'tags') {
-                    ControllerGallery.setTagGallery(ControllerPrincipal.getUrlVars().nameTag, nextPage, false);
+                else if (that.getCurrentGallery() == 'tags') {
+                    that.setTagGallery(that.application.getControllerPrincipal().getUrlVars().nameTag, nextPage, false);
                 }
-                else if (ControllerGallery.getCurrentGallery() == 'search') {
+                else if (that.getCurrentGallery() == 'search') {
                     var terms = $("#search-form input").val();
                     if (terms == "" || terms == null)
                         terms = $("#search-form-reduce input").val();
-                    ControllerGallery.setSearchResult(terms, nextPage, false);
+                    that.setSearchResult(terms, nextPage, false);
                 }
             }
         });
@@ -63,14 +106,14 @@ var ControllerGallery = (function () {
     /**
      * Reset top and latest galleries
      */
-    ControllerGallery.updateLatestTopGallery = function () {
-        ControllerGallery.setLatestGallery(1, true);
-        ControllerGallery.setTopGallery(1, true);
+    ControllerGallery.prototype.updateLatestTopGallery = function () {
+        this.setLatestGallery(1, true);
+        this.setTopGallery(1, true);
     };
     /**
      * Create the latest gallery
      */
-    ControllerGallery.setLatestGallery = function (page, reset) {
+    ControllerGallery.prototype.setLatestGallery = function (page, reset) {
         $.ajax({
             url: './php/galleries/LastGallery.php',
             type: 'POST',
@@ -94,7 +137,7 @@ var ControllerGallery = (function () {
     /**
      * Create the top gallery
      */
-    ControllerGallery.setTopGallery = function (page, reset) {
+    ControllerGallery.prototype.setTopGallery = function (page, reset) {
         $.ajax({
             url: './php/galleries/TopGallery.php',
             type: 'POST',
@@ -118,7 +161,7 @@ var ControllerGallery = (function () {
     /**
      * Create parent categories gallery
      */
-    ControllerGallery.setCategories = function () {
+    ControllerGallery.prototype.setCategories = function () {
         $.ajax({
             url: './php/galleries/ParentCategories.php',
             type: 'GET',
@@ -137,7 +180,7 @@ var ControllerGallery = (function () {
      * @param page the page to display category
      * @param reset if the new gallery crushed the last
      */
-    ControllerGallery.setCategoriesChild = function (name, page, reset) {
+    ControllerGallery.prototype.setCategoriesChild = function (name, page, reset) {
         if (name != 'null') {
             $.ajax({
                 url: './php/galleries/ChildCategories.php',
@@ -162,7 +205,7 @@ var ControllerGallery = (function () {
             });
         }
         else {
-            ControllerGallery.setCategories();
+            this.setCategories();
         }
     };
     /**
@@ -171,7 +214,7 @@ var ControllerGallery = (function () {
      * @param page the page to display category
      * @param reset if the new gallery crushed the last
      */
-    ControllerGallery.setTagGallery = function (nameTag, page, reset) {
+    ControllerGallery.prototype.setTagGallery = function (nameTag, page, reset) {
         $.ajax({
             url: './php/galleries/TagGallery.php',
             type: 'POST',
@@ -182,7 +225,7 @@ var ControllerGallery = (function () {
                     $("#tagsContent").html(html);
                 else
                     $("#tagsContent").html($(".galleryTop").html() + html);
-                $('#tags h1').html('Tags::<a class="menuLink" href= "#tags" data- toggle="tab" onClick="ControllerPrincipal.setTagsList()" >' + nameTag + '</a>');
+                $('#tags h1').html('Tags::<a class="menuLink tagsLink" href= "#tags" data-toggle="tab" >' + nameTag + '</a>');
                 ViewGallery.initGallery();
                 ViewGallery.initLightBox();
             },
@@ -194,7 +237,7 @@ var ControllerGallery = (function () {
     /**
      * Display the result of the search
      */
-    ControllerGallery.setSearchResult = function (terms, page, reset) {
+    ControllerGallery.prototype.setSearchResult = function (terms, page, reset) {
         if (terms != "" && terms != undefined) {
             $.ajax({
                 url: './php/galleries/SearchResult.php',
@@ -223,28 +266,29 @@ var ControllerGallery = (function () {
      * @param currentVote up or down
      * @param urlImage the image voted
      */
-    ControllerGallery.setVote = function (currentVote, urlImage) {
-        var gallery = ControllerGallery.getCurrentGallery();
+    ControllerGallery.prototype.setVote = function (currentVote, urlImage) {
+        var gallery = this.getCurrentGallery();
+        var that = this;
         $.ajax({
             url: './php/Score.php',
             type: 'POST',
             data: 'currentVote=' + currentVote + '&urlImage=' + urlImage,
             dataType: 'html',
             success: function (code_html) {
-                //If we are in the latests gallery
+                //If we are in the latest gallery
                 if (gallery == 'home') {
-                    ControllerGallery.updateLatestTopGallery();
+                    that.updateLatestTopGallery();
                 }
                 else if (gallery == 'top')
-                    ControllerGallery.setTopGallery(1, true);
+                    that.setTopGallery(1, true);
                 else if (gallery == null)
                     location.reload();
                 else {
-                    ControllerGallery.setCategoriesChild(gallery, false, 1);
-                    ControllerGallery.setTopGallery(1, true);
+                    that.setCategoriesChild(gallery, false, 1);
+                    that.setTopGallery(1, true);
                 }
                 //Change score displayed in the light box
-                ControllerGallery.updateLightBox(code_html);
+                that.updateLightBox(code_html);
             },
             error: function (resultat, statut, erreur) {
                 console.log('error vote (' + urlImage + ': ' + currentVote + ')');
@@ -255,7 +299,7 @@ var ControllerGallery = (function () {
      * Update the content of the light box
      * @param vote the new vote value
      */
-    ControllerGallery.updateLightBox = function (vote) {
+    ControllerGallery.prototype.updateLightBox = function (vote) {
         $('#pswp div.score').html(vote);
     };
     return ControllerGallery;

@@ -1,11 +1,17 @@
 /// <reference path="../libs/typescript/jquery.d.ts" />
 /// <reference path="../views/viewPrincipal.ts" />
+/// <reference path="../application/application.ts" />
 /// <reference path="controllerGallery.ts" />
 
 /**
  * Principal controller of the application
  */
 class ControllerPrincipal {
+
+    /**
+     * The link between controllers
+     */
+    private application: Application;
     /**
      * View associated to the controller
      */
@@ -14,11 +20,21 @@ class ControllerPrincipal {
     /**
      * Constructor
      */
-    constructor() {
+    constructor(application: Application) {
+        this.application = application;
         this.viewPrincipal = new ViewPrincipal(this);
         this.setUrl();
         this.menuClicked();
-        ControllerPrincipal.setTagsList(); 
+        this.setTagsList(); 
+    }
+
+    public startLoader(element) {
+        this.stopLoader(element);
+        $(element).addClass('loaderContainer').append('<span class="ellipsis"></span>');
+    }
+
+    public stopLoader(element) {
+        $(element).removeClass('loaderContainer').children('.ellipsis').remove();
     }
 
     /**
@@ -32,13 +48,13 @@ class ControllerPrincipal {
             var newHash = hash.split("?");
             hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
             //Display it
-            ControllerGallery.setCategoriesChild(ControllerPrincipal.getUrlVars().categoryName, 1, true);
+            this.application.getControllerGallery().setCategoriesChild(this.getUrlVars().categoryName, 1, true);
         }
-        else if (hash.includes('nameTag')) {
+        else if (hash.includes('*')) {
             var newHash = hash.split("?");
             hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
             //Display it
-            ControllerGallery.setTagGallery(ControllerPrincipal.getUrlVars().nameTag, 1, true);
+            this.application.getControllerGallery().setTagGallery(this.getUrlVars().nameTag, 1, true);
         }
         else {
             hash && $('.menuLink[href="' + hash + '"]').tab('show');
@@ -48,7 +64,7 @@ class ControllerPrincipal {
             $('#nav-home').addClass('active');
         }
         else if (hash == "#categories") {
-            ControllerGallery.setCategories();
+            this.application.getControllerGallery().setCategories(); 
         }
     }
 
@@ -56,7 +72,11 @@ class ControllerPrincipal {
      * Write and show the tab clicked
      */
     private menuClicked() {
+        var that = this;
         $('.menuLink').click(function (e) {
+            if ($(this).hasClass('tagsLink')) {
+                that.setTagsList();
+            }
             $(this).tab('show');
             window.location.hash = this.hash;
         });
@@ -65,14 +85,14 @@ class ControllerPrincipal {
     /**
      * Display all the tags name in the tags area
      */
-    static setTagsList() {
+    public setTagsList() {
         $.ajax({
             url: './php/functions/getAllTags.php',
             dataType: 'json',
             success: function (json) {
                 var html = "<ul class='list-inline'>";
                 for (var i = 0; i < json.length; i++) {
-                    html += "<li class='list-inline-item col-lg-2 col-sm-3 col-xs-4 text-center'><a class='label label-default' onClick='ControllerGallery.setTagGallery(&#34;" + json[i].text + "&#34;,1,true)' href='#tags?nameTag=" + json[i].text + "'>" + json[i].text + "<span class='badge'>" + json[i].nb + "</span></a></li>";
+                    html += "<li class='list-inline-item col-lg-2 col-sm-3 col-xs-4 text-center'><a class='label label-default tagLink' data-tagLink='"+ json[i].text +"' href='#tags?nameTag=" + json[i].text + "'>" + json[i].text + "<span class='badge'>" + json[i].nb + "</span></a></li>";
                 }
                 html += "</ul>";
 
@@ -88,7 +108,7 @@ class ControllerPrincipal {
     /**
      * Init the auto complete search
       */
-    static setSearchList() {
+    public setSearchList() {
         var search = [];
 
         $.ajax({
@@ -124,7 +144,7 @@ class ControllerPrincipal {
     /**
      * Returns all variables included in the URL
      */
-    static getUrlVars() {
+    public getUrlVars() {
         var vars = {};
         var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
             vars[key] = value;
@@ -138,7 +158,7 @@ class ControllerPrincipal {
      * @param type error / success
      * @param msg the message to display
      */
-    static formMsg(form, type, msg) {
+    public formMsg(form, type, msg) {
         if (type == 'success') {
             $("#" + form + " .msg-error").css('display', 'none');
             $("#" + form + " .msg-success span").html("  " +msg);

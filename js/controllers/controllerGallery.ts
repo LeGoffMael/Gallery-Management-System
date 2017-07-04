@@ -1,5 +1,6 @@
 ﻿/// <reference path="../libs/typescript/jquery.d.ts" />
 /// <reference path="../views/viewGallery.ts" />
+/// <reference path="../application/application.ts" />
 /// <reference path="controllerPrincipal.ts" />
 
 /**
@@ -8,6 +9,10 @@
 class ControllerGallery {
 
     /**
+     * The link between controllers
+     */
+    private application: Application;
+    /**
      * View associated to the controller
      */
     private viewGallery: ViewGallery;
@@ -15,16 +20,60 @@ class ControllerGallery {
     /**
      * Constructor
      */
-    constructor() {
+    constructor(application: Application) {
+        this.application = application;
         this.viewGallery = new ViewGallery(this);
-        ControllerGallery.updateLatestTopGallery();
+        this.updateLatestTopGallery();
         this.paginationManagement();
+        this.voteButton();
+        this.goToCategory();
+        this.goToTag();
+    }
+
+    /**
+     * Set vote when vote button is clicked
+     */
+    public voteButton() {
+        var that = this;
+        $("#pswp").on("click", "a.voteButton", function () {
+            var typeVote = $(this).attr('data-typeVote');
+            var url = $(this).attr('data-voteUrl');
+            that.setVote(typeVote, url);
+        });
+    }
+
+    /**
+     * Set category when a new is clicked
+     */
+    public goToCategory() {
+        var that = this;
+        $("#categories").on("click", "a.categoryLink", function () {
+            console.log('category');
+            var parent = $(this).attr('data-categoryLink');
+            console.log(parent);
+            that.setCategoriesChild(parent, 1, true);
+        });
+    }
+
+    /**
+     * Set tag when a new is clicked
+     */
+    public goToTag() {
+        var that = this;
+        $("#tags").on("click", "a.tagLink", function () {
+            var tag = $(this).attr('data-tagLink');
+            console.log(tag);
+            that.setTagGallery(tag, 1, true);
+        });
+        $("#tags").on("click", "a.tagsLink", function () {
+            that.application.getControllerPrincipal().setTagsList();
+        });
     }
 
     /**
      * Return the current gallery
      */
-    static getCurrentGallery() {
+    public getCurrentGallery() {
         //To determine in which gallery we are
         var gallery = null;
         var hash = window.location.hash
@@ -46,29 +95,30 @@ class ControllerGallery {
      * And update the current gallery with it next page
      */
     private paginationManagement() {
+        var that = this;
         $('.main').scroll(function () {
             if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
-                var allPage = $('.main #' + ControllerGallery.getCurrentGallery() + ' .pageGallery');
+                var allPage = $('.main #' + that.getCurrentGallery() + ' .pageGallery');
                 var nextPage = allPage.last();
 
-                if (ControllerGallery.getCurrentGallery() == 'home') {
-                    ControllerGallery.setLatestGallery(nextPage.attr('data-nextPage'), false);
+                if (that.getCurrentGallery() == 'home') {
+                    that.setLatestGallery(nextPage.attr('data-nextPage'), false);
                 }
-                else if (ControllerGallery.getCurrentGallery() == 'top') {
-                    ControllerGallery.setTopGallery(nextPage.attr('data-nextPage'), false);
+                else if (that.getCurrentGallery() == 'top') {
+                    that.setTopGallery(nextPage.attr('data-nextPage'), false);
                 }
-                else if (ControllerGallery.getCurrentGallery() == 'categories') {
-                    ControllerGallery.setCategoriesChild(ControllerPrincipal.getUrlVars().categoryName, nextPage, false);
+                else if (that.getCurrentGallery() == 'categories') {
+                    that.setCategoriesChild(that.application.getControllerPrincipal().getUrlVars().categoryName, nextPage, false);
                 }
-                else if (ControllerGallery.getCurrentGallery() == 'tags') {
-                    ControllerGallery.setTagGallery(ControllerPrincipal.getUrlVars().nameTag, nextPage, false);
+                else if (that.getCurrentGallery() == 'tags') {
+                    that.setTagGallery(that.application.getControllerPrincipal().getUrlVars().nameTag, nextPage, false);
                 }
-                else if (ControllerGallery.getCurrentGallery() == 'search') {
+                else if (that.getCurrentGallery() == 'search') {
                     var terms = $("#search-form input").val();
                     if (terms == "" ||terms == null)
                         terms = $("#search-form-reduce input").val();
 
-                    ControllerGallery.setSearchResult(terms, nextPage, false);
+                    that.setSearchResult(terms, nextPage, false);
                 }
             }
         });
@@ -77,15 +127,15 @@ class ControllerGallery {
     /**
      * Reset top and latest galleries
      */
-    static updateLatestTopGallery() {
-        ControllerGallery.setLatestGallery(1,true);
-        ControllerGallery.setTopGallery(1, true);
+    public updateLatestTopGallery() {
+        this.setLatestGallery(1,true);
+        this.setTopGallery(1, true);
     }
 
     /**
      * Create the latest gallery
      */
-    static setLatestGallery(page,reset) {
+    public setLatestGallery(page,reset) {
         $.ajax({
             url: './php/galleries/LastGallery.php',
             type: 'POST',
@@ -112,7 +162,7 @@ class ControllerGallery {
     /**
      * Create the top gallery
      */
-    static setTopGallery(page,reset) {
+    public setTopGallery(page,reset) {
         $.ajax({
             url: './php/galleries/TopGallery.php',
             type: 'POST',
@@ -139,7 +189,7 @@ class ControllerGallery {
     /**
      * Create parent categories gallery
      */
-    static setCategories() {
+    public setCategories() {
         $.ajax({
             url: './php/galleries/ParentCategories.php',
             type: 'GET',
@@ -159,7 +209,7 @@ class ControllerGallery {
      * @param page the page to display category
      * @param reset if the new gallery crushed the last
      */
-    static setCategoriesChild(name, page, reset) {
+    public setCategoriesChild(name, page, reset) {
         if (name != 'null') {
             $.ajax({
                 url: './php/galleries/ChildCategories.php',
@@ -186,7 +236,7 @@ class ControllerGallery {
             });
         }
         else {
-            ControllerGallery.setCategories();
+            this.setCategories();
         }
     }
 
@@ -196,7 +246,7 @@ class ControllerGallery {
      * @param page the page to display category
      * @param reset if the new gallery crushed the last
      */
-    static setTagGallery(nameTag, page, reset) {
+    public setTagGallery(nameTag, page, reset) {
         $.ajax({
             url: './php/galleries/TagGallery.php',
             type: 'POST',
@@ -208,7 +258,7 @@ class ControllerGallery {
                 else
                     $("#tagsContent").html($(".galleryTop").html() + html);
 
-                $('#tags h1').html('Tags::<a class="menuLink" href= "#tags" data- toggle="tab" onClick="ControllerPrincipal.setTagsList()" >' + nameTag + '</a>');
+                $('#tags h1').html('Tags::<a class="menuLink tagsLink" href= "#tags" data-toggle="tab" >' + nameTag + '</a>');
 
                 ViewGallery.initGallery();
                 ViewGallery.initLightBox();
@@ -222,7 +272,7 @@ class ControllerGallery {
     /**
      * Display the result of the search
      */
-    static setSearchResult(terms, page, reset) {
+    public setSearchResult(terms, page, reset) {
         if (terms != "" && terms != undefined) {
             $.ajax({
                 url: './php/galleries/SearchResult.php',
@@ -250,37 +300,37 @@ class ControllerGallery {
         }
     }
 
-
     /**
      * Do a vote and refresh the value displayed
      * @param currentVote up or down
      * @param urlImage the image voted
      */
-    static setVote(currentVote, urlImage) {
-        var gallery = ControllerGallery.getCurrentGallery();
+    public setVote(currentVote, urlImage) {
+        var gallery = this.getCurrentGallery();
+        var that = this;
         $.ajax({
             url: './php/Score.php',
             type: 'POST',
             data: 'currentVote=' + currentVote + '&urlImage=' + urlImage,
             dataType: 'html',
             success: function (code_html) {
-                //If we are in the latests gallery
+                //If we are in the latest gallery
                 if (gallery == 'home') {
-                    ControllerGallery.updateLatestTopGallery();
+                    that.updateLatestTopGallery();
                 }
-                //If we are in the latests gallery
+                //If we are in the top gallery
                 else if (gallery == 'top')
-                    ControllerGallery.setTopGallery(1, true);
-                //If we are in the latests gallery
+                    that.setTopGallery(1, true);
+                //If we are in none gallery
                 else if (gallery == null)
                     location.reload()
                 //If we are in a category
                 else {
-                    ControllerGallery.setCategoriesChild(gallery, false, 1);
-                    ControllerGallery.setTopGallery(1, true);
+                    that.setCategoriesChild(gallery, false, 1);
+                    that.setTopGallery(1, true);
                 }
                 //Change score displayed in the light box
-                ControllerGallery.updateLightBox(code_html);
+                that.updateLightBox(code_html);
             },
             error: function (resultat, statut, erreur) {
                 console.log('error vote (' + urlImage + ': ' + currentVote + ')');
@@ -292,7 +342,7 @@ class ControllerGallery {
      * Update the content of the light box
      * @param vote the new vote value
      */
-    static updateLightBox(vote) {
+    public updateLightBox(vote) {
         $('#pswp div.score').html(vote);
     }
 }

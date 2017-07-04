@@ -16,24 +16,40 @@ class Application
     private controllerNav: ControllerNav;
     private controllerGallery: ControllerGallery;
     private controllerSession: ControllerSession;
+    private controllerSettings: ControllerSettings;
+    private controllerAdmin: ControllerAdmin;
 
     /**
      * Initialization of all controllers
      */
     constructor()
     {
-        this.controllerPrincipal = new ControllerPrincipal();
-        this.controllerNav = new ControllerNav();
-        this.controllerGallery = new ControllerGallery();
-        this.controllerSession = new ControllerSession();
+        this.controllerGallery = new ControllerGallery(this);
+        this.controllerPrincipal = new ControllerPrincipal(this);
+        this.controllerNav = new ControllerNav(this);
+        this.controllerSession = new ControllerSession(this);
+        this.controllerSettings = new ControllerSettings(this);
+        this.controllerAdmin = new ControllerAdmin(this);
+        
     }
 
-    /**
-     * WHen the user is logged
-     */
-    static admin() {
-        var controllerSettings = new ControllerSettings();
-        var controllerAdmin = new ControllerAdmin();
+    public getControllerPrincipal() {
+        return this.controllerPrincipal;
+    }
+    public getControllerNav() {
+        return this.controllerNav;
+    }
+    public getControllerGallery() {
+        return this.controllerGallery;
+    }
+    public getControllerSession() {
+        return this.controllerSession;
+    }
+    public getControllerSettings() {
+        return this.controllerSettings;
+    }
+    public getControllerAdmin() {
+        return this.controllerAdmin;
     }
 }
 

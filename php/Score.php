@@ -154,21 +154,21 @@ class Score
 	 * Return the score in string
 	 */
 	public function getScoreString() {
-		$res = "<a onClick='ControllerGallery.setVote(0,&#34;".$this->_url."&#34;);'";
+		$res = "<a data-typeVote='0' data-voteUrl='".$this->_url."' class='voteButton";
 
 		if ($this->_currentScore == 0)
-			$res .= " class='active' >";
+			$res .= " active' >";
 		else
-			$res .= " class='' >";
+			$res .= "' >";
 
 		$res .= "<i class='fa fa-thumbs-down fa-flip-horizontal' aria-hidden='true'></i></a>";
 		$res .= $this->getScore();
-		$res .= "<a onClick='ControllerGallery.setVote(1,&#34;".$this->_url."&#34;);'";
+		$res .= "<a data-typeVote='1' data-voteUrl='".$this->_url."' class='voteButton";
 
 		if ($this->_currentScore == 1)
-		$res .= " class='active' >";
+			$res .= " active' >";
 		else
-			$res .= " class='' >";
+			$res .= "' >";
 
 		$res .= "<i class='fa fa-thumbs-up' aria-hidden='true'></i>";
 

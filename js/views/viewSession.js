@@ -36,6 +36,9 @@ var ViewSession = (function () {
         $('#lost-password-button').click(function () {
             that.controllerSession.lostPassword();
         });
+        $('#nav-logout').click(function () {
+            location.href = 'php/session/logout.php';
+        });
     };
     /**
      * Performs animation between form changes

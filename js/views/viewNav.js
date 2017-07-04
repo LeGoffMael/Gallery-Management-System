@@ -92,16 +92,17 @@ var ViewNav = (function () {
      * Init search button
      */
     ViewNav.prototype.initSearch = function () {
-        ControllerPrincipal.setSearchList();
+        var that = this;
+        this.controllerNav.getApplication().getControllerPrincipal().setSearchList();
         $("#search-form a").click(function (e) {
             var val = $("#search-form input").val();
             if (val != "" && val != undefined)
-                ControllerGallery.setSearchResult(val, 1, true);
+                that.controllerNav.getApplication().getControllerGallery().setSearchResult(val, 1, true);
         });
         $("#search-form-reduce a").click(function (e) {
             var val = $("#search-form-reduce input").val();
             if (val != "" && val != undefined)
-                ControllerGallery.setSearchResult(val, 1, true);
+                that.controllerNav.getApplication().getControllerGallery().setSearchResult(val, 1, true);
         });
     };
     return ViewNav;

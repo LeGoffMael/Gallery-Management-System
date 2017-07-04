@@ -13,17 +13,30 @@ var Application = (function () {
      * Initialization of all controllers
      */
     function Application() {
-        this.controllerPrincipal = new ControllerPrincipal();
-        this.controllerNav = new ControllerNav();
-        this.controllerGallery = new ControllerGallery();
-        this.controllerSession = new ControllerSession();
+        this.controllerGallery = new ControllerGallery(this);
+        this.controllerPrincipal = new ControllerPrincipal(this);
+        this.controllerNav = new ControllerNav(this);
+        this.controllerSession = new ControllerSession(this);
+        this.controllerSettings = new ControllerSettings(this);
+        this.controllerAdmin = new ControllerAdmin(this);
     }
-    /**
-     * WHen the user is logged
-     */
-    Application.admin = function () {
-        var controllerSettings = new ControllerSettings();
-        var controllerAdmin = new ControllerAdmin();
+    Application.prototype.getControllerPrincipal = function () {
+        return this.controllerPrincipal;
+    };
+    Application.prototype.getControllerNav = function () {
+        return this.controllerNav;
+    };
+    Application.prototype.getControllerGallery = function () {
+        return this.controllerGallery;
+    };
+    Application.prototype.getControllerSession = function () {
+        return this.controllerSession;
+    };
+    Application.prototype.getControllerSettings = function () {
+        return this.controllerSettings;
+    };
+    Application.prototype.getControllerAdmin = function () {
+        return this.controllerAdmin;
     };
     return Application;
 }());

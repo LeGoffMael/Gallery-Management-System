@@ -1,12 +1,17 @@
 ﻿/// <reference path="../libs/typescript/jquery.d.ts" />
 /// <reference path="../views/viewNav.ts" />
 /// <reference path="controllerGallery.ts" />
+/// <reference path="../application/application.ts" />
 
 /**
  * controller of the navigation
  */
 class ControllerNav {
 
+    /**
+     * The link between controllers
+     */
+    private application: Application;
     /**
      * View associated to the controller
      */
@@ -15,25 +20,31 @@ class ControllerNav {
     /**
      * Constructor
      */
-    constructor() {
+    constructor(application: Application) {
+        this.application = application;
         this.viewNav = new ViewNav(this);
         this.initNav();
     }
 
     private initNav() {
+        var that = this;
         $('#home-link').click(function () {
             location.href = 'index.php';
         });
         $('#nav-categ').click(function () {
-            ControllerGallery.setCategories()
+            that.application.getControllerGallery().setCategories()
         });
         $('#nav-tag').click(function () {
-            ControllerPrincipal.setTagsList();
+            that.application.getControllerPrincipal().setTagsList();
         });
         //Reset scroll
         $('.sidebar-nav a,button').click(function () {
             $('.main').scrollTop(0);
-            ControllerGallery.updateLatestTopGallery();
+            that.application.getControllerGallery().updateLatestTopGallery();
         });
+    }
+
+    public getApplication() {
+        return this.application;
     }
 }

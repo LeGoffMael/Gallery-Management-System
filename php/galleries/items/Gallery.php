@@ -30,9 +30,9 @@ class Gallery
 		$res = "";
 		if ($this->_name != null) {
 			if ($this->_categoryParent == null)
-				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=null' onClick='ControllerGallery.setCategoriesChild(&#34;null&#34;,1,true);'>retour</a></h1>";
+				$res = "<h1>".$this->_name."::<a class='categoryLink' href='#categories?categoryName=null' data-categoryLink='null'>return</a></h1>";
 			else
-				$res = "<h1>".$this->_name."::<a href='#categories?categoryName=".$this->_categoryParent."' onClick='ControllerGallery.setCategoriesChild(&#34;".$this->_categoryParent."&#34;,1,true);'>retour</a></h1>";
+				$res = "<h1>".$this->_name."::<a class='categoryLink' href='#categories?categoryName=".$this->_categoryParent."' data-categoryLink='".$this->_categoryParent."'>return</a></h1>";
 		}
 
 		$res .= "<div class='row gallery'><div class='col-md-12'><div class='gallery-container'>";

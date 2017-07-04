@@ -2,12 +2,17 @@
 /// <reference path="../libs/typescript/jquery.validation.d.ts" />
 /// <reference path="controllerPrincipal.ts" />
 /// <reference path="../views/viewSettings.ts" />
+/// <reference path="../application/application.ts" />
 
 /**
  * controller of the settings area
  */
 class ControllerSettings {
 
+    /**
+     * The link between controllers
+     */
+    private application: Application;
     /**
      * View associated to the controller
      */
@@ -16,7 +21,8 @@ class ControllerSettings {
     /**
     * Constructor
     */
-    constructor() {
+    constructor(application: Application) {
+        this.application = application;
         this.viewSettings = new ViewSettings(this);
         this.initValidate();
     }
@@ -65,6 +71,7 @@ class ControllerSettings {
     public submitGeneralSettings() {
         var title = $('#site-title').val();
         var limit = $('#site-limits').val();
+        var that = this;
 
         $.ajax({
             url: './php/settings/changeSettings.php',
@@ -73,14 +80,14 @@ class ControllerSettings {
             dataType: 'json',
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("general-settings-form", "success", "Updated settings.");
+                    that.application.getControllerPrincipal().formMsg("general-settings-form", "success", "Updated settings.");
                     location.reload();
                 } else {
-                    ControllerPrincipal.formMsg("general-settings-form", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("general-settings-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("general-settings-form", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("general-settings-form", "error", "Internal error.");
             }
         });
     }
@@ -93,6 +100,7 @@ class ControllerSettings {
         var mail = $('input[name=mail-settings]').val();
         var newPassword = $('input[name=passwordSettings]').val();
         var confirmPassword = $('input[name=password2Settings]').val();
+        var that = this;
 
         $.ajax({
             url: './php/settings/updateAccount.php',
@@ -101,13 +109,13 @@ class ControllerSettings {
             data: 'username=' + username + '&mail=' + mail + '&newPassword=' + newPassword + '&confirmPassword=' + confirmPassword,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("account-settings-form", "success", "Updated account");
+                    that.application.getControllerPrincipal().formMsg("account-settings-form", "success", "Updated account");
                 } else {
-                    ControllerPrincipal.formMsg("account-settings-form", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("account-settings-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("account-settings-form", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("account-settings-form", "error", "Internal error.");
             }
         });
     }
@@ -117,6 +125,8 @@ class ControllerSettings {
     */
     public changeTheme() {
         var themeId = $('#appareance-settings input[type="radio"]:checked').val();
+        var that = this;
+
         $.ajax({
             url: './php/settings/changeTheme.php',
             type: 'post',
@@ -124,14 +134,14 @@ class ControllerSettings {
             data: 'idTheme=' + themeId,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("appareance-settings-form", "success", "Updated theme.");
+                    that.application.getControllerPrincipal().formMsg("appareance-settings-form", "success", "Updated theme.");
                     location.reload();
                 } else {
-                    ControllerPrincipal.formMsg("appareance-settings-form", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("appareance-settings-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("appareance-settings-form", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("appareance-settings-form", "error", "Internal error.");
             }
         });
     }
@@ -149,6 +159,7 @@ class ControllerSettings {
         var sideBarFontColor = $('#newTheme input[id="sideBarFontColor-newTheme"]').val();
         var linkColor = $('#newTheme input[id="linkColor-newTheme"]').val();
         var linkHoverColor = $('#newTheme input[id="linkHoverColor-newTheme"]').val();
+        var that = this;
 
         $.ajax({
             url: './php/settings/addTheme.php',
@@ -157,14 +168,14 @@ class ControllerSettings {
             data: 'nameTheme=' + name + '&mainColor=' + mainColor + '&mainDarkFontColor=' + mainDarkFontColor + '&bodyColor=' + bodyColor + '&bodyFontColor=' + bodyFontColor + '&sideBarColor=' + sideBarColor + '&sideBarFontColor=' + sideBarFontColor + '&linkColor=' + linkColor + '&linkHoverColor=' + linkHoverColor,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("newTheme-form", "success", "Theme added.");
+                    that.application.getControllerPrincipal().formMsg("newTheme-form", "success", "Theme added.");
                     location.reload();
                 } else {
-                    ControllerPrincipal.formMsg("newTheme-form", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("newTheme-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("newTheme", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("newTheme", "error", "Internal error.");
             }
         });
     }
@@ -174,6 +185,7 @@ class ControllerSettings {
     */
     public addAdmin() {
         var mail = $('input[name=mail-add-admin]').val();
+        var that = this;
 
         $.ajax({
             url: './php/settings/addAdmin.php',
@@ -182,13 +194,13 @@ class ControllerSettings {
             data: 'mail=' + mail,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("addAdmin-form", "success", "E-mail sent.");
+                    that.application.getControllerPrincipal().formMsg("addAdmin-form", "success", "E-mail sent.");
                 } else {
-                    ControllerPrincipal.formMsg("addAdmin-form", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("addAdmin-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("addAdmin-form", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("addAdmin-form", "error", "Internal error.");
             }
         });
     }
@@ -201,6 +213,7 @@ class ControllerSettings {
         var user = $('input[name=database-user-settings]').val();
         var password = $('input[name=database-pwd-settings]').val();
         var host = $('input[name=database-host-settings]').val();
+        var that = this;
 
         $.ajax({
             url: './php/settings/changeConfig.php',
@@ -209,13 +222,13 @@ class ControllerSettings {
             data: 'DB_NAME=' + name + '&DB_USER=' + user + '&DB_PASSWORD=' + password + '&DB_HOST=' + host,
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("database-settings-form", "success", "Updated config.php");
+                    that.application.getControllerPrincipal().formMsg("database-settings-form", "success", "Updated config.php");
                 } else {
-                    ControllerPrincipal.formMsg("database-settings-form", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("database-settings-form", "error", data[1]);
                 }
             },
             error: function () {
-                ControllerPrincipal.formMsg("database-settings-form", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("database-settings-form", "error", "Internal error.");
             }
         });
     }

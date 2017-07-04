@@ -1,0 +1,48 @@
+﻿/*Importation configuration*/
+@import "config.less";
+
+.loaderContainer {
+  text-align: center;
+}
+
+/* Thanks to https://codepen.io/nauerster/pen/KzENEN */
+.loaderContainer .ellipsis:before,
+.loaderContainer .ellipsis:after,
+.loaderContainer .ellipsis {
+  display: inline-block;
+  border-radius: 50%;
+  width: 1em;
+  height: 1em;
+  animation-fill-mode: both;
+  animation: ellipsis-loader 1.8s infinite ease-in-out;
+  color: @mainColor;
+  font-size: 18px;
+  position: relative;
+}
+
+.loaderContainer .ellipsis {
+  animation-delay: -0.16s;
+}
+.loaderContainer .ellipsis:before {
+  left: -1.2em;
+  animation-delay: -0.32s;
+}
+.loaderContainer .ellipsis:after {
+  left: 1.2em;
+}
+  
+.loaderContainer .ellipsis:before,
+.loaderContainer .ellipsis:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+@keyframes ellipsis-loader {
+  0%, 80%, 100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}

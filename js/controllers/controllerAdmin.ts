@@ -1,6 +1,7 @@
 ﻿/// <reference path="../libs/typescript/jquery.d.ts" />
 /// <reference path="../views/viewAdmin.ts" />
 /// <reference path="../libs/typescript/select2.d.ts" />
+/// <reference path="../application/application.ts" />
 /// <reference path="controllerPrincipal.ts" />
 
 /**
@@ -9,6 +10,10 @@
 class ControllerAdmin {
 
     /**
+     * The link between controllers
+     */
+    private application: Application;
+    /**
      * View associated to the controller
      */
     private viewAdmin: ViewAdmin;
@@ -16,7 +21,8 @@ class ControllerAdmin {
     /**
      * Constructor
      */
-    constructor() {
+    constructor(application: Application) {
+        this.application = application;
         this.viewAdmin = new ViewAdmin(this);
     }
 
@@ -72,7 +78,7 @@ class ControllerAdmin {
      */
     public setSelectListTags() {
         //Reload the list
-        ControllerPrincipal.setTagsList(); 
+        this.application.getControllerPrincipal().setTagsList(); 
         //Clear datas
         $("#admin .tags-select").each(function () {
             $(this)["0"].innerHTML = '';
@@ -124,10 +130,10 @@ class ControllerAdmin {
         var tags = $("#admin #newImage-admin #newImage-tags-admin").val();
 
         if (url == undefined || url == "") {
-            ControllerPrincipal.formMsg("newImage-admin", "error", "URL is required.");
+            that.application.getControllerPrincipal().formMsg("newImage-admin", "error", "URL is required.");
         }
         else if (categories == undefined || categories == "") {
-            ControllerPrincipal.formMsg("newImage-admin", "error", "Category is required.");
+            that.application.getControllerPrincipal().formMsg("newImage-admin", "error", "Category is required.");
         }
         else {
             $.ajax({
@@ -137,15 +143,15 @@ class ControllerAdmin {
                 dataType: 'json',
                 success: function (data) {
                     if (data[0] === "success") {
-                        ControllerGallery.updateLatestTopGallery();
-                        ControllerPrincipal.formMsg("newImage-admin", "success", "Image successfully added");
+                        this.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerPrincipal().formMsg("newImage-admin", "success", "Image successfully added");
                         that.viewAdmin.resetNewImageInterface();
                     } else {
-                        ControllerPrincipal.formMsg("newImage-admin", "error", data[1]);
+                        that.application.getControllerPrincipal().formMsg("newImage-admin", "error", data[1]);
                     }
                 },
                 error: function (resultat, statut, erreur) {
-                    ControllerPrincipal.formMsg("newImage-admin", "error", "Internal error.");
+                    that.application.getControllerPrincipal().formMsg("newImage-admin", "error", "Internal error.");
                 }
             });
         }
@@ -157,7 +163,7 @@ class ControllerAdmin {
      */
     public checkImageUrl() {
         var url = $("#admin #editImage-admin #url-image-input").val();
-
+        var that = this;
         $.ajax({
             url: './php/admin/checkElement.php',
             type: 'POST',
@@ -177,12 +183,12 @@ class ControllerAdmin {
                     $('#admin #edit-image-option').css('display', 'block');
                     $('#admin #image-name-delete').html(data[1]);
                 } else {
-                    ControllerPrincipal.formMsg("edit-image-url", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("edit-image-url", "error", data[1]);
                 }
 
             },
             error: function (resultat, statut, erreur) {
-                ControllerPrincipal.formMsg("edit-image-url", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("edit-image-url", "error", "Internal error.");
             }
         });
     }
@@ -198,10 +204,10 @@ class ControllerAdmin {
         var tags = $('#admin #edit-image-option .tags-select').val();
 
         if (url == undefined || url == "") {
-            ControllerPrincipal.formMsg("edit-image-option", "error", "URL is required.");
+            that.application.getControllerPrincipal().formMsg("edit-image-option", "error", "URL is required.");
         }
         else if (categories == undefined || categories == "") {
-            ControllerPrincipal.formMsg("edit-image-option", "error", "Category is required.");
+            that.application.getControllerPrincipal().formMsg("edit-image-option", "error", "Category is required.");
         }
         else {
             $.ajax({
@@ -211,15 +217,15 @@ class ControllerAdmin {
                 dataType: 'json',
                 success: function (data) {
                     if (data[0] === "success") {
-                        ControllerGallery.updateLatestTopGallery();
-                        ControllerPrincipal.formMsg("edit-image-option", "success", "Image successfully edited");
+                        this.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerPrincipal().formMsg("edit-image-option", "success", "Image successfully edited");
                         that.viewAdmin.resetEditImageInterface();
                     } else {
-                        ControllerPrincipal.formMsg("edit-image-option", "error", data[1]);
+                        that.application.getControllerPrincipal().formMsg("edit-image-option", "error", data[1]);
                     }
                 },
                 error: function (resultat, statut, erreur) {
-                    ControllerPrincipal.formMsg("edit-image-option", "error", "Internal error.");
+                    that.application.getControllerPrincipal().formMsg("edit-image-option", "error", "Internal error.");
                 }
             });
         }
@@ -238,15 +244,15 @@ class ControllerAdmin {
             dataType: 'json',
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerGallery.updateLatestTopGallery();
-                    ControllerPrincipal.formMsg("confirm-delete-image", "success", "Image successfully deleted.");
+                    this.application.getControllerGallery().updateLatestTopGallery();
+                    that.application.getControllerPrincipal().formMsg("confirm-delete-image", "success", "Image successfully deleted.");
                     that.viewAdmin.resetEditImageInterface();
                 } else {
-                    ControllerPrincipal.formMsg("confirm-delete-image", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("confirm-delete-image", "error", data[1]);
                 }
             },
             error: function (resultat, statut, erreur) {
-                ControllerPrincipal.formMsg("confirm-delete-image", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("confirm-delete-image", "error", "Internal error.");
             }
         });
     }
@@ -261,10 +267,10 @@ class ControllerAdmin {
         var parent = $("#admin #newCategory-admin #newCategoryParent").val();
 
         if (name == undefined || name == "") {
-            ControllerPrincipal.formMsg("newCategory-admin", "error", "A name is required.");
+            that.application.getControllerPrincipal().formMsg("newCategory-admin", "error", "A name is required.");
         }
         else if (parent == undefined || parent == "") {
-            ControllerPrincipal.formMsg("newCategory-admin", "error", "Category is required.");
+            that.application.getControllerPrincipal().formMsg("newCategory-admin", "error", "Category is required.");
         }
         else {
             $.ajax({
@@ -274,17 +280,17 @@ class ControllerAdmin {
                 dataType: 'json',
                 success: function (data) {
                     if (data[0] === "success") {
-                        ControllerPrincipal.formMsg("newCategory-admin", "success", "Category successfully added");
+                        that.application.getControllerPrincipal().formMsg("newCategory-admin", "success", "Category successfully added");
                         that.setSelectListCategories();
                         that.setSelectListImageCategories();
-                        ControllerPrincipal.setSearchList();
+                        that.application.getControllerPrincipal().setSearchList();
                     } else {
-                        ControllerPrincipal.formMsg("newCategory-admin", "error", data[1]);
+                        that.application.getControllerPrincipal().formMsg("newCategory-admin", "error", data[1]);
                     }
                 },
                 error: function (resultat, statut, erreur) {
                     console.log(resultat.responseText);
-                    ControllerPrincipal.formMsg("newCategory-admin", "error", "Internal error.");
+                    that.application.getControllerPrincipal().formMsg("newCategory-admin", "error", "Internal error.");
                 }
             });
         }
@@ -295,7 +301,7 @@ class ControllerAdmin {
      */
     public checkCategoryName() {
         var category = $("#admin #editCategory-admin #name-category-input").val();
-
+        var that = this;
         $.ajax({
             url: './php/admin/checkElement.php',
             type: 'POST',
@@ -314,12 +320,12 @@ class ControllerAdmin {
                     $('#admin #edit-category-option').css('display', 'block');
                     $('#admin #category-name-delete').html(data[1]);
                 } else {
-                    ControllerPrincipal.formMsg("edit-category-admin", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("edit-category-admin", "error", data[1]);
                 }
 
             },
             error: function (resultat, statut, erreur) {
-                ControllerPrincipal.formMsg("edit-category-admin", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("edit-category-admin", "error", "Internal error.");
             }
         });
     }
@@ -335,10 +341,10 @@ class ControllerAdmin {
         var parent = $('#admin #editCategory-admin #editCategoryParent').val();
 
         if (newName == undefined || newName == "") {
-            ControllerPrincipal.formMsg("edit-category-option", "error", "A name is required.");
+            that.application.getControllerPrincipal().formMsg("edit-category-option", "error", "A name is required.");
         }
         else if (parent == undefined || parent == "") {
-            ControllerPrincipal.formMsg("edit-category-option", "error", "Category is required.");
+            that.application.getControllerPrincipal().formMsg("edit-category-option", "error", "Category is required.");
         }
         else {
             $.ajax({
@@ -348,18 +354,18 @@ class ControllerAdmin {
                 dataType: 'json',
                 success: function (data) {
                     if (data[0] === "success") {
-                        ControllerPrincipal.formMsg("edit-category-admin", "success", "Category successfully edited.");
-                        ControllerGallery.updateLatestTopGallery();
+                        that.application.getControllerPrincipal().formMsg("edit-category-admin", "success", "Category successfully edited.");
+                        this.application.getControllerGallery().updateLatestTopGallery();
                         that.viewAdmin.resetEditCategoryInterface();
                         that.setSelectListCategories();
                         that.setSelectListImageCategories();
-                        ControllerPrincipal.setSearchList();
+                        that.application.getControllerPrincipal().setSearchList();
                     } else {
-                        ControllerPrincipal.formMsg("edit-category-option", "error", data[1]);
+                        that.application.getControllerPrincipal().formMsg("edit-category-option", "error", data[1]);
                     }
                 },
                 error: function (resultat, statut, erreur) {
-                    ControllerPrincipal.formMsg("edit-category-option", "error", "Internal error.");
+                    that.application.getControllerPrincipal().formMsg("edit-category-option", "error", "Internal error.");
                 }
             });
         }
@@ -379,18 +385,18 @@ class ControllerAdmin {
             dataType: 'json',
             success: function (data) {
                 if (data[0] === "success") {
-                    ControllerPrincipal.formMsg("confirm-delete-category", "success", "Category successfully deleted.");
-                    ControllerGallery.updateLatestTopGallery();
+                    that.application.getControllerPrincipal().formMsg("confirm-delete-category", "success", "Category successfully deleted.");
+                    this.application.getControllerGallery().updateLatestTopGallery();
                     that.viewAdmin.resetEditCategoryInterface();
                     that.setSelectListCategories();
                     that.setSelectListImageCategories();
-                    ControllerPrincipal.setSearchList();
+                    that.application.getControllerPrincipal().setSearchList();
                 } else {
-                    ControllerPrincipal.formMsg("confirm-delete-category", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("confirm-delete-category", "error", data[1]);
                 }
             },
             error: function (resultat, statut, erreur) {
-                ControllerPrincipal.formMsg("confirm-delete-category", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("confirm-delete-category", "error", "Internal error.");
             }
         });
     }
@@ -403,7 +409,7 @@ class ControllerAdmin {
         var tags = $('#admin #editTags-admin .new-tags-select').val();
 
         if (tags == undefined || tags == "") {
-            ControllerPrincipal.formMsg("editTags-admin", "error", "Tags is required.");
+            that.application.getControllerPrincipal().formMsg("editTags-admin", "error", "Tags is required.");
         }
         else {
             $.ajax({
@@ -414,15 +420,15 @@ class ControllerAdmin {
                 success: function (data) {
                     if (data[0] === "success") {
                         that.setSelectListTags();
-                        ControllerPrincipal.formMsg("editTags-admin", "success", "Tags that do not exist have been successfully added.");
+                        that.application.getControllerPrincipal().formMsg("editTags-admin", "success", "Tags that do not exist have been successfully added.");
                         that.viewAdmin.resetEditTagInterface();
-                        ControllerPrincipal.setSearchList();
+                        that.application.getControllerPrincipal().setSearchList();
                     } else {
-                        ControllerPrincipal.formMsg("editTags-admin", "error", data[1]);
+                        that.application.getControllerPrincipal().formMsg("editTags-admin", "error", data[1]);
                     }
                 },
                 error: function (resultat, statut, erreur) {
-                    ControllerPrincipal.formMsg("editTags-admin", "error", "Internal error.");
+                    that.application.getControllerPrincipal().formMsg("editTags-admin", "error", "Internal error.");
                 }
             });
         }
@@ -437,7 +443,7 @@ class ControllerAdmin {
 
         if (tags == undefined || tags == "") {
             $('#admin #confirm-delete-tag').modal('hide');
-            ControllerPrincipal.formMsg("editTags-admin", "error", "Tags is required.");
+            that.application.getControllerPrincipal().formMsg("editTags-admin", "error", "Tags is required.");
         }
         else {
             $.ajax({
@@ -448,16 +454,16 @@ class ControllerAdmin {
                 success: function (data) {
                     if (data[0] === "success") {
                         that.setSelectListTags();
-                        ControllerPrincipal.formMsg("editTags-admin", "success", "Tags that exist have been successfully deleted.");
-                        ControllerGallery.updateLatestTopGallery();
+                        that.application.getControllerPrincipal().formMsg("editTags-admin", "success", "Tags that exist have been successfully deleted.");
+                        this.application.getControllerGallery().updateLatestTopGallery();
                         that.viewAdmin.resetEditTagInterface();
-                        ControllerPrincipal.setSearchList();
+                        that.application.getControllerPrincipal().setSearchList();
                     } else {
-                        ControllerPrincipal.formMsg("confirm-delete-tag", "error", data[1]);
+                        that.application.getControllerPrincipal().formMsg("confirm-delete-tag", "error", data[1]);
                     }
                 },
                 error: function (resultat, statut, erreur) {
-                    ControllerPrincipal.formMsg("confirm-delete-tag", "error", "Internal error.");
+                    that.application.getControllerPrincipal().formMsg("confirm-delete-tag", "error", "Internal error.");
                 }
             });
         }
@@ -476,15 +482,15 @@ class ControllerAdmin {
                     that.setSelectListTags();
                     that.setSelectListCategories();
                     that.setSelectListImageCategories();
-                    ControllerPrincipal.formMsg("confirm-delete-unreferenced", "success", "All unreferenced records have been successfully deleted.");
-                    ControllerGallery.updateLatestTopGallery();
-                    ControllerPrincipal.setSearchList();
+                    that.application.getControllerPrincipal().formMsg("confirm-delete-unreferenced", "success", "All unreferenced records have been successfully deleted.");
+                    this.application.getControllerGallery().updateLatestTopGallery();
+                    that.application.getControllerPrincipal().setSearchList();
                 } else {
-                    ControllerPrincipal.formMsg("confirm-delete-unreferenced", "error", data[1]);
+                    that.application.getControllerPrincipal().formMsg("confirm-delete-unreferenced", "error", data[1]);
                 }
             },
             error: function (resultat, statut, erreur) {
-                ControllerPrincipal.formMsg("confirm-delete-unreferenced", "error", "Internal error.");
+                that.application.getControllerPrincipal().formMsg("confirm-delete-unreferenced", "error", "Internal error.");
             }
         });
     }
