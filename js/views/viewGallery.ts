@@ -19,7 +19,7 @@ class ViewGallery {
      */
     constructor(controller: ControllerGallery) {
         this.controllerGallery = controller;
-        ViewGallery.initGallery();
+        this.initGallery();
         $(window).on('resize', this.onWindowResized.bind(this));
     }
 
@@ -28,13 +28,13 @@ class ViewGallery {
      * @param event
      */
     private onWindowResized(event: UIEvent): void {
-        ViewGallery.initGallery();
+        this.initGallery();
     }
 
     /**
      * Initializing the image galleries
      */
-    static initGallery() {
+    public initGallery() {
         //The maximum size of the images is changed according to the height and width of the screen.
         $(".gallery-container a .img-fluid").css("max-height", $(window).height() / 3);
         if (window.matchMedia("(min-width: 900px)").matches) {
@@ -51,7 +51,8 @@ class ViewGallery {
      * Initializing the light box
      * source : http://photoswipe.com/
      */
-    static initLightBox() {
+    public initLightBox() {
+        var that = this;
         var initPhotoSwipeFromDOM = function (gallerySelector) {
             // parse slide data (url, description, score, categories and tags) from DOM elements 
             // (children of gallerySelector)
@@ -248,7 +249,7 @@ class ViewGallery {
                 // Pass data to PhotoSwipe and initialize it
                 var pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
                 pswp.init();
-                ViewGallery.eventLinkPhotoSwipe();
+                that.eventLinkPhotoSwipe();
             };
 
             // select all gallery elements
@@ -262,7 +263,7 @@ class ViewGallery {
         initPhotoSwipeFromDOM(".gallery");
     }
 
-    static eventLinkPhotoSwipe() {
+    public eventLinkPhotoSwipe() {
         //When clicking on a link in the lightbox
         $('.pswp__caption__center small a').click(function (e) {
             location.reload();

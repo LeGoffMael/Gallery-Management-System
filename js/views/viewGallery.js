@@ -17,7 +17,7 @@ var ViewGallery = (function () {
          */
         this.controllerGallery = null;
         this.controllerGallery = controller;
-        ViewGallery.initGallery();
+        this.initGallery();
         $(window).on('resize', this.onWindowResized.bind(this));
     }
     /**
@@ -25,12 +25,12 @@ var ViewGallery = (function () {
      * @param event
      */
     ViewGallery.prototype.onWindowResized = function (event) {
-        ViewGallery.initGallery();
+        this.initGallery();
     };
     /**
      * Initializing the image galleries
      */
-    ViewGallery.initGallery = function () {
+    ViewGallery.prototype.initGallery = function () {
         //The maximum size of the images is changed according to the height and width of the screen.
         $(".gallery-container a .img-fluid").css("max-height", $(window).height() / 3);
         if (window.matchMedia("(min-width: 900px)").matches) {
@@ -44,7 +44,8 @@ var ViewGallery = (function () {
      * Initializing the light box
      * source : http://photoswipe.com/
      */
-    ViewGallery.initLightBox = function () {
+    ViewGallery.prototype.initLightBox = function () {
+        var that = this;
         var initPhotoSwipeFromDOM = function (gallerySelector) {
             // parse slide data (url, description, score, categories and tags) from DOM elements 
             // (children of gallerySelector)
@@ -199,7 +200,7 @@ var ViewGallery = (function () {
                 // Pass data to PhotoSwipe and initialize it
                 var pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
                 pswp.init();
-                ViewGallery.eventLinkPhotoSwipe();
+                that.eventLinkPhotoSwipe();
             };
             // select all gallery elements
             var galleryElements = document.querySelectorAll(gallerySelector);
@@ -210,7 +211,7 @@ var ViewGallery = (function () {
         };
         initPhotoSwipeFromDOM(".gallery");
     };
-    ViewGallery.eventLinkPhotoSwipe = function () {
+    ViewGallery.prototype.eventLinkPhotoSwipe = function () {
         //When clicking on a link in the lightbox
         $('.pswp__caption__center small a').click(function (e) {
             location.reload();

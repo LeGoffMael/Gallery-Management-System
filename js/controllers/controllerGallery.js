@@ -18,6 +18,9 @@ var ControllerGallery = (function () {
         this.goToCategory();
         this.goToTag();
     }
+    ControllerGallery.prototype.getViewGallery = function () {
+        return this.viewGallery;
+    };
     /**
      * Set vote when vote button is clicked
      */
@@ -114,6 +117,7 @@ var ControllerGallery = (function () {
      * Create the latest gallery
      */
     ControllerGallery.prototype.setLatestGallery = function (page, reset) {
+        var that = this;
         $.ajax({
             url: './php/galleries/LastGallery.php',
             type: 'POST',
@@ -126,8 +130,8 @@ var ControllerGallery = (function () {
                     $("#galleryLatest").html($("#galleryLatest").html() + html);
                 //Hide other no items to display
                 $("#galleryLatest").children('h2:not(:first)').css('display', 'none');
-                ViewGallery.initGallery();
-                ViewGallery.initLightBox();
+                that.viewGallery.initGallery();
+                that.viewGallery.initLightBox();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error gallery latest (' + erreur + ')');
@@ -138,6 +142,7 @@ var ControllerGallery = (function () {
      * Create the top gallery
      */
     ControllerGallery.prototype.setTopGallery = function (page, reset) {
+        var that = this;
         $.ajax({
             url: './php/galleries/TopGallery.php',
             type: 'POST',
@@ -150,8 +155,8 @@ var ControllerGallery = (function () {
                     $("#galleryTop").html($("#galleryTop").html() + html);
                 //Hide other no items to display
                 $("#galleryTop").children('h2:not(:first)').css('display', 'none');
-                ViewGallery.initGallery();
-                ViewGallery.initLightBox();
+                that.viewGallery.initGallery();
+                that.viewGallery.initLightBox();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error gallery top (' + erreur + ')');
@@ -181,6 +186,7 @@ var ControllerGallery = (function () {
      * @param reset if the new gallery crushed the last
      */
     ControllerGallery.prototype.setCategoriesChild = function (name, page, reset) {
+        var that = this;
         if (name != 'null') {
             $.ajax({
                 url: './php/galleries/ChildCategories.php',
@@ -196,8 +202,8 @@ var ControllerGallery = (function () {
                     $("#galleryCategories").children('h1:not(:first)').css('display', 'none');
                     //Hide other no items to display
                     $("#galleryCategories").children('h2:not(:first)').css('display', 'none');
-                    ViewGallery.initGallery();
-                    ViewGallery.initLightBox();
+                    that.viewGallery.initGallery();
+                    that.viewGallery.initLightBox();
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('error category ' + name + ' (' + erreur + ')');
@@ -215,6 +221,7 @@ var ControllerGallery = (function () {
      * @param reset if the new gallery crushed the last
      */
     ControllerGallery.prototype.setTagGallery = function (nameTag, page, reset) {
+        var that = this;
         $.ajax({
             url: './php/galleries/TagGallery.php',
             type: 'POST',
@@ -226,8 +233,8 @@ var ControllerGallery = (function () {
                 else
                     $("#tagsContent").html($(".galleryTop").html() + html);
                 $('#tags h1').html('Tags::<a class="menuLink tagsLink" href= "#tags" data-toggle="tab" >' + nameTag + '</a>');
-                ViewGallery.initGallery();
-                ViewGallery.initLightBox();
+                that.viewGallery.initGallery();
+                that.viewGallery.initLightBox();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error search (' + erreur + ')');
@@ -238,6 +245,7 @@ var ControllerGallery = (function () {
      * Display the result of the search
      */
     ControllerGallery.prototype.setSearchResult = function (terms, page, reset) {
+        var that = this;
         if (terms != "" && terms != undefined) {
             $.ajax({
                 url: './php/galleries/SearchResult.php',
@@ -252,8 +260,8 @@ var ControllerGallery = (function () {
                     $('#search h1').html('Search::' + terms);
                     //Hide other no items to display
                     $("#searchResult").children('h2:not(:first)').css('display', 'none');
-                    ViewGallery.initGallery();
-                    ViewGallery.initLightBox();
+                    that.viewGallery.initGallery();
+                    that.viewGallery.initLightBox();
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('error search (' + erreur + ')');

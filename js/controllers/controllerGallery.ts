@@ -30,6 +30,10 @@ class ControllerGallery {
         this.goToTag();
     }
 
+    public getViewGallery() {
+        return this.viewGallery;
+    }
+
     /**
      * Set vote when vote button is clicked
      */
@@ -135,7 +139,8 @@ class ControllerGallery {
     /**
      * Create the latest gallery
      */
-    public setLatestGallery(page,reset) {
+    public setLatestGallery(page, reset) {
+        var that = this;
         $.ajax({
             url: './php/galleries/LastGallery.php',
             type: 'POST',
@@ -150,8 +155,8 @@ class ControllerGallery {
                 //Hide other no items to display
                 $("#galleryLatest").children('h2:not(:first)').css('display', 'none');
 
-                ViewGallery.initGallery();
-                ViewGallery.initLightBox();
+                that.viewGallery.initGallery();
+                that.viewGallery.initLightBox();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error gallery latest (' + erreur + ')');
@@ -162,7 +167,8 @@ class ControllerGallery {
     /**
      * Create the top gallery
      */
-    public setTopGallery(page,reset) {
+    public setTopGallery(page, reset) {
+        var that = this;
         $.ajax({
             url: './php/galleries/TopGallery.php',
             type: 'POST',
@@ -177,8 +183,8 @@ class ControllerGallery {
                 //Hide other no items to display
                 $("#galleryTop").children('h2:not(:first)').css('display', 'none');
 
-                ViewGallery.initGallery();
-                ViewGallery.initLightBox();
+                that.viewGallery.initGallery();
+                that.viewGallery.initLightBox();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error gallery top (' + erreur + ')');
@@ -210,6 +216,7 @@ class ControllerGallery {
      * @param reset if the new gallery crushed the last
      */
     public setCategoriesChild(name, page, reset) {
+        var that = this;
         if (name != 'null') {
             $.ajax({
                 url: './php/galleries/ChildCategories.php',
@@ -227,8 +234,8 @@ class ControllerGallery {
                     //Hide other no items to display
                     $("#galleryCategories").children('h2:not(:first)').css('display', 'none');
 
-                    ViewGallery.initGallery();
-                    ViewGallery.initLightBox();
+                    that.viewGallery.initGallery();
+                    that.viewGallery.initLightBox();
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('error category ' + name + ' (' + erreur + ')');
@@ -247,6 +254,7 @@ class ControllerGallery {
      * @param reset if the new gallery crushed the last
      */
     public setTagGallery(nameTag, page, reset) {
+        var that = this;
         $.ajax({
             url: './php/galleries/TagGallery.php',
             type: 'POST',
@@ -260,8 +268,8 @@ class ControllerGallery {
 
                 $('#tags h1').html('Tags::<a class="menuLink tagsLink" href= "#tags" data-toggle="tab" >' + nameTag + '</a>');
 
-                ViewGallery.initGallery();
-                ViewGallery.initLightBox();
+                that.viewGallery.initGallery();
+                that.viewGallery.initLightBox();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error search (' + erreur + ')');
@@ -273,6 +281,7 @@ class ControllerGallery {
      * Display the result of the search
      */
     public setSearchResult(terms, page, reset) {
+        var that = this;
         if (terms != "" && terms != undefined) {
             $.ajax({
                 url: './php/galleries/SearchResult.php',
@@ -290,8 +299,8 @@ class ControllerGallery {
                     //Hide other no items to display
                     $("#searchResult").children('h2:not(:first)').css('display', 'none');
 
-                    ViewGallery.initGallery();
-                    ViewGallery.initLightBox();
+                    that.viewGallery.initGallery();
+                    that.viewGallery.initLightBox();
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('error search (' + erreur + ')');
