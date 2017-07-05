@@ -49,12 +49,39 @@ var ControllerGallery = (function () {
         var that = this;
         $("#tags").on("click", "a.tagLink", function () {
             var tag = $(this).attr('data-tagLink');
-            console.log(tag);
             that.setTagGallery(tag, 1, true);
         });
         $("#tags").on("click", "a.tagsLink", function () {
             that.application.getControllerPrincipal().setTagsList();
         });
+    };
+    /**
+     * Return if the gallery is empty
+     * @param gallery
+     */
+    ControllerGallery.prototype.galleryNotEmpty = function (gallery) {
+        var res = false;
+        if (gallery.includes('<img'))
+            res = true;
+        return res;
+    };
+    /**
+     * Remove categories child
+     */
+    ControllerGallery.prototype.removeCategoriesChild = function () {
+        $("#categoriesChild").html('');
+    };
+    /**
+     * Remove category gallery
+     */
+    ControllerGallery.prototype.removeCategoryGallery = function () {
+        $("#galleryCategories .gallery-container").html('<div class="pageGallery" data-nextpage="1"></div>');
+    };
+    /**
+     * Remove tag content
+     */
+    ControllerGallery.prototype.removeTagContent = function () {
+        $("#tagContent .gallery-container").html('<div class="pageGallery" data-nextpage="1"></div>');
     };
     /**
      * Return the current gallery
@@ -69,6 +96,8 @@ var ControllerGallery = (function () {
             gallery = 'categories';
         else if (gallery.includes('nameTag'))
             gallery = 'tags';
+        else if (gallery.includes('searchTerm'))
+            gallery = 'search';
         else if (gallery == '')
             gallery = 'home';
         return gallery;
@@ -82,14 +111,12 @@ var ControllerGallery = (function () {
         $('.main').scroll(function () {
             if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
                 var allPage = $('.main #' + that.getCurrentGallery() + ' .pageGallery');
-                var nextPage = allPage.last();
-                //Start loader
-                that.application.getControllerPrincipal().startLoader('#' + that.getCurrentGallery() + '.gallery:last');
+                var nextPage = allPage.last().attr('data-nextPage');
                 if (that.getCurrentGallery() == 'home') {
-                    that.setLatestGallery(nextPage.attr('data-nextPage'), false);
+                    that.setLatestGallery(nextPage, false);
                 }
                 else if (that.getCurrentGallery() == 'top') {
-                    that.setTopGallery(nextPage.attr('data-nextPage'), false);
+                    that.setTopGallery(nextPage, false);
                 }
                 else if (that.getCurrentGallery() == 'categories') {
                     that.setCategoriesChild(that.application.getControllerPrincipal().getUrlVars().categoryName, nextPage, false);
@@ -98,13 +125,8 @@ var ControllerGallery = (function () {
                     that.setTagGallery(that.application.getControllerPrincipal().getUrlVars().nameTag, nextPage, false);
                 }
                 else if (that.getCurrentGallery() == 'search') {
-                    var terms = $("#search-form input").val();
-                    if (terms == "" || terms == null)
-                        terms = $("#search-form-reduce input").val();
-                    that.setSearchResult(terms, nextPage, false);
+                    that.setSearchResult(that.application.getControllerPrincipal().getUrlVars().searchTerm, nextPage, false);
                 }
-                //Stop loader
-                that.application.getControllerPrincipal().startLoader('#' + that.getCurrentGallery() + '.gallery');
             }
         });
     };
@@ -126,10 +148,18 @@ var ControllerGallery = (function () {
             data: 'page=' + page,
             dataType: 'html',
             success: function (html) {
+                if (that.galleryNotEmpty(html)) {
+                    //Start loader
+                    that.application.getControllerPrincipal().startLoader('#galleryLatest .gallery');
+                }
                 if (reset)
-                    $("#galleryLatest").html(html);
+                    $("#galleryLatest .gallery-container").html(html);
                 else
-                    $("#galleryLatest").html($("#galleryLatest").html() + html);
+                    $("#galleryLatest .gallery-container").html($("#galleryLatest .gallery-container").html() + html);
+                $("#galleryLatest img:last").on("load", function () {
+                    //Stop loader
+                    that.application.getControllerPrincipal().stopLoader('#galleryLatest .gallery');
+                });
                 //Hide other no items to display
                 $("#galleryLatest").children('h2:not(:first)').css('display', 'none');
                 that.viewGallery.initGallery();
@@ -151,10 +181,18 @@ var ControllerGallery = (function () {
             data: 'page=' + page,
             dataType: 'html',
             success: function (html) {
+                if (that.galleryNotEmpty(html)) {
+                    //Start loader
+                    that.application.getControllerPrincipal().startLoader('#galleryTop .gallery');
+                }
                 if (reset)
-                    $("#galleryTop").html(html);
+                    $("#galleryTop .gallery-container").html(html);
                 else
-                    $("#galleryTop").html($("#galleryTop").html() + html);
+                    $("#galleryTop .gallery-container").html($("#galleryTop .gallery-container").html() + html);
+                $("#galleryTop img:last").on("load", function () {
+                    //Stop loader
+                    that.application.getControllerPrincipal().stopLoader('#galleryTop .gallery');
+                });
                 //Hide other no items to display
                 $("#galleryTop").children('h2:not(:first)').css('display', 'none');
                 that.viewGallery.initGallery();
@@ -168,16 +206,46 @@ var ControllerGallery = (function () {
     /**
      * Create parent categories gallery
      */
-    ControllerGallery.prototype.setCategories = function () {
+    ControllerGallery.prototype.setCategories = function (page, reset) {
+        var that = this;
+        this.removeCategoriesChild();
+        this.removeCategoryGallery();
+        //Display categories without parent
         $.ajax({
             url: './php/galleries/ParentCategories.php',
             type: 'GET',
             dataType: 'html',
             success: function (html) {
-                $("#galleryCategories").html(html);
+                $("#categoriesChild").html(html);
             },
             error: function (resultat, statut, erreur) {
                 console.log('error parent categories (' + erreur + ')');
+            }
+        });
+        //Display images without categories
+        $.ajax({
+            url: './php/galleries/GalleryWithoutCategory.php',
+            type: 'POST',
+            data: 'page=' + page,
+            dataType: 'html',
+            success: function (html) {
+                if (that.galleryNotEmpty(html)) {
+                    //Start loader
+                    that.application.getControllerPrincipal().startLoader('#galleryCategories .gallery');
+                }
+                if (reset)
+                    $("#galleryCategories .gallery-container").html(html);
+                else
+                    $("#galleryCategories .gallery-container").html($("#galleryCategories .gallery-container").html() + html);
+                $("#galleryCategories img:last").on("load", function () {
+                    //Stop loader
+                    that.application.getControllerPrincipal().stopLoader('#galleryCategories .gallery');
+                });
+                that.viewGallery.initGallery();
+                that.viewGallery.initLightBox();
+            },
+            error: function (resultat, statut, erreur) {
+                console.log('error category gallery ' + name + ' (' + erreur + ')');
             }
         });
     };
@@ -190,16 +258,40 @@ var ControllerGallery = (function () {
     ControllerGallery.prototype.setCategoriesChild = function (name, page, reset) {
         var that = this;
         if (name != 'null') {
+            if (page == 1) {
+                //Display categories child
+                $.ajax({
+                    url: './php/galleries/ChildCategories.php',
+                    type: 'POST',
+                    data: 'nameParent=' + name + '&page=' + page,
+                    dataType: 'html',
+                    success: function (html) {
+                        $("#categoriesChild").html(html);
+                    },
+                    error: function (resultat, statut, erreur) {
+                        console.log('error categories child ' + name + ' (' + erreur + ')');
+                    }
+                });
+            }
+            //Display category gallery
             $.ajax({
-                url: './php/galleries/ChildCategories.php',
+                url: './php/galleries/CategoryGallery.php',
                 type: 'POST',
-                data: 'nameParent=' + name + '&page=' + page,
+                data: 'name=' + name + '&page=' + page,
                 dataType: 'html',
                 success: function (html) {
+                    if (that.galleryNotEmpty(html)) {
+                        //Start loader
+                        that.application.getControllerPrincipal().startLoader('#galleryCategories .gallery');
+                    }
                     if (reset)
-                        $("#galleryCategories").html(html);
+                        $("#galleryCategories .gallery-container").html(html);
                     else
-                        $("#galleryCategories").html($("#galleryCategories").html() + html);
+                        $("#galleryCategories .gallery-container").html($("#galleryCategories .gallery-container").html() + html);
+                    $("#galleryCategories img:last").on("load", function () {
+                        //Stop loader
+                        that.application.getControllerPrincipal().stopLoader('#galleryCategories .gallery');
+                    });
                     //Hide other title
                     $("#galleryCategories").children('h1:not(:first)').css('display', 'none');
                     //Hide other no items to display
@@ -208,12 +300,12 @@ var ControllerGallery = (function () {
                     that.viewGallery.initLightBox();
                 },
                 error: function (resultat, statut, erreur) {
-                    console.log('error category ' + name + ' (' + erreur + ')');
+                    console.log('error category gallery ' + name + ' (' + erreur + ')');
                 }
             });
         }
         else {
-            this.setCategories();
+            this.setCategories(page, reset);
         }
     };
     /**
@@ -230,10 +322,20 @@ var ControllerGallery = (function () {
             data: 'nameTag=' + nameTag + '&page=' + page,
             dataType: 'html',
             success: function (html) {
+                //Remove tags list
+                that.application.getControllerPrincipal().removeTagsList();
+                if (that.galleryNotEmpty(html)) {
+                    //Start loader
+                    that.application.getControllerPrincipal().startLoader('#tagContent .gallery');
+                }
                 if (reset)
-                    $("#tagsContent").html(html);
+                    $("#tagContent .gallery-container").html(html);
                 else
-                    $("#tagsContent").html($(".galleryTop").html() + html);
+                    $("#tagContent .gallery-container").html($("#tagContent .gallery-container").html() + html);
+                $("#tagContent img:last").on("load", function () {
+                    //Stop loader
+                    that.application.getControllerPrincipal().stopLoader('#tagContent .gallery');
+                });
                 $('#tags h1').html('Tags::<a class="menuLink tagsLink" href= "#tags" data-toggle="tab" >' + nameTag + '</a>');
                 that.viewGallery.initGallery();
                 that.viewGallery.initLightBox();
@@ -255,10 +357,18 @@ var ControllerGallery = (function () {
                 data: 'terms=' + terms + '&page=' + page,
                 dataType: 'html',
                 success: function (html) {
+                    if (that.galleryNotEmpty(html)) {
+                        //Start loader
+                        that.application.getControllerPrincipal().startLoader('#searchResult .gallery');
+                    }
                     if (reset)
-                        $("#searchResult").html(html);
+                        $("#searchResult .gallery-container").html(html);
                     else
-                        $("#searchResult").html($("#searchResult").html() + html);
+                        $("#searchResult .gallery-container").html($("#searchResult .gallery-container").html() + html);
+                    $("#searchResult img:last").on("load", function () {
+                        //Stop loader
+                        that.application.getControllerPrincipal().stopLoader('#searchResult .gallery');
+                    });
                     $('#search h1').html('Search::' + terms);
                     //Hide other no items to display
                     $("#searchResult").children('h2:not(:first)').css('display', 'none');

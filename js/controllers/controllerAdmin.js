@@ -63,8 +63,6 @@ var ControllerAdmin = (function () {
      * Apply the select2 plugin with datas for tags select
      */
     ControllerAdmin.prototype.setSelectListTags = function () {
-        //Reload the list
-        this.application.getControllerPrincipal().setTagsList();
         //Clear datas
         $("#admin .tags-select").each(function () {
             $(this)["0"].innerHTML = '';
@@ -114,9 +112,6 @@ var ControllerAdmin = (function () {
         if (url == undefined || url == "") {
             that.application.getControllerPrincipal().formMsg("newImage-admin", "error", "URL is required.");
         }
-        else if (categories == undefined || categories == "") {
-            that.application.getControllerPrincipal().formMsg("newImage-admin", "error", "Category is required.");
-        }
         else {
             $.ajax({
                 url: './php/admin/newImage.php',
@@ -125,7 +120,7 @@ var ControllerAdmin = (function () {
                 dataType: 'json',
                 success: function (data) {
                     if (data[0] === "success") {
-                        this.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerGallery().updateLatestTopGallery();
                         that.application.getControllerPrincipal().formMsg("newImage-admin", "success", "Image successfully added");
                         that.viewAdmin.resetNewImageInterface();
                     }
@@ -185,9 +180,6 @@ var ControllerAdmin = (function () {
         if (url == undefined || url == "") {
             that.application.getControllerPrincipal().formMsg("edit-image-option", "error", "URL is required.");
         }
-        else if (categories == undefined || categories == "") {
-            that.application.getControllerPrincipal().formMsg("edit-image-option", "error", "Category is required.");
-        }
         else {
             $.ajax({
                 url: './php/admin/editImage.php',
@@ -196,7 +188,7 @@ var ControllerAdmin = (function () {
                 dataType: 'json',
                 success: function (data) {
                     if (data[0] === "success") {
-                        this.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerGallery().updateLatestTopGallery();
                         that.application.getControllerPrincipal().formMsg("edit-image-option", "success", "Image successfully edited");
                         that.viewAdmin.resetEditImageInterface();
                     }
@@ -223,7 +215,7 @@ var ControllerAdmin = (function () {
             dataType: 'json',
             success: function (data) {
                 if (data[0] === "success") {
-                    this.application.getControllerGallery().updateLatestTopGallery();
+                    that.application.getControllerGallery().updateLatestTopGallery();
                     that.application.getControllerPrincipal().formMsg("confirm-delete-image", "success", "Image successfully deleted.");
                     that.viewAdmin.resetEditImageInterface();
                 }
@@ -330,7 +322,7 @@ var ControllerAdmin = (function () {
                 success: function (data) {
                     if (data[0] === "success") {
                         that.application.getControllerPrincipal().formMsg("edit-category-admin", "success", "Category successfully edited.");
-                        this.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerGallery().updateLatestTopGallery();
                         that.viewAdmin.resetEditCategoryInterface();
                         that.setSelectListCategories();
                         that.setSelectListImageCategories();
@@ -360,7 +352,7 @@ var ControllerAdmin = (function () {
             success: function (data) {
                 if (data[0] === "success") {
                     that.application.getControllerPrincipal().formMsg("confirm-delete-category", "success", "Category successfully deleted.");
-                    this.application.getControllerGallery().updateLatestTopGallery();
+                    that.application.getControllerGallery().updateLatestTopGallery();
                     that.viewAdmin.resetEditCategoryInterface();
                     that.setSelectListCategories();
                     that.setSelectListImageCategories();
@@ -427,7 +419,7 @@ var ControllerAdmin = (function () {
                     if (data[0] === "success") {
                         that.setSelectListTags();
                         that.application.getControllerPrincipal().formMsg("editTags-admin", "success", "Tags that exist have been successfully deleted.");
-                        this.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerGallery().updateLatestTopGallery();
                         that.viewAdmin.resetEditTagInterface();
                         that.application.getControllerPrincipal().setSearchList();
                     }
@@ -455,7 +447,7 @@ var ControllerAdmin = (function () {
                     that.setSelectListCategories();
                     that.setSelectListImageCategories();
                     that.application.getControllerPrincipal().formMsg("confirm-delete-unreferenced", "success", "All unreferenced records have been successfully deleted.");
-                    this.application.getControllerGallery().updateLatestTopGallery();
+                    that.application.getControllerGallery().updateLatestTopGallery();
                     that.application.getControllerPrincipal().setSearchList();
                 }
                 else {

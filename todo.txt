@@ -1,9 +1,8 @@
 TODO list (No order)
 
-- Search
+- Search different terms
 - Installation page
-- Display image of categories even if she have childs
-- Update photoswipe when change current gallery page
+- Change call new page from photoswipe
 
 - Improve code Readability (in progress)
 	-> Add view for each section (started)

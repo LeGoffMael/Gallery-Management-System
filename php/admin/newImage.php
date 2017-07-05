@@ -37,41 +37,42 @@
 					}
 				}
 			}
-			//If there are corresponding categories
-			if (!empty($categories_exist)) {
-				$tags_exist = array();
-				//Check tags which exist
-				if(!empty($tabTags)) {
-					foreach($tabTags as $id){
-						$tags = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT idTag
-							FROM tags
-							WHERE idTag = :id");
-						$tags->bindValue(':id', $id);
-						$tags->execute();
 
-						if($tags->rowCount() != 0) {
-							if ($result = $tags->fetch(PDO::FETCH_ASSOC)) {
-								$tags->closeCursor();
-							}
-							array_push($tags_exist, $result['idTag']);
+			$tags_exist = array();
+			//Check tags which exist
+			if(!empty($tabTags)) {
+				foreach($tabTags as $id){
+					$tags = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT idTag
+						FROM tags
+						WHERE idTag = :id");
+					$tags->bindValue(':id', $id);
+					$tags->execute();
+
+					if($tags->rowCount() != 0) {
+						if ($result = $tags->fetch(PDO::FETCH_ASSOC)) {
+							$tags->closeCursor();
 						}
+						array_push($tags_exist, $result['idTag']);
 					}
 				}
+			}
 
-				//Insert the image
-				$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO images SET
-					urlImage = :url,
-					dateImage = NOW(),
-					scoreImage = 0,
-					descriptionImage = :desc");
+			//Insert the image
+			$requete = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO images SET
+				urlImage = :url,
+				dateImage = NOW(),
+				scoreImage = 0,
+				descriptionImage = :desc");
 
-				$requete->bindValue(':url', $_POST['urlImage']);
-				$requete->bindValue(':desc', $description, PDO::PARAM_NULL);
+			$requete->bindValue(':url', $_POST['urlImage']);
+			$requete->bindValue(':desc', $description, PDO::PARAM_NULL);
 
-				//If insert working
-				if ($requete->execute()) {
-					$idInsert = Settings::getInstance()->getDatabase()->getDb()->lastInsertId();
+			//If insert working
+			if ($requete->execute()) {
+				$idInsert = Settings::getInstance()->getDatabase()->getDb()->lastInsertId();
 
+                //If there are corresponding categories
+                if (!empty($categories_exist)) {
 					//Link all categories with the image
 					foreach ($categories_exist as $value){
 						$requete2 = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO categories_images SET
@@ -82,34 +83,29 @@
 						$requete2->bindValue(':idImage', $idInsert);
 						$requete2->execute();
 					}
+                }
 
-					//Link all tags with the image
-					if(!empty($tags_exist)) {
-						foreach ($tags_exist as $value){
-							$requete3 = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO tags_images SET
-						idTag = :idTag,
-						idImage = :idImage");
+				//Link all tags with the image
+				if(!empty($tags_exist)) {
+					foreach ($tags_exist as $value){
+						$requete3 = Settings::getInstance()->getDatabase()->getDb()->prepare("INSERT INTO tags_images SET
+					idTag = :idTag,
+					idImage = :idImage");
 
-							$requete3->bindValue(':idTag', $value);
-							$requete3->bindValue(':idImage', $idInsert);
-							$requete3->execute();
-						}
+						$requete3->bindValue(':idTag', $value);
+						$requete3->bindValue(':idImage', $idInsert);
+						$requete3->execute();
 					}
+				}
 
-					//Return success
-					$success = array("success");
-					echo json_encode($success, JSON_PRETTY_PRINT);
-					exit();
-				}
-				//Return the query error
-				else {
-					$error = array("error" , $requete->errorInfo());
-					echo json_encode($error, JSON_PRETTY_PRINT);
-					exit();
-				}
+				//Return success
+				$success = array("success");
+				echo json_encode($success, JSON_PRETTY_PRINT);
+				exit();
 			}
+			//Return the query error
 			else {
-				$error = array("error" , "No matching category.");
+				$error = array("error" , $requete->errorInfo());
 				echo json_encode($error, JSON_PRETTY_PRINT);
 				exit();
 			}

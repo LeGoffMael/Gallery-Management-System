@@ -10,20 +10,51 @@ require_once('GalleryManager.php');
  * @version 1.0
  * @author Maël Le Goff
  */
-class CategoryGallery extends GalleryManager
-{
+class CategoryGallery extends GalleryManager {
 	private $_nameCategory;
 	private $_parent;
 
-	public function __construct($nameCategory, $parent, $page) {
+	public function __construct($nameCategory, $page) {
 		$this->setPage($page);
 		$this->_nameCategory = $nameCategory;
-		$this->_parent = $parent;
+		$this->_parent =  $this->getCategoryParent($this->_nameCategory);
 		$this->setGallery();
     }
 
+    public function getCategoryParent($child) {
+		$res = null;
+
+		$categoriesParent = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT nameCategory
+		FROM categories c1
+		WHERE c1.idCategory IN
+			(SELECT idParent FROM categories c2
+			JOIN parent_child pc ON pc.idChild=c2.idCategory
+			WHERE c2.nameCategory = :child)
+		ORDER BY c1.nameCategory ASC");
+		$categoriesParent->bindValue(':child', $child);
+		$categoriesParent->execute();
+
+		//Si il n'a pas d'enfant on affiche les images
+		if($categoriesParent->rowCount() == 0)
+		{
+			$res = null;
+		}
+		//Sinon les enfants
+		else{
+			$tab = array();
+			while ($dataCP = $categoriesParent->fetch())
+			{
+				array_push($tab,$dataCP['nameCategory']);
+			}
+			$categoriesParent->closeCursor();
+
+			$res = $tab[0];
+		}
+		return $res;
+	}
+
 	/**
-	 * Retourne les images de la catégorie
+	 * Return category images
 	 */
 	public function setGallery() {
 		$listImages = array();
@@ -41,7 +72,7 @@ class CategoryGallery extends GalleryManager
 
 		if($categoryImages->rowCount() == 0)
 		{
-			echo "<h2>No items to display</h2>";
+			echo "<h2>No images to display</h2>";
 		}
 		else{
 			while ($dataImage = $categoryImages->fetch())
@@ -80,3 +111,10 @@ class CategoryGallery extends GalleryManager
 
 	}
 }
+
+$name = filter_input(INPUT_POST, 'name');
+$page = filter_input(INPUT_POST, 'page');
+$categoryGallery = new CategoryGallery($name,$page);
+//If category content image
+if($categoryGallery->getGallery() != null)
+    echo $categoryGallery->getGallery()->toString();

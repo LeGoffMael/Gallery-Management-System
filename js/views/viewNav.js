@@ -96,13 +96,19 @@ var ViewNav = (function () {
         this.controllerNav.getApplication().getControllerPrincipal().setSearchList();
         $("#search-form a").click(function (e) {
             var val = $("#search-form input").val();
-            if (val != "" && val != undefined)
+            if (val != "" && val != undefined) {
+                window.location.hash += '?searchTerm=' + val;
                 that.controllerNav.getApplication().getControllerGallery().setSearchResult(val, 1, true);
+                $("#search-form input").val('');
+            }
         });
         $("#search-form-reduce a").click(function (e) {
             var val = $("#search-form-reduce input").val();
-            if (val != "" && val != undefined)
+            if (val != "" && val != undefined) {
+                window.location.hash += '?searchTerm=' + val;
                 that.controllerNav.getApplication().getControllerGallery().setSearchResult(val, 1, true);
+                $("#search-form-reduce input").val('');
+            }
         });
     };
     return ViewNav;

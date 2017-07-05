@@ -3,24 +3,8 @@
 	header('Content-Type: application/json');
 	require_once('../Settings.php');
 
-	$imagesUnreferenced = false;
 	$categoriesUnreferenced = false;
 	$tagsUnreferenced = false;
-
-	//Images that are not in a category
-	$images = Settings::getInstance()->getDatabase()->getDb()->prepare("DELETE i FROM images i
-		LEFT JOIN categories_images ci ON ci.idImage = i.idImage
-		WHERE ci.idImage IS NULL");
-	//If delete not working
-	if (!$images->execute()) {
-		$error = array("error" , $images->errorInfo());
-		echo json_encode($error, JSON_PRETTY_PRINT);
-		exit();
-	}
-	//If they has images unreferenced
-	if($images->rowCount() != 0) {
-		$imagesUnreferenced = true;
-	}
 
 	//Categories without children and without images
 	$categories = Settings::getInstance()->getDatabase()->getDb()->prepare("DELETE c FROM categories c
@@ -54,7 +38,7 @@
 	}
 
 	//If records have been deleted
-	if($categoriesUnreferenced and $categoriesUnreferenced and $tagsUnreferenced) {
+	if($categoriesUnreferenced or $tagsUnreferenced) {
 		$success = array("success");
 		echo json_encode($success, JSON_PRETTY_PRINT);
 		exit();

@@ -1,10 +1,29 @@
 ﻿/*Importation configuration*/
 @import "config.less";
 
+/* Thanks to https://codepen.io/MattIn4D/pen/LiKFC */
 .loaderContainer {
-    text-align: center;
-    height: 1.5em;
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
+    pointer-events: none;
+}
+
+/* Transparent Overlay */
+.loaderContainer:before {
+    pointer-events: none;
+    content: '';
     display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
 }
 
 /* Thanks to https://codepen.io/nauerster/pen/KzENEN */

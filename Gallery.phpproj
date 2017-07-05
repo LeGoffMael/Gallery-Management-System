@@ -31,6 +31,7 @@
     <Compile Include="php\admin\editImage.php" />
     <Compile Include="php\functions\getAllCategories.php" />
     <Compile Include="php\functions\getAllTags.php" />
+    <Compile Include="php\galleries\GalleryWithoutCategory.php" />
     <Compile Include="php\galleries\SearchResult.php" />
     <Compile Include="php\galleries\TagGallery.php" />
     <Compile Include="php\settings\addAdmin.php" />

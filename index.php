@@ -58,14 +58,14 @@
                 </div>
 
                 <!-- Search -->
-                <form id="search-form" class="form-search form-horizontal">
-                    <div class="input-append">
-						<input type="text" data-provide="typeahead" class="search-input" placeholder="Search..." />
-						<a type="submit" class="search-button menuLink" href="#search" data-toggle="tab">
-							<i class="fa fa-search"></i>
-						</a>
-                    </div>
-                </form>
+            <form id="search-form" class="form-search form-horizontal">
+                <div class="input-append">
+                    <input type="text" data-provide="typeahead" class="search-input" placeholder="Search..." />
+                    <a type="submit" class="search-button menuLink" href="#search" data-toggle="tab">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </div>
+            </form>
 
                 <ul class="nav sidebar-nav">
 
@@ -79,10 +79,10 @@
                             <li>
                                 <form id="search-form-reduce" class="form-search form-horizontal">
                                     <div class="input-append">
-										<input type="text" class="search-input" placeholder="Search..." />
-										<a type="submit" class="search-button menuLink" href="#search" data-toggle="tab">
-											<i class="fa fa-search"></i>
-										</a>
+                                        <input type="text" class="search-input" placeholder="Search..." />
+                                        <a type="submit" class="search-button menuLink" href="#search" data-toggle="tab">
+                                            <i class="fa fa-search"></i>
+                                        </a>
                                     </div>
                                 </form>
                             </li>
@@ -117,10 +117,6 @@
                 </ul>
 
                 <a href="#" id="contact" data-target="#contact-modal" data-toggle="modal"><small>Credits</small></a>
-
-            <div class="ellipsisContainer">
-                <span></span>
-            </div>
             </div>
         
         <!-- The differents menu areas -->
@@ -154,6 +150,7 @@
                 </section>
                 <!-- Categories -->
                 <section class="tab-pane fade" id="categories">
+                    <div id="categoriesChild"></div>
                     <div id="galleryCategories">
 						<div class="row gallery">
 							<div class="col-md-12">
@@ -167,7 +164,9 @@
 				<!-- Tags -->
 				<section class="tab-pane fade" id="tags">
 					<h1>Tags</h1>
-					<div id="tagsContent">
+                    <div id="tagsList">
+                    </div>
+					<div id="tagContent">
 						<div class="row gallery">
 							<div class="col-md-12">
 								<div class="gallery-container">
@@ -337,8 +336,8 @@
     <!-- SCRIPTS -->
 	<script>
     	less = {
-    		env: 'production', //hide less message
-    	}; 
+    	    env: 'production', //hide less message 
+    	};
 	</script>
     <script src="js/libs/less/less.min.js"></script>
     <script src="js/libs/jquery.min.js"></script>

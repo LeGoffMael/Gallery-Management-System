@@ -32,7 +32,7 @@ class ControllerNav {
             location.href = 'index.php';
         });
         $('#nav-categ').click(function () {
-            that.application.getControllerGallery().setCategories()
+            that.application.getControllerGallery().setCategories(1, true)
         });
         $('#nav-tag').click(function () {
             that.application.getControllerPrincipal().setTagsList();

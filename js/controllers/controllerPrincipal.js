@@ -12,16 +12,18 @@ var ControllerPrincipal = (function () {
     function ControllerPrincipal(application) {
         this.application = application;
         this.viewPrincipal = new ViewPrincipal(this);
-        this.setUrl();
-        this.menuClicked();
         this.setTagsList();
+        this.menuClicked();
+        this.setUrl();
     }
     ControllerPrincipal.prototype.startLoader = function (element) {
         this.stopLoader(element);
         $(element).append('<div class="loaderContainer"><span class="ellipsis"></span></div>');
     };
     ControllerPrincipal.prototype.stopLoader = function (element) {
-        $(element).children('.loaderContainer').remove();
+        $(element).children('.loaderContainer').each(function () {
+            $(this).remove();
+        });
     };
     /**
      * When we reload we return to the same area
@@ -35,11 +37,17 @@ var ControllerPrincipal = (function () {
             //Display it
             this.application.getControllerGallery().setCategoriesChild(this.getUrlVars().categoryName, 1, true);
         }
-        else if (hash.includes('*')) {
+        else if (hash.includes('nameTag')) {
             var newHash = hash.split("?");
             hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
             //Display it
             this.application.getControllerGallery().setTagGallery(this.getUrlVars().nameTag, 1, true);
+        }
+        else if (hash.includes('searchTerm')) {
+            var newHash = hash.split("?");
+            hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
+            //Display it
+            this.application.getControllerGallery().setSearchResult(this.getUrlVars().searchTerm, 1, true);
         }
         else {
             hash && $('.menuLink[href="' + hash + '"]').tab('show');
@@ -48,7 +56,7 @@ var ControllerPrincipal = (function () {
             $('#nav-home').addClass('active');
         }
         else if (hash == "#categories") {
-            this.application.getControllerGallery().setCategories();
+            this.application.getControllerGallery().setCategories(1, true);
         }
     };
     /**
@@ -68,6 +76,7 @@ var ControllerPrincipal = (function () {
      * Display all the tags name in the tags area
      */
     ControllerPrincipal.prototype.setTagsList = function () {
+        var that = this;
         $.ajax({
             url: './php/functions/getAllTags.php',
             dataType: 'json',
@@ -78,12 +87,20 @@ var ControllerPrincipal = (function () {
                 }
                 html += "</ul>";
                 $('#tags h1').html('Tags');
-                $("#tagsContent").html(html);
+                //Remove tag content
+                that.application.getControllerGallery().removeTagContent();
+                $("#tagsList").html(html);
             },
             error: function (resultat, statut, erreur) {
                 console.log('error tags list (' + erreur + ')');
             }
         });
+    };
+    /**
+     * Remove tags list
+     */
+    ControllerPrincipal.prototype.removeTagsList = function () {
+        $("#tagsList").html('');
     };
     /**
      * Init the auto complete search

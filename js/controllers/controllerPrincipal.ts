@@ -23,9 +23,9 @@ class ControllerPrincipal {
     constructor(application: Application) {
         this.application = application;
         this.viewPrincipal = new ViewPrincipal(this);
-        this.setUrl();
-        this.menuClicked();
         this.setTagsList(); 
+        this.menuClicked();
+        this.setUrl();
     }
 
     public startLoader(element) {
@@ -34,7 +34,9 @@ class ControllerPrincipal {
     }
 
     public stopLoader(element) {
-        $(element).children('.loaderContainer').remove();
+        $(element).children('.loaderContainer').each(function () {
+            $(this).remove();
+        });
     }
 
     /**
@@ -50,11 +52,17 @@ class ControllerPrincipal {
             //Display it
             this.application.getControllerGallery().setCategoriesChild(this.getUrlVars().categoryName, 1, true);
         }
-        else if (hash.includes('*')) {
+        else if (hash.includes('nameTag')) {
             var newHash = hash.split("?");
             hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
             //Display it
             this.application.getControllerGallery().setTagGallery(this.getUrlVars().nameTag, 1, true);
+        }
+        else if (hash.includes('searchTerm')) {
+            var newHash = hash.split("?");
+            hash && $('.sidebar-nav li .menuLink[href="' + newHash[0] + '"]').tab('show');
+            //Display it
+            this.application.getControllerGallery().setSearchResult(this.getUrlVars().searchTerm, 1, true);
         }
         else {
             hash && $('.menuLink[href="' + hash + '"]').tab('show');
@@ -64,7 +72,7 @@ class ControllerPrincipal {
             $('#nav-home').addClass('active');
         }
         else if (hash == "#categories") {
-            this.application.getControllerGallery().setCategories(); 
+            this.application.getControllerGallery().setCategories(1, true); 
         }
     }
 
@@ -86,6 +94,7 @@ class ControllerPrincipal {
      * Display all the tags name in the tags area
      */
     public setTagsList() {
+        var that = this;
         $.ajax({
             url: './php/functions/getAllTags.php',
             dataType: 'json',
@@ -97,12 +106,21 @@ class ControllerPrincipal {
                 html += "</ul>";
 
                 $('#tags h1').html('Tags');
-                $("#tagsContent").html(html);
+                //Remove tag content
+                that.application.getControllerGallery().removeTagContent();
+                $("#tagsList").html(html);
             },
             error: function (resultat, statut, erreur) {
                 console.log('error tags list (' + erreur + ')');
             }
         });
+    }
+
+    /**
+     * Remove tags list
+     */
+    public removeTagsList() {
+        $("#tagsList").html('');
     }
 
     /**

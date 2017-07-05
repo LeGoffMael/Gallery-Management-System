@@ -1,7 +1,6 @@
 <?php
 require_once('../Settings.php');
 require_once('CategoriesManager.php');
-require_once('CategoryGallery.php');
 
 /**
  * ChildCategories short summary.
@@ -40,38 +39,28 @@ class ChildCategories extends CategoriesManager
 		$categoriesChild->bindValue(':parent', $this->_nameParent);
 		$categoriesChild->execute();
 
-		//Si il n'a pas d'enfant on affiche les images
-		if($categoriesChild->rowCount() == 0)
+		while ($data = $categoriesChild->fetch())
 		{
-			$categoryGallery = new CategoryGallery($this->_nameParent, $this->getCategoryParent($this->_nameParent), $this->_page);
-			//If category content image
-			if($categoryGallery->getGallery() != null)
-				echo $categoryGallery->getGallery()->toString();
-		}
-		//Else childs
-		else {
-			while ($data = $categoriesChild->fetch())
-			{
-				$nameCategory = $data['nameCategory'];
-				$nbElements = $data['nbElements'];
+			$nameCategory = $data['nameCategory'];
+			$nbElements = $data['nbElements'];
 
-				$urlImage = "";
-				if (is_null($data['urlImageCategory'])) {
-					$urlImage = "images/defaultCategory.png";
-				}
-				else {
-					$urlImage = $data['urlImageCategory'];
-				}
-
-				$categ = new Category($nameCategory, $urlImage, null, null, $nbElements);
-				array_push($list, $categ);
+			$urlImage = "";
+			if (is_null($data['urlImageCategory'])) {
+				$urlImage = "images/defaultCategory.png";
 			}
-			$categoriesChild->closeCursor();
-			//Display child categories
-			$this->categories = new Categories($list,$this->_nameParent, $this->getCategoryParent($this->_nameParent));
-			echo $this->getCategories()->toString();
+			else {
+				$urlImage = $data['urlImageCategory'];
+			}
+
+			$categ = new Category($nameCategory, $urlImage, null, null, $nbElements);
+			array_push($list, $categ);
 		}
+		$categoriesChild->closeCursor();
+		//Display child categories
+		$this->categories = new Categories($list,$this->_nameParent, $this->getCategoryParent($this->_nameParent));
+		echo $this->getCategories()->toString();
 	}
+	
 }
 
 $nameParent = filter_input(INPUT_POST, 'nameParent');

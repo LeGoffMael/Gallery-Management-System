@@ -28,14 +28,9 @@ class Gallery
     public function toString() {
 		$nextPage = $this->_page + 1;
 		$res = "";
-		if ($this->_name != null) {
-			if ($this->_categoryParent == null)
-				$res = "<h1>".$this->_name."::<a class='categoryLink' href='#categories?categoryName=null' data-categoryLink='null'>return</a></h1>";
-			else
-				$res = "<h1>".$this->_name."::<a class='categoryLink' href='#categories?categoryName=".$this->_categoryParent."' data-categoryLink='".$this->_categoryParent."'>return</a></h1>";
-		}
+		
 
-		$res .= "<div class='row gallery'><div class='col-md-12'><div class='gallery-container'>";
+		//$res .= "<div class='row gallery'><div class='col-md-12'><div class='gallery-container'>";
         for ($i = 0; $i < count($this->_listImages); $i++) {
             $res .= $this->_listImages[$i]->toString();
         }
