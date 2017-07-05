@@ -66,10 +66,11 @@ class ViewGallery {
                     item;
 
                 for (var i = 0; i < numNodes; i++) {
+
                     el = thumbElements[i];
 
                     // include only element nodes 
-                    if (el.nodeType !== 1) {
+                    if (el.nodeType !== 1 || el.nodeName !== 'A') {
                         continue;
                     }
 
@@ -250,6 +251,8 @@ class ViewGallery {
                 var pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
                 pswp.init();
                 that.eventLinkPhotoSwipe();
+
+                console.log(items);
             };
 
             // select all gallery elements
