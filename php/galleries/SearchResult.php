@@ -16,8 +16,15 @@ class SearchResult extends GalleryManager
 
 	public function __construct($terms,$page) {
 		$this->_terms = explode(" ", $terms);
+        $this->addCategoriesChilds();
 		$this->setPage($page);
 		$this->setGallery();
+    }
+
+    public function addCategoriesChilds() {
+        for ($i = 0; $i < count($this->_terms); $i++) {
+            $this->_terms = array_unique(array_merge($this->_terms, $this->getAllChildsCategory($this->_terms[$i])));
+		}
     }
 
 	/**

@@ -117,8 +117,74 @@ abstract class GalleryManager
 
 		return $res;
 	}
-	/* Retourne tous les enfants de la categorie */
-	public function getAllChilds($nameCategory) {
+
+	/* Return all childs from the category */
+	public function getAllChildsCategory($nameParent) {
+        $childs = array();
+
+        if ($this->hasChild($nameParent)) {
+            $categoriesChild = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT c1.nameCategory
+		    FROM categories c1
+		    WHERE c1.idCategory IN
+			    (SELECT idChild FROM categories c2
+			    JOIN parent_child pc ON pc.idParent=c2.idCategory
+			    WHERE c2.nameCategory = :parent)
+		    GROUP BY c1.idCategory, c1.urlImageCategory
+		    ORDER BY c1.nameCategory ASC");
+            $categoriesChild->bindValue(':parent', $nameParent);
+            $categoriesChild->execute();
+
+            while ($data = $categoriesChild->fetch())
+            {
+                array_push($childs, $data['nameCategory']);
+            }
+            $categoriesChild->closeCursor();
+        }
+
+        return $childs;
+	}
+
+    /* Return if the Category have child(s) */
+    public function hasChild($nameParent) {
+        $res = false;
+
+        if ($this->isCategory($nameParent)) {
+            $categoriesChild = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT c1.nameCategory
+		    FROM categories c1
+		    WHERE c1.idCategory IN
+			    (SELECT idChild FROM categories c2
+			    JOIN parent_child pc ON pc.idParent=c2.idCategory
+			    WHERE c2.nameCategory = :parent)
+		    GROUP BY c1.idCategory, c1.urlImageCategory
+		    ORDER BY c1.nameCategory ASC");
+            $categoriesChild->bindValue(':parent', $nameParent);
+            $categoriesChild->execute();
+
+            if($categoriesChild->rowCount() > 0) {
+                $res = true;
+            }
+        }
+
+        return $res;
+    }
+
+    /* Return if the name is a Category */
+	public function isCategory($name) {
+        $res = false;
+
+        $category = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT c1.nameCategory
+		FROM categories c1
+		WHERE c1.nameCategory = :name
+		GROUP BY c1.idCategory, c1.urlImageCategory
+		ORDER BY c1.nameCategory ASC");
+        $category->bindValue(':name', $name);
+        $category->execute();
+
+        if($category->rowCount() > 0) {
+			$res = true;
+		}
+
+        return $res;
 	}
 
 	/**
