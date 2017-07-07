@@ -26,7 +26,7 @@ var ControllerNav = (function () {
             that.application.getControllerPrincipal().setTagsList();
         });
         //Reset scroll
-        $('.sidebar-nav a,button').click(function () {
+        $('.sidebar-nav a, .sidebar-nav button').click(function () {
             $('.main').scrollTop(0);
             that.application.getControllerGallery().updateLatestTopGallery();
         });

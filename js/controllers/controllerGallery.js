@@ -12,14 +12,17 @@ var ControllerGallery = (function () {
     function ControllerGallery(application) {
         this.application = application;
         this.viewGallery = new ViewGallery(this);
-        this.updateLatestTopGallery();
-        this.paginationManagement();
+        this.resetLatestTopGallery();
+        this.scrollManagment();
         this.voteButton();
         this.goToCategory();
         this.goToTag();
     }
     ControllerGallery.prototype.getViewGallery = function () {
         return this.viewGallery;
+    };
+    ControllerGallery.prototype.getApplication = function () {
+        return this.application;
     };
     /**
      * Set vote when vote button is clicked
@@ -102,40 +105,85 @@ var ControllerGallery = (function () {
             gallery = 'home';
         return gallery;
     };
+    ControllerGallery.prototype.scrollManagment = function () {
+        var that = this;
+        $('.main').scroll(function () {
+            if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
+                that.paginationManagement();
+            }
+        });
+    };
     /**
      * Detect if the user is at the bottom
      * And update the current gallery with it next page
      */
     ControllerGallery.prototype.paginationManagement = function () {
-        var that = this;
-        $('.main').scroll(function () {
-            if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
-                var allPage = $('.main #' + that.getCurrentGallery() + ' .pageGallery');
-                var nextPage = allPage.last().attr('data-nextPage');
-                if (that.getCurrentGallery() == 'home') {
-                    that.setLatestGallery(nextPage, false);
-                }
-                else if (that.getCurrentGallery() == 'top') {
-                    that.setTopGallery(nextPage, false);
-                }
-                else if (that.getCurrentGallery() == 'categories') {
-                    that.setCategoriesChild(that.application.getControllerPrincipal().getUrlVars().categoryName, nextPage, false);
-                }
-                else if (that.getCurrentGallery() == 'tags') {
-                    that.setTagGallery(that.application.getControllerPrincipal().getUrlVars().nameTag, nextPage, false);
-                }
-                else if (that.getCurrentGallery() == 'search') {
-                    that.setSearchResult(that.application.getControllerPrincipal().getUrlVars().searchTerm, nextPage, false);
-                }
-            }
-        });
+        var allPage = $('.main #' + this.getCurrentGallery() + ' .pageGallery');
+        var nextPage = allPage.last().attr('data-nextPage');
+        if (this.getCurrentGallery() == 'home') {
+            this.setLatestGallery(nextPage, false);
+        }
+        else if (this.getCurrentGallery() == 'top') {
+            this.setTopGallery(nextPage, false);
+        }
+        else if (this.getCurrentGallery() == 'categories') {
+            this.setCategoriesChild(this.application.getControllerPrincipal().getUrlVars().categoryName, nextPage, false);
+        }
+        else if (this.getCurrentGallery() == 'tags') {
+            this.setTagGallery(this.application.getControllerPrincipal().getUrlVars().nameTag, nextPage, false);
+        }
+        else if (this.getCurrentGallery() == 'search') {
+            this.setSearchResult(this.application.getControllerPrincipal().getUrlVars().searchTerm, nextPage, false);
+        }
     };
     /**
      * Reset top and latest galleries
      */
-    ControllerGallery.prototype.updateLatestTopGallery = function () {
+    ControllerGallery.prototype.resetLatestTopGallery = function () {
         this.setLatestGallery(1, true);
         this.setTopGallery(1, true);
+    };
+    /**
+     * Update the current gallery to the same page
+     */
+    ControllerGallery.prototype.updateCurrentGallery = function () {
+        var gallery = this.getCurrentGallery();
+        var allPage = $('.main #' + gallery + ' .pageGallery');
+        var nextPage = allPage.last().attr('data-nextPage');
+        var currentPage = parseInt(nextPage, 10) - 1;
+        if (gallery == 'home') {
+            for (var i = 1; i <= currentPage; i++) {
+                console.log(i);
+                if (i == 1)
+                    this.setLatestGallery(1, true);
+                else
+                    this.setLatestGallery(i, false);
+            }
+        }
+        else if (gallery == 'top') {
+            for (var i = 1; i <= currentPage; i++) {
+                if (i == 1)
+                    this.setTopGallery(1, true);
+                else
+                    this.setTopGallery(i, false);
+            }
+        }
+        else if (gallery == 'tags') {
+            for (var i = 1; i <= currentPage; i++) {
+                if (i == 1)
+                    this.setTagGallery(this.application.getControllerPrincipal().getUrlVars().categoryName, 1, true);
+                else
+                    this.setTagGallery(this.application.getControllerPrincipal().getUrlVars().categoryName, i, false);
+            }
+        }
+        else if (gallery == 'categories') {
+            for (var i = 1; i <= currentPage; i++) {
+                if (i == 1)
+                    this.setCategoriesChild(this.application.getControllerPrincipal().getUrlVars().nameTag, 1, true);
+                else
+                    this.setCategoriesChild(this.application.getControllerPrincipal().getUrlVars().nameTag, i, false);
+            }
+        }
     };
     /**
      * Create the latest gallery
@@ -163,7 +211,7 @@ var ControllerGallery = (function () {
                 //Hide other no items to display
                 $("#galleryLatest").children('h2:not(:first)').css('display', 'none');
                 that.viewGallery.initGallery();
-                that.viewGallery.initLightBox();
+                that.viewGallery.updateItemsPhotoSwipe();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error gallery latest (' + erreur + ')');
@@ -196,7 +244,7 @@ var ControllerGallery = (function () {
                 //Hide other no items to display
                 $("#galleryTop").children('h2:not(:first)').css('display', 'none');
                 that.viewGallery.initGallery();
-                that.viewGallery.initLightBox();
+                that.viewGallery.updateItemsPhotoSwipe();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error gallery top (' + erreur + ')');
@@ -242,7 +290,7 @@ var ControllerGallery = (function () {
                     that.application.getControllerPrincipal().stopLoader('#galleryCategories .gallery');
                 });
                 that.viewGallery.initGallery();
-                that.viewGallery.initLightBox();
+                that.viewGallery.updateItemsPhotoSwipe();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error category gallery ' + name + ' (' + erreur + ')');
@@ -297,7 +345,7 @@ var ControllerGallery = (function () {
                     //Hide other no items to display
                     $("#galleryCategories").children('h2:not(:first)').css('display', 'none');
                     that.viewGallery.initGallery();
-                    that.viewGallery.initLightBox();
+                    that.viewGallery.updateItemsPhotoSwipe();
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('error category gallery ' + name + ' (' + erreur + ')');
@@ -338,7 +386,7 @@ var ControllerGallery = (function () {
                 });
                 $('#tags h1').html('Tags::<a class="menuLink tagsLink" href= "#tags" data-toggle="tab" >' + nameTag + '</a>');
                 that.viewGallery.initGallery();
-                that.viewGallery.initLightBox();
+                that.viewGallery.updateItemsPhotoSwipe();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error search (' + erreur + ')');
@@ -373,7 +421,7 @@ var ControllerGallery = (function () {
                     //Hide other no items to display
                     $("#searchResult").children('h2:not(:first)').css('display', 'none');
                     that.viewGallery.initGallery();
-                    that.viewGallery.initLightBox();
+                    that.viewGallery.updateItemsPhotoSwipe();
                 },
                 error: function (resultat, statut, erreur) {
                     console.log('error search (' + erreur + ')');
@@ -395,20 +443,8 @@ var ControllerGallery = (function () {
             data: 'currentVote=' + currentVote + '&urlImage=' + urlImage,
             dataType: 'html',
             success: function (code_html) {
-                //If we are in the latest gallery
-                if (gallery == 'home') {
-                    that.updateLatestTopGallery();
-                }
-                else if (gallery == 'top')
-                    that.setTopGallery(1, true);
-                else if (gallery == null)
-                    location.reload();
-                else {
-                    that.setCategoriesChild(gallery, false, 1);
-                    that.setTopGallery(1, true);
-                }
-                //Change score displayed in the light box
-                that.updateLightBox(code_html);
+                //Change score in the light box
+                that.updateVote(code_html, urlImage);
             },
             error: function (resultat, statut, erreur) {
                 console.log('error vote (' + urlImage + ': ' + currentVote + ')');
@@ -419,8 +455,19 @@ var ControllerGallery = (function () {
      * Update the content of the light box
      * @param vote the new vote value
      */
-    ControllerGallery.prototype.updateLightBox = function (vote) {
-        $('#pswp div.score').html(vote);
+    ControllerGallery.prototype.updateVote = function (vote, url) {
+        var that = this;
+        var photoswipe = this.viewGallery.getPhotoswipe();
+        for (var i = 0; i < photoswipe.items.length; i++) {
+            if (photoswipe.items[i].src == url) {
+                photoswipe.items[i].score = vote;
+                photoswipe.ui.update();
+            }
+        }
+        photoswipe.listen('close', function () {
+            console.log('destroy');
+            that.updateCurrentGallery();
+        });
     };
     return ControllerGallery;
 }());

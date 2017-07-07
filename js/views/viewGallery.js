@@ -16,10 +16,15 @@ var ViewGallery = (function () {
          * controller associated to the view
          */
         this.controllerGallery = null;
+        this.photoswipe = null;
         this.controllerGallery = controller;
         this.initGallery();
+        this.initLightBox();
         $(window).on('resize', this.onWindowResized.bind(this));
     }
+    ViewGallery.prototype.getPhotoswipe = function () {
+        return this.photoswipe;
+    };
     /**
      * When the window is resized
      * @param event
@@ -53,7 +58,7 @@ var ViewGallery = (function () {
                 var thumbElements = el.childNodes, numNodes = thumbElements.length, items = [], el, childElements, thumbnailEl, item;
                 for (var i = 0; i < numNodes; i++) {
                     el = thumbElements[i];
-                    // include only element nodes 
+                    // include only element nodes <a>
                     if (el.nodeType !== 1 || el.nodeName !== 'A') {
                         continue;
                     }
@@ -112,7 +117,8 @@ var ViewGallery = (function () {
                 var clickedGallery = clickedListItem.parentNode;
                 var childNodes = clickedListItem.parentNode.childNodes, numChildNodes = childNodes.length, nodeIndex = 0, index;
                 for (var i = 0; i < numChildNodes; i++) {
-                    if (childNodes[i].nodeType !== 1) {
+                    // include only element nodes <a>
+                    if (childNodes[i].nodeType !== 1 || childNodes[i].nodeName !== 'A') {
                         continue;
                     }
                     if (childNodes[i] === clickedListItem) {
@@ -198,10 +204,9 @@ var ViewGallery = (function () {
                     options.showAnimationDuration = 0;
                 }
                 // Pass data to PhotoSwipe and initialize it
-                var pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-                pswp.init();
-                that.eventLinkPhotoSwipe();
-                console.log(items);
+                that.photoswipe = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+                that.photoswipe.init();
+                that.eventPhotoSwipe();
             };
             // select all gallery elements
             var galleryElements = document.querySelectorAll(gallerySelector);
@@ -212,11 +217,88 @@ var ViewGallery = (function () {
         };
         initPhotoSwipeFromDOM(".gallery");
     };
-    ViewGallery.prototype.eventLinkPhotoSwipe = function () {
+    ViewGallery.prototype.eventPhotoSwipe = function () {
+        var that = this;
         //When clicking on a link in the lightbox
         $('.pswp__caption__center small a').click(function (e) {
             location.reload();
         });
+        //When current item changed
+        //TODO : find better event (github issue)
+        this.photoswipe.listen('imageLoadComplete', function () {
+            if (that.photoswipe.getCurrentIndex() == that.photoswipe.items.length - 1) {
+                //Move scroll
+                var scrollTop = $('.main')[0].scrollHeight - $('.main')[0].clientHeight - 1;
+                $('.main').scrollTop(scrollTop);
+                that.controllerGallery.paginationManagement();
+            }
+        });
+        this.photoswipe.listen('beforeChange', function () {
+            //If image dimension is 0, retry
+            if (that.photoswipe.currItem.w == 0 || that.photoswipe.currItem.h == 0) {
+                that.controllerGallery.getApplication().getControllerPrincipal().startLoader('#pswp');
+                console.log('retry');
+                var img = new Image();
+                img.onload = function () {
+                    that.photoswipe.currItem.w = this.width;
+                    that.photoswipe.currItem.h = this.height;
+                    that.photoswipe.updateSize(true);
+                    that.controllerGallery.getApplication().getControllerPrincipal().stopLoader('#pswp');
+                };
+                img.src = that.photoswipe.currItem.src;
+            }
+        });
+        //Set variable to null after closing photoswipe
+        this.photoswipe.listen('destroy', function () {
+            that.photoswipe = null;
+        });
+    };
+    //TODO : image size always at 0
+    ViewGallery.prototype.updateItemsPhotoSwipe = function () {
+        console.log('update');
+        if (this.photoswipe != null) {
+            var that = this;
+            var thumbElements = new Array();
+            var i = 0;
+            $('#' + this.controllerGallery.getCurrentGallery() + ' .gallery-container a').each(function () {
+                i++;
+                if (i > that.photoswipe.getCurrentIndex() + 1)
+                    thumbElements.push($(this)[0]);
+            });
+            var numNodes = thumbElements.length, items = [], el, childElements, thumbnailEl, item;
+            for (var i = 0; i < numNodes; i++) {
+                el = thumbElements[i];
+                childElements = el.children;
+                var href = el.getAttribute('href');
+                //Definition of size
+                var img = new Image();
+                img.onload = function () {
+                    width = this.width;
+                    height = this.height;
+                };
+                img.src = href;
+                //Definition of variables
+                item = {
+                    src: href,
+                    w: img.width,
+                    h: img.height,
+                    categs: el.getAttribute('data-categories'),
+                    tags: el.getAttribute('data-tags'),
+                    score: el.getAttribute('data-score')
+                };
+                item.el = el; // save link to element for getThumbBoundsFn
+                // original image
+                item.o = {
+                    src: item.src,
+                    w: item.w,
+                    h: item.h
+                };
+                that.photoswipe.items.push(item);
+                that.photoswipe.ui.update();
+                that.photoswipe.invalidateCurrItems();
+                that.photoswipe.updateSize(true);
+            }
+        }
     };
     return ViewGallery;
 }());

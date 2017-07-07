@@ -3,6 +3,7 @@ TODO list (No order)
 - Search different terms
 - Installation page
 - Call new page from photoswipe
+- Allow video
 
 - Improve code Readability (in progress)
 	-> Add view for each section (started)
