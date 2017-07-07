@@ -26,7 +26,7 @@ class TopGallery extends GalleryManager
 		$top_images = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT *
 		FROM images
 		WHERE scoreImage > 0
-		ORDER BY scoreImage
+		ORDER BY scoreImage, idImage DESC
 		LIMIT ".$this->getOffset().", ". Settings::getInstance()->getLimit());
 		$top_images->execute();
 

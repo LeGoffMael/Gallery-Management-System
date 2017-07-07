@@ -120,7 +120,7 @@ var ControllerAdmin = (function () {
                 dataType: 'json',
                 success: function (data) {
                     if (data[0] === "success") {
-                        that.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerGallery().resetLatestTopGallery();
                         that.application.getControllerPrincipal().formMsg("newImage-admin", "success", "Image successfully added");
                         that.viewAdmin.resetNewImageInterface();
                     }
@@ -188,7 +188,7 @@ var ControllerAdmin = (function () {
                 dataType: 'json',
                 success: function (data) {
                     if (data[0] === "success") {
-                        that.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerGallery().resetLatestTopGallery();
                         that.application.getControllerPrincipal().formMsg("edit-image-option", "success", "Image successfully edited");
                         that.viewAdmin.resetEditImageInterface();
                     }
@@ -215,7 +215,7 @@ var ControllerAdmin = (function () {
             dataType: 'json',
             success: function (data) {
                 if (data[0] === "success") {
-                    that.application.getControllerGallery().updateLatestTopGallery();
+                    that.application.getControllerGallery().resetLatestTopGallery();
                     that.application.getControllerPrincipal().formMsg("confirm-delete-image", "success", "Image successfully deleted.");
                     that.viewAdmin.resetEditImageInterface();
                 }
@@ -322,7 +322,7 @@ var ControllerAdmin = (function () {
                 success: function (data) {
                     if (data[0] === "success") {
                         that.application.getControllerPrincipal().formMsg("edit-category-admin", "success", "Category successfully edited.");
-                        that.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerGallery().resetLatestTopGallery();
                         that.viewAdmin.resetEditCategoryInterface();
                         that.setSelectListCategories();
                         that.setSelectListImageCategories();
@@ -352,7 +352,7 @@ var ControllerAdmin = (function () {
             success: function (data) {
                 if (data[0] === "success") {
                     that.application.getControllerPrincipal().formMsg("confirm-delete-category", "success", "Category successfully deleted.");
-                    that.application.getControllerGallery().updateLatestTopGallery();
+                    that.application.getControllerGallery().resetLatestTopGallery();
                     that.viewAdmin.resetEditCategoryInterface();
                     that.setSelectListCategories();
                     that.setSelectListImageCategories();
@@ -419,7 +419,7 @@ var ControllerAdmin = (function () {
                     if (data[0] === "success") {
                         that.setSelectListTags();
                         that.application.getControllerPrincipal().formMsg("editTags-admin", "success", "Tags that exist have been successfully deleted.");
-                        that.application.getControllerGallery().updateLatestTopGallery();
+                        that.application.getControllerGallery().resetLatestTopGallery();
                         that.viewAdmin.resetEditTagInterface();
                         that.application.getControllerPrincipal().setSearchList();
                     }
@@ -447,7 +447,7 @@ var ControllerAdmin = (function () {
                     that.setSelectListCategories();
                     that.setSelectListImageCategories();
                     that.application.getControllerPrincipal().formMsg("confirm-delete-unreferenced", "success", "All unreferenced records have been successfully deleted.");
-                    that.application.getControllerGallery().updateLatestTopGallery();
+                    that.application.getControllerGallery().resetLatestTopGallery();
                     that.application.getControllerPrincipal().setSearchList();
                 }
                 else {

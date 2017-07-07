@@ -3,7 +3,7 @@ TODO list (No order)
 - Search different terms
 - Installation page
 - Call new page from photoswipe
-- Allow video
+- Logo
 
 - Improve code Readability (in progress)
 	-> Add view for each section (started)
@@ -14,4 +14,5 @@ TODO list (No order)
 	-> New administration area for add images that can be uploaded directly with .zip for example
 	-> Possibility to sort gallery to display
 	-> Select the image, category or tag to edit directldy from the display
+	-> Add video
 }

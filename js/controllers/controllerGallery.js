@@ -108,7 +108,12 @@ var ControllerGallery = (function () {
     ControllerGallery.prototype.scrollManagment = function () {
         var that = this;
         $('.main').scroll(function () {
-            if ($('.main')[0].scrollHeight - $('.main')[0].scrollTop == $('.main')[0].clientHeight) {
+            var scrollTop = $('.main').scrollTop();
+            if (that.getCurrentGallery() == 'home')
+                that.application.getControllerNav().setLatestScroll(scrollTop);
+            else if (that.getCurrentGallery() == 'top')
+                that.application.getControllerNav().setTopScroll(scrollTop);
+            if ($('.main')[0].scrollHeight - $('.main').scrollTop() == $('.main')[0].clientHeight) {
                 that.paginationManagement();
             }
         });

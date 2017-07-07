@@ -10,6 +10,8 @@ var ControllerNav = (function () {
      * Constructor
      */
     function ControllerNav(application) {
+        this.latestScroll = 0;
+        this.topScroll = 0;
         this.application = application;
         this.viewNav = new ViewNav(this);
         this.initNav();
@@ -25,14 +27,25 @@ var ControllerNav = (function () {
         $('#nav-tag').click(function () {
             that.application.getControllerPrincipal().setTagsList();
         });
-        //Reset scroll
+        //update scroll
         $('.sidebar-nav a, .sidebar-nav button').click(function () {
-            $('.main').scrollTop(0);
-            that.application.getControllerGallery().updateLatestTopGallery();
+            if (that.getApplication().getControllerGallery().getCurrentGallery() == 'home') {
+                $('.main').scrollTop(that.latestScroll);
+            }
+            else if (that.getApplication().getControllerGallery().getCurrentGallery() == 'top') {
+                $('.main').scrollTop(that.topScroll);
+            }
+            that.application.getControllerGallery().updateCurrentGallery();
         });
     };
     ControllerNav.prototype.getApplication = function () {
         return this.application;
+    };
+    ControllerNav.prototype.setLatestScroll = function (scroll) {
+        this.latestScroll = scroll;
+    };
+    ControllerNav.prototype.setTopScroll = function (scroll) {
+        this.topScroll = scroll;
     };
     return ControllerNav;
 }());

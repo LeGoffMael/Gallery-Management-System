@@ -16,6 +16,8 @@ class ControllerNav {
      * View associated to the controller
      */
     private viewNav: ViewNav;
+    private latestScroll = 0;
+    private topScroll = 0;
 
     /**
      * Constructor
@@ -37,14 +39,28 @@ class ControllerNav {
         $('#nav-tag').click(function () {
             that.application.getControllerPrincipal().setTagsList();
         });
-        //Reset scroll
+        //update scroll
         $('.sidebar-nav a, .sidebar-nav button').click(function () {
-            $('.main').scrollTop(0);
-            that.application.getControllerGallery().updateLatestTopGallery();
+            if (that.getApplication().getControllerGallery().getCurrentGallery() == 'home') {
+                $('.main').scrollTop(that.latestScroll);
+            }
+            else if (that.getApplication().getControllerGallery().getCurrentGallery() == 'top') {
+                $('.main').scrollTop(that.topScroll);
+                
+            }
+            that.application.getControllerGallery().updateCurrentGallery();
         });
     }
 
     public getApplication() {
         return this.application;
+    }
+
+    public setLatestScroll(scroll) {
+        this.latestScroll = scroll;
+    }
+
+    public setTopScroll(scroll) {
+        this.topScroll = scroll;
     }
 }

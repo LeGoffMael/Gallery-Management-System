@@ -149,8 +149,6 @@ var ViewGallery = (function () {
                     //We add the description, categories and tags
                     addCaptionHTMLFn: function (item, captionEl, isFake) {
                         if (!item.title) {
-                            captionEl.children[0].innerText = '';
-                            return false;
                         }
                         captionEl.children[0].innerHTML = item.title + "<br/><small>Categorie(s): " + item.categs + "</small>";
                         captionEl.children[0].innerHTML += "<br/><small>Tag(s): " + item.tags + "</small>";
@@ -220,7 +218,7 @@ var ViewGallery = (function () {
     ViewGallery.prototype.eventPhotoSwipe = function () {
         var that = this;
         //When clicking on a link in the lightbox
-        $('.pswp__caption__center small a').click(function (e) {
+        $('#pswp small a').click(function (e) {
             location.reload();
         });
         //When current item changed
@@ -237,7 +235,6 @@ var ViewGallery = (function () {
             //If image dimension is 0, retry
             if (that.photoswipe.currItem.w == 0 || that.photoswipe.currItem.h == 0) {
                 that.controllerGallery.getApplication().getControllerPrincipal().startLoader('#pswp');
-                console.log('retry');
                 var img = new Image();
                 img.onload = function () {
                     that.photoswipe.currItem.w = this.width;
@@ -255,7 +252,6 @@ var ViewGallery = (function () {
     };
     //TODO : image size always at 0
     ViewGallery.prototype.updateItemsPhotoSwipe = function () {
-        console.log('update');
         if (this.photoswipe != null) {
             var that = this;
             var thumbElements = new Array();
@@ -287,6 +283,12 @@ var ViewGallery = (function () {
                     score: el.getAttribute('data-score')
                 };
                 item.el = el; // save link to element for getThumbBoundsFn
+                if (childElements.length > 0) {
+                    item.msrc = childElements[0].getAttribute('src'); // thumbnail url
+                    if (childElements.length > 1) {
+                        item.title = childElements[1].innerHTML; // caption (contents of figure)
+                    }
+                }
                 // original image
                 item.o = {
                     src: item.src,
