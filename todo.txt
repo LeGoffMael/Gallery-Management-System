@@ -2,7 +2,6 @@ TODO list (No order)
 
 - Search different terms
 - Installation page
-- Call new page from photoswipe
 - Logo
 
 - Improve code Readability (in progress)

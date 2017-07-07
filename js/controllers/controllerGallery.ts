@@ -188,7 +188,6 @@ class ControllerGallery {
 
         if (gallery == 'home') {
             for (var i = 1; i <= currentPage; i++) {
-                console.log(i);
                 if (i == 1)
                     this.setLatestGallery(1, true);
                 else
@@ -535,7 +534,6 @@ class ControllerGallery {
         }
 
         photoswipe.listen('close', function () {
-            console.log('destroy');
             that.updateCurrentGallery();
         });
     }
