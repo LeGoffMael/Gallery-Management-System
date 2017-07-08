@@ -20,7 +20,7 @@ else{
 	while ($data = $tags->fetch())
 	{
 		$row_array['id'] = $data['idTag'];
-		$row_array['text'] = $data['nameTag'];
+		$row_array['name'] = $data['nameTag'];
 		$row_array['nb'] = $data['nbElements'];
 		array_push($tabTags,$row_array);
 	}

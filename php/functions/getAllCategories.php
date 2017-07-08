@@ -23,7 +23,7 @@
 				while ($data = $categories->fetch())
 				{
 					$row_array['id'] = $data['idCategory'];
-					$row_array['text'] = $data['nameCategory'];
+					$row_array['name'] = $data['nameCategory'];
 					$row_array['nb'] = $data['nbElements'];
 					array_push($tabCategories,$row_array);
 				}
@@ -56,7 +56,7 @@
 				while ($data = $categories->fetch())
 				{
 					$row_array['id'] = $data['idCategory'];
-					$row_array['text'] = $data['nameCategory'];
+					$row_array['name'] = $data['nameCategory'];
 					$row_array['nb'] = $data['nbElements'];
 					array_push($tabCategories,$row_array);
 				}
@@ -87,7 +87,7 @@
 			while ($data = $categories->fetch())
 			{
 				$row_array['id'] = $data['idCategory'];
-				$row_array['text'] = $data['nameCategory'];
+				$row_array['name'] = $data['nameCategory'];
 				$row_array['nb'] = $data['nbElements'];
 				array_push($tabCategories,$row_array);
 			}
