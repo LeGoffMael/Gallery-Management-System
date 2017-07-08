@@ -91,7 +91,7 @@
     padding-left: 3px;
     width: 80%;
     background-color: @sideBarColor;
-    margin-bottom: 0;
+    margin-bottom: 0!important;
     border : 1px solid;
     color: @sideBarFontColor;
     border-color: #444;
@@ -106,10 +106,9 @@
     background: none;
     color: @linkColor;
     padding: 2px 5px;
-    margin-top: 2px;
-    position: relative;
-    left: -28px;
-    margin-bottom: 0;
+    margin-top: -27px;
+    position: absolute;
+    right: 35px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
@@ -118,9 +117,19 @@
         color: @linkHoverColor;
     }
 }
-#search-form-reduce .search-button {
-    display: inline-block;
-    font-size: 100%;
+#search-form-reduce {
+    margin-left: 0px;
+    
+    input.search-input {
+        margin-top: 7px;
+        width: 100%;
+    }
+    .search-button {
+        display: inline-block;
+        margin-top: -38px;
+        right: 0px;
+        font-size: 100%;
+    }
 }
 
 #little-search {

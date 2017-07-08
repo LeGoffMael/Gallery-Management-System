@@ -2,6 +2,7 @@
 /// <reference path="../views/viewPrincipal.ts" />
 /// <reference path="../application/application.ts" />
 /// <reference path="controllerGallery.ts" />
+/// <reference path="../libs/typescript/typeahead.ts" />
 
 /**
  * Principal controller of the application
@@ -16,6 +17,11 @@ class ControllerPrincipal {
      * View associated to the controller
      */
     private viewPrincipal: ViewPrincipal;
+
+    private categoriesReady = false;
+    private tagsReady = false;
+    private categories = [];
+    private tags = [];
 
     /**
      * Constructor
@@ -127,15 +133,21 @@ class ControllerPrincipal {
      * Init the auto complete search
       */
     public setSearchList() {
-        var search = [];
+        var that = this;
 
         $.ajax({
             url: './php/functions/getAllCategories.php',
             dataType: 'json',
             success: function (json) {
                 for (var i = 0; i < json.length; i++) {
-                    search.push(json[i].text);
+                    var obj = new Object();
+                    obj.name = json[i].text;
+                    obj.id = json[i].id;
+                    obj.nb = json[i].nb;
+                    that.categories.push(obj);
                 }
+                that.categoriesReady = true;
+                that.callTypahead();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error tags list (' + erreur + ')');
@@ -146,17 +158,25 @@ class ControllerPrincipal {
             dataType: 'json',
             success: function (json) {
                 for (var i = 0; i < json.length; i++) {
-                    search.push(json[i].text);
+                    var obj = new Object();
+                    obj.name = json[i].text;
+                    obj.id = json[i].id;
+                    obj.nb = json[i].nb;
+                    that.tags.push(obj);
                 }
+                that.tagsReady = true;
+                that.callTypahead();
             },
             error: function (resultat, statut, erreur) {
                 console.log('error tags list (' + erreur + ')');
             }
         });
+    }
 
-        $('.search-input').typeahead({
-            source: search
-        });
+    public callTypahead() {
+        if (this.categoriesReady && this.tagsReady) {
+            setTypahead($('.search-input'), this.categories, this.tags);
+        }
     }
 
     /**

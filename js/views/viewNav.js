@@ -92,6 +92,14 @@ var ViewNav = (function () {
      * Init search button
      */
     ViewNav.prototype.initSearch = function () {
+        $("body").click(function (e) {
+            //Don't close search if isn't link in the sidebar
+            if (!($('a').is(e.target) || ($('a i').is(e.target)))) {
+                if ($('#little-search').hasClass('open')) {
+                    event.stopPropagation();
+                }
+            }
+        });
         var that = this;
         this.controllerNav.getApplication().getControllerPrincipal().setSearchList();
         $("#search-form a").click(function (e) {

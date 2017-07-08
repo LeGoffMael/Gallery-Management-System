@@ -2,31 +2,31 @@
 header('Content-Type: application/json');
 require_once('../Settings.php');
 
-$categories = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT t.idTag,nameTag, COUNT(ti.idTag) AS nbElements
+$tags = Settings::getInstance()->getDatabase()->getDb()->prepare("SELECT t.idTag,nameTag, COUNT(ti.idTag) AS nbElements
 FROM tags t
 LEFT JOIN tags_images ti ON ti.idTag=t.idTag
 GROUP BY t.idTag
 ORDER BY nameTag ASC");
-$categories->execute();
+$tags->execute();
 
-if($categories->rowCount() == 0)
+if($tags->rowCount() == 0)
 {
-	$error = array("error" , $categories->errorInfo());
+	$error = array("error" , $tags->errorInfo());
 	echo json_encode($error, JSON_PRETTY_PRINT);
 	exit();
 }
 else{
-	$tabCategories = array();
-	while ($data = $categories->fetch())
+	$tabTags = array();
+	while ($data = $tags->fetch())
 	{
 		$row_array['id'] = $data['idTag'];
 		$row_array['text'] = $data['nameTag'];
 		$row_array['nb'] = $data['nbElements'];
-		array_push($tabCategories,$row_array);
+		array_push($tabTags,$row_array);
 	}
-	$categories->closeCursor();
+	$tags->closeCursor();
 
-	echo json_encode($tabCategories, JSON_PRETTY_PRINT);
+	echo json_encode($tabTags, JSON_PRETTY_PRINT);
 	exit();
 }
 ?>

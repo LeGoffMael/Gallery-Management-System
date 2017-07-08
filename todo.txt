@@ -1,6 +1,6 @@
 TODO list (No order)
 
-- Search different terms
+- Search different terms in the auto complete
 - Installation page
 - Logo
 

@@ -668,6 +668,7 @@
     <TypeScriptCompile Include="js\controllers\controllerAdmin.ts" />
     <TypeScriptCompile Include="js\controllers\controllerSettings.ts" />
     <TypeScriptCompile Include="js\libs\typescript\typeahead.ts" />
+    <Content Include="js\javascript.js" />
     <Content Include="js\views\viewGallery.ts" />
     <TypeScriptCompile Include="js\views\viewNav.ts" />
     <TypeScriptCompile Include="js\views\viewSession.ts" />

@@ -221,18 +221,9 @@ var ViewGallery = (function () {
         $('#pswp small a').click(function (e) {
             location.reload();
         });
-        //When current item changed
-        //TODO : find better event (github issue)
-        this.photoswipe.listen('imageLoadComplete', function () {
-            if (that.photoswipe.getCurrentIndex() == that.photoswipe.items.length - 1) {
-                //Move scroll
-                var scrollTop = $('.main')[0].scrollHeight - $('.main')[0].clientHeight - 1;
-                $('.main').scrollTop(scrollTop);
-                that.controllerGallery.paginationManagement();
-            }
-        });
+        var prevIndex;
         this.photoswipe.listen('beforeChange', function () {
-            //If image dimension is 0, retry
+            //If image dimension is 0, Try to determine it
             if (that.photoswipe.currItem.w == 0 || that.photoswipe.currItem.h == 0) {
                 that.controllerGallery.getApplication().getControllerPrincipal().startLoader('#pswp');
                 var img = new Image();
@@ -243,6 +234,18 @@ var ViewGallery = (function () {
                     that.controllerGallery.getApplication().getControllerPrincipal().stopLoader('#pswp');
                 };
                 img.src = that.photoswipe.currItem.src;
+            }
+            //If the current item change
+            if (prevIndex !== that.photoswipe.getCurrentIndex()) {
+                //If we are at the last index
+                if (that.photoswipe.getCurrentIndex() == that.photoswipe.items.length - 1) {
+                    //Move scroll
+                    var scrollTop = $('.main')[0].scrollHeight - $('.main')[0].clientHeight - 1;
+                    $('.main').scrollTop(scrollTop);
+                    //Call new page
+                    that.controllerGallery.paginationManagement();
+                }
+                prevIndex = that.photoswipe.getCurrentIndex();
             }
         });
         //Set variable to null after closing photoswipe

@@ -79,7 +79,7 @@
                             <li>
                                 <form id="search-form-reduce" class="form-search form-horizontal">
                                     <div class="input-append">
-                                        <input type="text" class="search-input" placeholder="Search..." />
+                                        <input type="text" data-provide="typeahead" class="search-input" placeholder="Search..." />
                                         <a type="submit" class="search-button menuLink" href="#search" data-toggle="tab">
                                             <i class="fa fa-search"></i>
                                         </a>
@@ -342,12 +342,14 @@
     <script src="js/libs/less/less.min.js"></script>
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/javascript.js"></script>
 	<!-- Select -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
     <!-- For the gallery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.3.0/js/mdb.min.js"></script>
 	<!-- Auto complete -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+    <script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
     <!-- For the light box -->
     <script src="js/libs/photoSwipe/photoswipe.min.js"></script>
     <script src="js/libs/photoSwipe/photoswipe-ui-default.min.js"></script>

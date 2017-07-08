@@ -67,22 +67,35 @@ section h2 {
 }
 
 /* Auto complete */
-.typeahead.dropdown-menu {
-    background-color: @sideBarColor!important;
+#search-form .tt-menu, #search-form-reduce .tt-menu {
+    background: @sideBarColor!important;
+    color: @sideBarFontColor;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
 
-    li a {
-        color: @linkHoverColor;
-        background-color: @sideBarColor!important;
+    .typeSearch-name {
+        margin: 0 20px 5px 2px;
+        padding: 3px 0;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .tt-selectable {
+        padding: 0px 5px 0px 10px;
+
+        .fa {
+            font-size: 75%;
+        }
+
+        &:hover, &:active, &:focus {
+            color: @linkHoverColor;
+            cursor: pointer;
+            background: @mainColor!important;
+        }
     }
 }
-#search-form, #search-form-reduce {
-    .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
-        background: @mainColor!important;
-        color: @linkHoverColor;
-    }
-}
 
-/* Coloized title links */
+/* Colorized title links */
 section h1 {
     a {
         color: @mainColor;
